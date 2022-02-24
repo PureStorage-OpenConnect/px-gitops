@@ -1,0 +1,7 @@
+bases:
+  - ../../base
+resources:
+  - add-repo-tempfile.yaml
+
+patchesStrategicMerge:
+  - add-volume-and-volumemount-tempfile.yaml
