@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: XX-namespace-XX
+  name: git-repo-XX-repo-XX
+  labels:
+    app: git-server-for-XX-label-XX
+    include-in-backup: yes
+spec:
+  storageClassName: px-gitrepo-sc
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi

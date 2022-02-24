@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: git-server-service
+  namespace: code-manifest
+  labels:
+    app: git-server-for-application-manifest
+spec:
+  selector:
+    app: git-server-for-application-manifest
+  type: LoadBalancer
+  ports:
+  - port: 22
+    protocol: TCP
+    targetPort: 22
+---    
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: code-manifest
+  name: git-server-for-application-manifest
+  labels:
+    app: git-server-for-application-manifest
+    include-in-backup: yes
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: git-server-for-application-manifest
+      include-in-backup: yes
+# strategy:
+#   type: Recreate
+  template:
+    metadata:
+      labels:
+        app: git-server-for-application-manifest
+        include-in-backup: yes
+    spec:
+      imagePullSecrets:
+      - name: regcred    
+      schedulerName: stork
+      containers:
+      - name: git-server-for-application-manifest
+        image: sn1-r620-a04-03.puretec.purestorage.com/gitscm/server:latest
+        ports:
+        - containerPort: 22
+        lifecycle:
+          postStart:
+            exec:
+               command: ['/bin/sh', '-c', 'bash /root/deploy.sh']    
+        volumeMounts:
+        - name: ssh-key
+          mountPath: /root/.ssh 
+        - name: deployment
+          mountPath: /root                        
+      volumes:
+      - name: ssh-key
+        secret:
+          secretName: git-ssh-key
+      - name: deployment
+        secret:
+          secretName: deployment                

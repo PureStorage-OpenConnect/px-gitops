@@ -1,0 +1,20 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: code-manifest
+  name: git-server-for-application-manifest
+spec:
+  template:
+    spec:
+      schedulerName: stork
+      containers:
+        - name: git-server-for-application-manifest
+          volumeMounts:
+          - mountPath: /home/git/repos/code-main
+            name: git-repo-code-main
+      volumes:
+      - name: git-repo-code-main
+        persistentVolumeClaim:
+          claimName: git-repo-code-main
