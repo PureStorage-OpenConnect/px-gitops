@@ -3,10 +3,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  namespace: git-test
-  name: git-repo-git-test
+  namespace: wordpress-app-main
+  name: git-repo-wordpress-app-main
   labels:
-    app: git-server-for-git-test
+    app: git-server-for-wordpress-app-main
     include-in-backup: yes
     type: git-server
 spec:
