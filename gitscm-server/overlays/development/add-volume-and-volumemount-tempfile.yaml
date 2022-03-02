@@ -3,18 +3,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: git-test
-  name: git-server-for-git-test
+  namespace: wordpress-app-main
+  name: git-server-for-wordpress-app-main
 spec:
   template:
     spec:
       schedulerName: stork
       containers:
-        - name: git-server-for-git-test
+        - name: git-server-for-wordpress-app-main
           volumeMounts:
-          - mountPath: /home/git/repos/git-test
-            name: git-repo-git-test
+          - mountPath: /home/git/repos/wordpress-app-main
+            name: git-repo-wordpress-app-main
       volumes:
-      - name: git-repo-git-test
+      - name: git-repo-wordpress-app-main
         persistentVolumeClaim:
-          claimName: git-repo-git-test
+          claimName: git-repo-wordpress-app-main

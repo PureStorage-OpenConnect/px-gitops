@@ -20,7 +20,7 @@ The script will perform following actions:
 **After git server deployed/installed, run this command to clone the repository**
 
 
-> ssh git@**external-IP**/home/git/repos/**repo-name**
+> ssh://git@**external-IP**/home/git/repos/**repo-name**
 
 
 **To start shell session inside the container using ssh command**
