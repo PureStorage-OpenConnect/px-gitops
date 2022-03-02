@@ -19,20 +19,20 @@ kubectl get all -n <namespace-name>
 
 **After git server deployed/installed, run this command to clone the repository**
 
-```
-ssh git@**external-IP**/home/git/repos/<repo-name>
-```
+
+ssh git@**external-IP**/home/git/repos/**repo-name**
+
 
 **To start shell session inside the container using ssh command**
 
-```
+
 ssh git@**external-IP**
-```
+
 **To start shell session inside the container using kubectl exec command**
 
-```
+
 kubectl exec --stdin --tty **pod-name** -n **namespace-name** -- /bin/bash
-```
+
 
 **Repository Path**
 
