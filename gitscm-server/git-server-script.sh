@@ -6,38 +6,15 @@ echo > ./overlays/development/add-repo-tempfile.yaml
 echo > ./overlays/development/add-volume-and-volumemount-tempfile.yaml
 echo > ./base/git-server-tempfile.yaml
 echo >  mirror-git-repo-tmp.sh
-PS3="Please select the option for which you want to setup Git server: "
+cp ./base/git-server.yaml ./base/git-server-tempfile.yaml
 
-select opt in Application-code Application-manifest; do
-
-  case $opt in
-    Application-code)
-      cp ./base/git-server.yaml ./base/git-server-tempfile.yaml
-      sed -i "s,XX-label-XX,application-code,g" ./base/git-server-tempfile.yaml
-      echo "application-code" > ./base/label
-      break
-      ;;
-    Application-manifest)
-      cp ./base/git-server.yaml ./base/git-server-tempfile.yaml
-      sed -i "s,XX-label-XX,application-manifest,g" ./base/git-server-tempfile.yaml  
-      echo "application-manifest" > ./base/label
-      break
-      ;;
-    *) 
-      break
-      ;;
-   
-  esac
-done
-
-label="$(awk '{print $1}' ./base/label)"
-echo $label
 
 echo "                                                           "
 echo "Enter namespace in which you want to deploy"
 read namespace
+sed -i "s,XX-label-XX,$namespace,g" ./base/git-server-tempfile.yaml
 kubectl create ns $namespace
-kubectl label namespaces $namespace app=git-server-for-$label include-in-backup=yes
+kubectl label namespaces $namespace app=git-server-for-$namespace include-in-backup=yes type=git-server
 echo "                                                           "
 
 echo "Creating kubernetes secret for jfrog artifactory config"
@@ -49,20 +26,20 @@ kubectl create secret generic regcred -n $namespace \
 ssh-keygen -q -t rsa -m PEM -N "" -f id_rsa
 echo "                                                           "
 kubectl create secret generic git-ssh-key --from-file=$PWD/id_rsa --from-file=$PWD/id_rsa.pub -n $namespace
-kubectl label secret git-ssh-key -n $namespace  app=git-server-for-$label include-in-backup=yes
+kubectl label secret git-ssh-key -n $namespace  app=git-server-for-$namespace include-in-backup=yes type=git-server
 echo "                                                           "
 mkdir $namespace && mv id_rsa id_rsa.pub ./$namespace
 echo "                                                           "
 cp ./scripts/mirror-git-repo.sh ./scripts/mirror-git-repo-tmp.sh
-echo "please enter the existing git repo url to want to mirror "
+echo "Enter the existing git repo url to want to mirror "
 read url
 echo "                                                           "
-echo "please enter the repo name with suffix '.git'"
+echo "Enter the repo name with suffix '.git'"
 read repo
 sed -i "s,XX-url-XX,$url,g" ./scripts/mirror-git-repo-tmp.sh
 sed -i "s,XX-repo-XX,$repo,g" ./scripts/mirror-git-repo-tmp.sh
 kubectl create secret generic deployment --from-file=./scripts/deploy.sh  -n $namespace
-kubectl label secret deployment -n $namespace  app=git-server-for-$label include-in-backup=yes
+kubectl label secret deployment -n $namespace  app=git-server-for-$namespace include-in-backup=yes type=git-server
 echo "                                                           "
 
 
@@ -73,16 +50,15 @@ echo "                                                           "
 	    cat ./overlays/development/add-volume-and-volumemount.yaml >> ./overlays/development/add-volume-and-volumemount-tempfile.yaml
 	    sed -i "s,XX-namespace-XX,$namespace,g" ./base/git-server-tempfile.yaml
 	    sed -i "s,XX-repo-XX,$repo,g" ./overlays/development/add-repo-tempfile.yaml
-	    sed -i "s,XX-label-XX,$label,g" ./overlays/development/add-repo-tempfile.yaml
+	    sed -i "s,XX-label-XX,$namespace,g" ./overlays/development/add-repo-tempfile.yaml
 	    sed -i "s,XX-repo-XX,$repo,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
-	    sed -i "s,XX-label-XX,$label,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
+	    sed -i "s,XX-label-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
             sed -i "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-repo-tempfile.yaml
             sed -i "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
 	    
         done
 ./kustomize build ./overlays/development
 kubectl apply -k ./overlays/development
-rm ./base/label
 
 
 

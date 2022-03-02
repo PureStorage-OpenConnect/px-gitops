@@ -3,11 +3,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  namespace: code-manifest
-  name: git-repo-code-main
+  namespace: git-test
+  name: git-repo-git-test
   labels:
-    app: git-server-for-application-manifest
+    app: git-server-for-git-test
     include-in-backup: yes
+    type: git-server
 spec:
   storageClassName: px-gitrepo-sc
   accessModes:

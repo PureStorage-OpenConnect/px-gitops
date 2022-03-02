@@ -22,12 +22,14 @@ metadata:
   labels:
     app: git-server-for-XX-label-XX
     include-in-backup: yes
+    type: git-server
 spec:
   replicas: 3
   selector:
     matchLabels:
       app: git-server-for-XX-label-XX
       include-in-backup: yes
+      type: git-server
 # strategy:
 #   type: Recreate
   template:
@@ -35,6 +37,7 @@ spec:
       labels:
         app: git-server-for-XX-label-XX
         include-in-backup: yes
+        type: git-server
     spec:
       imagePullSecrets:
       - name: regcred    

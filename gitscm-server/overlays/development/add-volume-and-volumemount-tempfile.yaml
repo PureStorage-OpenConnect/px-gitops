@@ -3,18 +3,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: code-manifest
-  name: git-server-for-application-manifest
+  namespace: git-test
+  name: git-server-for-git-test
 spec:
   template:
     spec:
       schedulerName: stork
       containers:
-        - name: git-server-for-application-manifest
+        - name: git-server-for-git-test
           volumeMounts:
-          - mountPath: /home/git/repos/code-main
-            name: git-repo-code-main
+          - mountPath: /home/git/repos/git-test
+            name: git-repo-git-test
       volumes:
-      - name: git-repo-code-main
+      - name: git-repo-git-test
         persistentVolumeClaim:
-          claimName: git-repo-code-main
+          claimName: git-repo-git-test
