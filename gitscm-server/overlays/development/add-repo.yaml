@@ -7,6 +7,7 @@ metadata:
   labels:
     app: git-server-for-XX-label-XX
     include-in-backup: yes
+    type: git-server
 spec:
   storageClassName: px-gitrepo-sc
   accessModes:
