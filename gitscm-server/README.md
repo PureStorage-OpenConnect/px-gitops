@@ -11,13 +11,13 @@ The script will perform following actions:
 ./git-server-script.sh
 ```
 
-**To check the git-server deployment details(pod name,service, external IP)**
+**To check the git-server deployment details(pod name, service, external IP)**
 
 
 > kubectl get all -n **namespace-name**
 
 
-**After git server deployed/installed, run this command to clone the repository**
+**After git server is deployed/installed, run this command to clone the repository**
 
 
 > ssh://git@**external-IP**/home/git/repos/**repo-name**
