@@ -5,6 +5,8 @@ The script will perform following actions:
 1) Deploy git-server (You can deploy multiple repos in single git server)
 2) Mirror the entire existing git repo to the new one.
 
+NOTE: Every bold text on the commands needs to be replaced with your variables. For example: If we look at the command "kubectl get all -n **namespace-name**" here we will need to replace "namespace-name" with the namespace you have created.
+
 **To setup/deploy git server, run this script**
 
 ```
