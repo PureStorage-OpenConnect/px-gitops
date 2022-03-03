@@ -1,0 +1,29 @@
+apiVersion: autopilot.libopenstorage.org/v1alpha1
+kind: AutopilotRule
+metadata:
+  name: <PX_AUTOPILOT_RULE_NAME>
+spec:
+  ##### selector filters the objects affected by this rule given labels
+  selector:
+    matchLabels:
+      <PX_PVC_MATCH_LABELS_NAME>: <PX_PVC_MATCH_LABELS_VALUE>
+  ##### namespaceSelector selects the namespaces of the objects affected by this rule
+  namespaceSelector:
+    matchLabels:
+      <PX_NAMESPACE_MATCH_LABELS_NAME>: <PX_NAMESPACE_MATCH_LABELS_VALUE>
+  ##### conditions are the symptoms to evaluate. All conditions are AND'ed
+  conditions:
+    ##### volume usage should be less than 50%
+    expressions:
+    - key: "100 * (px_volume_usage_bytes / px_volume_capacity_bytes)"
+      operator: Gt
+      values:
+        - "<PX_VOLUME_USAGE_PERCENTAGE_TO_TRIGGER_THE_ACTION>"
+  ##### action to perform when condition is true
+  actions:
+  - name: openstorage.io.action.volume/resize
+    params:
+      # resize volume by scalepercentage of current size
+      scalepercentage: "<PX_SCALE_PERCENTAGE>"
+      # volume capacity should not exceed 10GiB
+      maxsize: "<PX_VOLUME_MAX_SIZE>"

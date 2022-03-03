@@ -1,0 +1,16 @@
+apiVersion: stork.libopenstorage.org/v1alpha1
+kind: MigrationSchedule
+metadata:
+  name: <PX_MIGRATION_SCHEDULE_NAME>
+  namespace: <PX_MIGRATION_SCHEDULE_NAMESPACE>
+spec:
+  template:
+    spec:
+      clusterPair: <PX_CLUSTER_PAIR_NAME>
+      includeResources: true
+      startApplications: false
+      namespaces:
+      - <PX_NAMESPACE_TO_MIGRATE>
+  schedulePolicyName: <PX_SCHEDULE_POLICY_NAME>
+
+
