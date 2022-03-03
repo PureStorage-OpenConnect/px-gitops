@@ -1,0 +1,13 @@
+# Line starting with # will be treated as a comment.
+
+##Set path to the kube-config files for source and destination clusters.
+  PX_KUBECONF_FILE_SOURCE_CLUSTER="/home/rbpcadmin/.kube/baremetal"
+  PX_KUBECONF_FILE_DESTINATION_CLUSTER="/home/rbpcadmin/.kube/rancher"
+
+##Set interval and daily execution time for schedule policy.
+  PX_SCHEDULE_POLICY_INTERVAL_MINUTES="10";  #720=12Hrs.
+  PX_SCHEDULE_POLICY_DAILY_TIME="1:33AM";
+
+##Set suffix for the namespace on remote cluster. The "source namespace name+suffix" will be used as the name of namesapce on remote cluster.
+  PX_DST_NAMESPACE_SUFFIX="remote";
+

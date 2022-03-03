@@ -1,0 +1,20 @@
+# Line starting with # will be treated as a comment.
+
+
+# AWS access.
+PX_AWS_REGION="us-east-2"
+PX_AWS_ACCESS_KEY_ID="AKIA5BUFCJG4MUD6ASCL"
+PX_AWS_SECRET_ACCESS_KEY="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"
+
+
+# Set path to kube-config files for source and destination clusters.
+PX_KUBECONF_PATH_SOURCE_CLUSTER=""
+PX_KUBECONF_PATH_DESTINATION_CLUSTER=""
+#PX_KUBECONF_PATH_SOURCE_CLUSTER="/home/user/.kube/PS_Rancher"
+#PX_KUBECONF_PATH_DESTINATION_CLUSTER="/home/user/.kube/PS_vSphereVMs"
+
+
+# Set label name and value if you want to create backup of selected resources.
+PX_BACKUP_RESOURCES_SELECTOR_LABEL_NAME="include-in-backup"
+PX_BACKUP_RESOURCES_SELECTOR_LABEL_VALUE="yes"
+
