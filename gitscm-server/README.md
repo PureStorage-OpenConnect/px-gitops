@@ -49,6 +49,8 @@ NOTE: Every bold text on the commands needs to be replaced with your variables. 
 
 > git clone ssh://git@**external-IP**/home/git/repos/**repo-name**
 
+NOTE: The repo name is the one you created when running the command "./git-server-script.sh" in the previous step above.
+The external-IP is the ip displayed on output when running the "kubectl get all -n namespace-name" command above.
 
 **To start shell session inside the container using ssh command**
 
