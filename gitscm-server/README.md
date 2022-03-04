@@ -60,7 +60,7 @@ NOTE: Every bold text on the commands needs to be replaced with your variables. 
 > kubectl exec --stdin --tty **pod-name** -n **namespace-name** -- /bin/bash
 
 
-## Repository Path
+## Repository Path (inside the pod)
 
 ```
 /home/git/repos/<your-repo-name>
