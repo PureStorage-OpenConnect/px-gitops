@@ -2,12 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: git-server-service
-  namespace: wordpress-app-main
+  namespace: git-async
   labels:
-    app: git-server-for-wordpress-app-main
+    app: git-server-for-git-async
 spec:
   selector:
-    app: git-server-for-wordpress-app-main
+    app: git-server-for-git-async
   type: LoadBalancer
   ports:
   - port: 22
@@ -17,17 +17,17 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: wordpress-app-main
-  name: git-server-for-wordpress-app-main
+  namespace: git-async
+  name: git-server-for-git-async
   labels:
-    app: git-server-for-wordpress-app-main
+    app: git-server-for-git-async
     include-in-backup: yes
     type: git-server
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: git-server-for-wordpress-app-main
+      app: git-server-for-git-async
       include-in-backup: yes
       type: git-server
 # strategy:
@@ -35,7 +35,7 @@ spec:
   template:
     metadata:
       labels:
-        app: git-server-for-wordpress-app-main
+        app: git-server-for-git-async
         include-in-backup: yes
         type: git-server
     spec:
@@ -43,7 +43,7 @@ spec:
       - name: regcred    
       schedulerName: stork
       containers:
-      - name: git-server-for-wordpress-app-main
+      - name: git-server-for-git-async
         image: sn1-r620-a04-03.puretec.purestorage.com/gitscm/server:latest
         ports:
         - containerPort: 22
