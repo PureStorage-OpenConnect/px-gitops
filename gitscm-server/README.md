@@ -36,7 +36,7 @@ To mirror the repository into the new repository, you can use any one from below
 
 ## Commands
 
-NOTE: Every bold text on the commands needs to be replaced with your variables. For example: If we look at the command "kubectl get all -n **namespace-name**" here we will need to replace "namespace-name" with the namespace you have created.
+**NOTE:** Every bold text on the commands needs to be replaced with your variables. For example: If we look at the command "kubectl get all -n **namespace-name**" here we will need to replace "namespace-name" with the namespace you have created.
 
 **To check the git-server deployment details(pod, deployment,replicaset, service)**
 
