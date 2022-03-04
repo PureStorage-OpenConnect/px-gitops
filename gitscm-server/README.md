@@ -14,11 +14,13 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
 Kustomize traverses a Kubernetes manifest to add, remove or update configuration options without forking. It is available both as a standalone binary and as a native feature of kubectl
 
 
+
 **Now run the following script to deploy git-server**
 
 ```
 ./git-server-script.sh
 ```
+
 
 To mirror the repository into the new repository, you can use any of the one from below reposiotry
 
@@ -28,7 +30,10 @@ To mirror the repository into the new repository, you can use any of the one fro
 
 
 
+
 NOTE: Every bold text on the commands needs to be replaced with your variables. For example: If we look at the command "kubectl get all -n **namespace-name**" here we will need to replace "namespace-name" with the namespace you have created.
+
+## Commands
 
 **To check the git-server deployment details(pod, deployment,replicaset, service, external IP)**
 
@@ -36,7 +41,7 @@ NOTE: Every bold text on the commands needs to be replaced with your variables. 
 > kubectl get all -n **namespace-name**
 
 
-**After git server is deployed/installed, run this command to clone the repository**
+**To clone the repository, run this command**
 
 
 > ssh://git@**external-IP**/home/git/repos/**repo-name**
@@ -59,7 +64,7 @@ NOTE: Every bold text on the commands needs to be replaced with your variables. 
 /home/git/repos
 ```
 
-**Credentials**
+## Credentails
 
 There are the default environment credentials
 
