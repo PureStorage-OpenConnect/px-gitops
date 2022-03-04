@@ -11,6 +11,8 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
 
 > curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
 
+The above script detects your OS and downloads the appropriate kustomize binary to your current working directory.
+
 **Kustomize**
 
 Kustomize traverses a Kubernetes manifest to add, remove or update configuration options without forking. It is available both as a standalone binary and as a native feature of kubectl
