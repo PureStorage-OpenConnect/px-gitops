@@ -63,7 +63,7 @@ NOTE: Every bold text on the commands needs to be replaced with your variables. 
 ## Repository Path
 
 ```
-/home/git/repos
+/home/git/repos/<your-repo-name>
 ```
 
 ## Credentails
