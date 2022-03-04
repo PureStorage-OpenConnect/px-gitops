@@ -5,7 +5,6 @@ set -o pipefail
 echo > ./overlays/development/add-repo-tempfile.yaml
 echo > ./overlays/development/add-volume-and-volumemount-tempfile.yaml
 echo > ./base/git-server-tempfile.yaml
-echo >  mirror-git-repo-tmp.sh
 cp ./base/git-server.yaml ./base/git-server-tempfile.yaml
 
 
@@ -30,14 +29,14 @@ kubectl label secret git-ssh-key -n $namespace  app=git-server-for-$namespace in
 echo "                                                           "
 mkdir $namespace && mv id_rsa id_rsa.pub ./$namespace
 echo "                                                           "
-cp ./scripts/mirror-git-repo.sh ./scripts/mirror-git-repo-tmp.sh
+cp ./scripts/mirror-git-repo-template.sh ./scripts/mirror-git-repo.sh
 echo "Enter the existing git repo url to want to mirror "
 read url
 echo "                                                           "
 echo "Enter the repo name with suffix '.git'"
 read repo
-sed -i "s,XX-url-XX,$url,g" ./scripts/mirror-git-repo-tmp.sh
-sed -i "s,XX-repo-XX,$repo,g" ./scripts/mirror-git-repo-tmp.sh
+sed -i "s,XX-url-XX,$url,g" ./scripts/mirror-git-repo.sh
+sed -i "s,XX-repo-XX,$repo,g" ./scripts/mirror-git-repo.sh
 kubectl create secret generic deployment --from-file=./scripts/deploy.sh  -n $namespace
 kubectl label secret deployment -n $namespace  app=git-server-for-$namespace include-in-backup=yes type=git-server
 echo "                                                           "
@@ -71,8 +70,8 @@ echo -e "\nChecking pod status.....";
       if [[ "${vRetVal}" = "Running" ]]; then
          Vpodname="$(kubectl get pod -n $namespace | awk 'FNR==2{print $1}')"
          echo $Vpodname;
-         kubectl cp ./scripts/mirror-git-repo-tmp.sh $namespace/$Vpodname:/tmp && 
-         kubectl exec --stdin --tty $Vpodname -n $namespace -- /bin/bash -c "bash /tmp/mirror-git-repo-tmp.sh"
+         kubectl cp ./scripts/mirror-git-repo.sh $namespace/$Vpodname:/tmp && 
+         kubectl exec --stdin --tty $Vpodname -n $namespace -- /bin/bash -c "bash /tmp/mirror-git-repo.sh"
          break;
       fi   
       vChecksDone=$(( vChecksDone + 1 ));
