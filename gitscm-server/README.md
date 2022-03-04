@@ -38,7 +38,7 @@ To mirror the repository into the new repository, you can use any one from below
 
 NOTE: Every bold text on the commands needs to be replaced with your variables. For example: If we look at the command "kubectl get all -n **namespace-name**" here we will need to replace "namespace-name" with the namespace you have created.
 
-**To check the git-server deployment details(pod, deployment,replicaset, service**
+**To check the git-server deployment details(pod, deployment,replicaset, service)**
 
 
 > kubectl get all -n **namespace-name**
@@ -47,7 +47,7 @@ NOTE: Every bold text on the commands needs to be replaced with your variables. 
 **To clone the repository, run this command**
 
 
-> ssh://git@**external-IP**/home/git/repos/**repo-name**
+> git clone ssh://git@**external-IP**/home/git/repos/**repo-name**
 
 
 **To start shell session inside the container using ssh command**
