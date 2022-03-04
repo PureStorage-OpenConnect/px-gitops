@@ -3,10 +3,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  namespace: wordpress-app-main
-  name: git-repo-wordpress-app-main
+  namespace: git-async
+  name: git-repo-wordpress-main
   labels:
-    app: git-server-for-wordpress-app-main
+    app: git-server-for-git-async
     include-in-backup: yes
     type: git-server
 spec:

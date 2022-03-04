@@ -3,18 +3,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: wordpress-app-main
-  name: git-server-for-wordpress-app-main
+  namespace: git-async
+  name: git-server-for-git-async
 spec:
   template:
     spec:
       schedulerName: stork
       containers:
-        - name: git-server-for-wordpress-app-main
+        - name: git-server-for-git-async
           volumeMounts:
-          - mountPath: /home/git/repos/wordpress-app-main
-            name: git-repo-wordpress-app-main
+          - mountPath: /home/git/repos/wordpress-main
+            name: git-repo-wordpress-main
       volumes:
-      - name: git-repo-wordpress-app-main
+      - name: git-repo-wordpress-main
         persistentVolumeClaim:
-          claimName: git-repo-wordpress-app-main
+          claimName: git-repo-wordpress-main
