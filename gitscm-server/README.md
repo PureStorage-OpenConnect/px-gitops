@@ -14,7 +14,7 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
 Kustomize traverses a Kubernetes manifest to add, remove or update configuration options without forking. It is available both as a standalone binary and as a native feature of kubectl
 
 
-**To setup/deploy git server, run this script**
+**Now run the following script to deploy git-server**
 
 ```
 ./git-server-script.sh
