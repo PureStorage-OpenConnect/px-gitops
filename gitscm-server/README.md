@@ -37,7 +37,7 @@ NOTE: Every bold text on the commands needs to be replaced with your variables. 
 
 ## Commands
 
-**To check the git-server deployment details(pod, deployment,replicaset, service, external IP)**
+**To check the git-server deployment details(pod, deployment,replicaset, service**
 
 
 > kubectl get all -n **namespace-name**
