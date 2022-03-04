@@ -5,7 +5,16 @@ The script will perform following actions:
 1) Deploy git-server (You can deploy multiple repos in single git server)
 2) Mirror the entire existing git repo to the new one.
 
-Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`. Then in your terminal move to the git-scm folder `cd px-gitops/gitscm-server` and run the following script to deploy git-server.
+Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`. Then in your terminal move to the git-scm folder `cd px-gitops/gitscm-server` and run the following command  to install kustomize.
+
+> curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+
+## Kustomize
+
+**summary**
+
+Kustomize traverses a Kubernetes manifest to add, remove or update configuration options without forking. It is available both as a standalone binary and as a native feature of kubectl
+
 
 **To setup/deploy git server, run this script**
 
