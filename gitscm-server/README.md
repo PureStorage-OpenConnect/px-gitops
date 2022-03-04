@@ -24,7 +24,7 @@ Kustomize traverses a Kubernetes manifest to add, remove or update configuration
 ```
 
 
-To mirror the repository into the new repository, you can use any of the one from below reposiotry
+To mirror the repository into the new repository, you can use any one from below reposiotry:
 
 > https://github.com/PureStorage-OpenConnect/wordpressApplication-code-and-manifest.git    (Contain wordpress code, Dockerfile and manifest)
 
@@ -33,9 +33,10 @@ To mirror the repository into the new repository, you can use any of the one fro
 
 
 
-NOTE: Every bold text on the commands needs to be replaced with your variables. For example: If we look at the command "kubectl get all -n **namespace-name**" here we will need to replace "namespace-name" with the namespace you have created.
 
 ## Commands
+
+NOTE: Every bold text on the commands needs to be replaced with your variables. For example: If we look at the command "kubectl get all -n **namespace-name**" here we will need to replace "namespace-name" with the namespace you have created.
 
 **To check the git-server deployment details(pod, deployment,replicaset, service**
 
