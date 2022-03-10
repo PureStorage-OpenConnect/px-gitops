@@ -1,8 +1,8 @@
 # Line starting with # will be treated as a comment.
 
 ##Set path to the kube-config files for source and destination clusters.
-  PX_KUBECONF_FILE_SOURCE_CLUSTER="/home/rbpcadmin/.kube/baremetal"
-  PX_KUBECONF_FILE_DESTINATION_CLUSTER="/home/rbpcadmin/.kube/rancher"
+  PX_KUBECONF_FILE_SOURCE_CLUSTER="/Users/t_gadar/github/PS_BareMetal.yaml"
+  PX_KUBECONF_FILE_DESTINATION_CLUSTER="/Users/t_gadar/github/PS_Rancher.yaml"
 
 ##Set interval and daily execution time for schedule policy.
   PX_SCHEDULE_POLICY_INTERVAL_MINUTES="10";  #720=12Hrs.

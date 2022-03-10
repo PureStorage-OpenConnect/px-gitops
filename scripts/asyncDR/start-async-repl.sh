@@ -98,7 +98,6 @@ printf "Started setting up AsyncDR replication. This may take some time.\n" | te
   #Finding portworx executable;
   printf "Finding portworx executable: " >> "${PX_LOG_FILE}"
   PX_NS_AND_POD=$(kubectl ${PX_KUBECONF_DST} get pods -l name=portworx --all-namespaces -o jsonpath="{range .items[?(@.metadata.ownerReferences[*].kind=='StorageCluster')]}{.metadata.namespace}{' '}{.metadata.name}{'\n'}{end}" | head -1||true)
-  echo "hello: $PX_NS_AND_POD"
   if [[ "${PX_NS_AND_POD}" == "" ]]; then
     printf "\nError; Unable to find portworx executable pod, make sure portworx is set up and functioning.\n\n";
     exit;
@@ -137,7 +136,7 @@ printf "Started setting up AsyncDR replication. This may take some time.\n" | te
 ##Generate and apply new ClusterPair manifest.
   printf "Generating ClusterPair manifest: ${PX_CLUSTER_PAIR_MANIFEST_FILE}\n" >> "${PX_LOG_FILE}"
   storkctl generate clusterpair ${PX_CLUSTER_PAIR_NAME} -n ${PX_AsyncDR_CRDs_NAMESPACE} ${PX_KUBECONF_DST} > "${PX_CLUSTER_PAIR_MANIFEST_FILE}" 2>> "${PX_LOG_FILE}"
-  awk -v replc="${PX_CLUSTER_PAIR_OPTIONS}" '{gsub(/    insert_storage_options_here: .*/,replc)}1' "${PX_CLUSTER_PAIR_MANIFEST_FILE}"  > tmpfile && mv tmpfile "${PX_CLUSTER_PAIR_MANIFEST_FILE}"
+  awk -v replc="${PX_CLUSTER_PAIR_OPTIONS//$'\n'/\\n}" '{gsub(/    insert_storage_options_here: .*/,replc)}1' "${PX_CLUSTER_PAIR_MANIFEST_FILE}"  > tmpfile && mv tmpfile "${PX_CLUSTER_PAIR_MANIFEST_FILE}"
   fun_progress
   printf "Manifest for ClusterPair '${PX_CLUSTER_PAIR_NAME}' has been generated.\nApplying ClusterPair manifest: " >> "${PX_LOG_FILE}"
   kubectl ${PX_KUBECONF_SRC} apply -f ${PX_CLUSTER_PAIR_MANIFEST_FILE} >> "${PX_LOG_FILE}" 2>&1
