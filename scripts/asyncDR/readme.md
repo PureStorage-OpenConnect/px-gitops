@@ -23,7 +23,14 @@ Use following command to check version:
 		kubectl get storageclusters --all-namespaces -o jsonpath='{.items[*].spec.secretsProvider}{"\n"}'
 
 6. **Network Connectivity:** Ports 9001 and 9010 on the destination cluster should be reachable by the source cluster.
-7. **Default Storage Class**: Make sure you have configured only one default storage class. Having multiple default storage classes will cause PVC migrations to fail.
+7. **Default Storage Class**: Make sure you have configured only one default storage class. Having multiple default storage classes will cause PVC migrations to fail. To verify you have only one default class configured run the following command. You should only see one default class in the list:
+	
+		kubectl get sc --kubeconfig=<Enter Path Of your Source Clusters Kubeconfig File>
+	
+		kubectl get sc --kubeconfig=<Enter Path Of your Destination Clusters Kubeconfig File>
+	
+
+Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`.
 
 ## Steps:
 ### 1. Update the 'config-vars' file:
@@ -34,9 +41,11 @@ You will need to specify few values with correct information into the **config-v
 These are the variables you will need to set in the file:
 
 **PX_KUBECONF_FILE_SOURCE_CLUSTER:** Set path to the kube-config file for source cluster.
+
 **PX_KUBECONF_FILE_DESTINATION_CLUSTER:** Set path to the kube-config file for destination cluster.
 
 **PX_SCHEDULE_POLICY_INTERVAL_MINUTES:** Set interval time for schedule policy.
+	
 **PX_SCHEDULE_POLICY_DAILY_TIME:** Set time to schedule execution daily.
 
 **PX_DST_NAMESPACE_SUFFIX:** Set suffix for the namespace on remote cluster. The "source namespace name+suffix" will be used as the name of namesapce on remote cluster.
@@ -62,13 +71,17 @@ This script will setup AsyncDR and replicate a repository to the remote cluster.
 
 >Note: We are creating the clone because we can not directly use the remote replica. Portworx needs all the PVCs free because it will be syncing data to it as per the schedule policy. So as a workarround we create clone and use that.
 
+To find out what namespaces you have you can run the following command
+	
+	kubectl get ns --kubeconfig=<Enter Path Of your Source Clusters Kubeconfig File>
+	
  For example if you want to replicate "springboot-code-main", run the script as follows.
  
 	./start-async-repl.sh springboot-code-main
 Once completed, you will see a namespace "springboot-code-main-remote". (Note the **'remote'** part in the name. It is same you set as suffix with **PX_DST_NAMESPACE_SUFFIX** variable)
 To verify the remote replica run the following command:
 
-	kubectl get all -n springboot-code-main-remote --kubeconfig=replace-with-the-kube-config-file-path-for-remote-cluster
+	kubectl get all -n <EnterNameSpaceName> --kubeconfig=<Enter Path Of your Destination Clusters Kubeconfig File>
 
 
 ### 3. Re-Clone the remote replica to ger up-to-date data:
