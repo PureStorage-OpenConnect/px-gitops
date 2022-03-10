@@ -11,7 +11,7 @@ cp ./base/git-server.yaml ./base/git-server-tempfile.yaml
 echo "                                                           "
 echo "Enter namespace in which you want to deploy"
 read namespace
-sed -i "s,XX-label-XX,$namespace,g" ./base/git-server-tempfile.yaml
+sed -ie "s,XX-label-XX,$namespace,g" ./base/git-server-tempfile.yaml
 kubectl create ns $namespace
 kubectl label namespaces $namespace app=git-server-for-$namespace include-in-backup=yes type=git-server
 echo "                                                           "
@@ -35,8 +35,8 @@ read url
 echo "                                                           "
 echo "Enter the repo name with suffix '.git' from above git repo url you just entered"
 read repo
-sed -i "s,XX-url-XX,$url,g" ./scripts/mirror-git-repo.sh
-sed -i "s,XX-repo-XX,$repo,g" ./scripts/mirror-git-repo.sh
+sed -ie "s,XX-url-XX,$url,g" ./scripts/mirror-git-repo.sh
+sed -ie "s,XX-repo-XX,$repo,g" ./scripts/mirror-git-repo.sh
 kubectl create secret generic deployment --from-file=./scripts/deploy.sh  -n $namespace
 kubectl label secret deployment -n $namespace  app=git-server-for-$namespace include-in-backup=yes type=git-server
 echo "                                                           "
@@ -47,13 +47,13 @@ echo "You must enter a minimum of one Repo name. If you do not want to enter mor
             [[ -z $repo ]] && break
             cat ./overlays/development/add-repo.yaml >> ./overlays/development/add-repo-tempfile.yaml
 	    cat ./overlays/development/add-volume-and-volumemount.yaml >> ./overlays/development/add-volume-and-volumemount-tempfile.yaml
-	    sed -i "s,XX-namespace-XX,$namespace,g" ./base/git-server-tempfile.yaml
-	    sed -i "s,XX-repo-XX,$repo,g" ./overlays/development/add-repo-tempfile.yaml
-	    sed -i "s,XX-label-XX,$namespace,g" ./overlays/development/add-repo-tempfile.yaml
-	    sed -i "s,XX-repo-XX,$repo,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
-	    sed -i "s,XX-label-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
-            sed -i "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-repo-tempfile.yaml
-            sed -i "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
+	    sed -ie "s,XX-namespace-XX,$namespace,g" ./base/git-server-tempfile.yaml
+	    sed -ie "s,XX-repo-XX,$repo,g" ./overlays/development/add-repo-tempfile.yaml
+	    sed -ie "s,XX-label-XX,$namespace,g" ./overlays/development/add-repo-tempfile.yaml
+	    sed -ie "s,XX-repo-XX,$repo,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
+	    sed -ie "s,XX-label-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
+            sed -ie "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-repo-tempfile.yaml
+            sed -ie "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
 	    
         done
 ./kustomize build ./overlays/development

@@ -3,18 +3,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: git-async
-  name: git-server-for-git-async
+  namespace: git-mac
+  name: git-server-for-git-mac
 spec:
   template:
     spec:
       schedulerName: stork
       containers:
-        - name: git-server-for-git-async
+        - name: git-server-for-git-mac
           volumeMounts:
-          - mountPath: /home/git/repos/wordpress-main
-            name: git-repo-wordpress-main
+          - mountPath: /home/git/repos/git-mac
+            name: git-repo-git-mac
       volumes:
-      - name: git-repo-wordpress-main
+      - name: git-repo-git-mac
         persistentVolumeClaim:
-          claimName: git-repo-wordpress-main
+          claimName: git-repo-git-mac
