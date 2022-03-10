@@ -2,23 +2,28 @@
 # Remote Site Collaboration using AsyncDR Replication
 ## Prerequisites:
 
-1. **kubectl installed:** You can follow [official documentaion](https://kubernetes.io/docs/tasks/tools/) to install kubectl as per you operating environment.
+1. **kubectl (v1.23.4 or later) installed:** You can follow [official documentaion](https://kubernetes.io/docs/tasks/tools/) to install kubectl as per you operating environment.
+Use following command to check version:
+		
+		kubectl version --client
 2. **Portworx:** You will need 2 portworx clusters with AsyncDR license enabled. Portworx version 2.1 or later needs to be installed on both clusters. Also requires Stork v2.2+ on both of the clusters.
-3. **storkctl**: Run `storkctl version`. If it returns version number then it is installed, else install it as follows:
+3. **KubeConfig files** You must have kube config files for both clusters.
+4. **storkctl**: Run `storkctl version`. If it returns version number then it is installed, else install it with following commands. Make sure to replace the **<Provide-Full-Path-Of-Any-One-KubeConfig-File>** for **KUBECONFIG** variable:
 
+	> Note: '**--retries**' parameter only works with kubectl v.1.23 or later (Tested with v.1.23.4). If this version is not available try without the option, but in some cases it fails with '**unexpected EOF**' error. In that situation please upgrade kubectl.
+
+		export KUBECONFIG=<Provide-Full-Path-Of-Any-One-KubeConfig-File>
 		STORK_POD=$(kubectl get pods --all-namespaces -l name=stork -o jsonpath='{.items[0].metadata.namespace} {.items[0].metadata.name}')
-		kubectl cp -n $STORK_POD:/storkctl/linux/storkctl ./storkctl --retries=-1
+		kubectl cp -n "${STORK_POD% *}"  ${STORK_POD#* }:/storkctl/$(uname -s| awk '{print tolower($0)}')/storkctl ./storkctl --retries=20
 		sudo mv storkctl /usr/local/bin
 		sudo chmod +x /usr/local/bin/storkctl
-> Note: '**--retries**' parameter only works with kubectl v.1.23 or later (Tested with v.1.23.4). If this version is not available try without the option, but in some cases it fails with '**unexpected EOF**' error. In that situation please upgrade kubectl.
 
-4. **Secret Store :** Make sure you have configured a secret store on both your clusters. This will be used to store the credentials for the objectstore. Use following command to verify:
+5. **Secret Store :** Make sure you have configured a secret store on both your clusters. This will be used to store the credentials for the objectstore. Use following command to verify:
 
 		kubectl get storageclusters --all-namespaces -o jsonpath='{.items[*].spec.secretsProvider}{"\n"}'
 
-5. **Network Connectivity:** Ports 9001 and 9010 on the destination cluster should be reachable by the source cluster.
-Stork helper: storkctl is a command-line tool for interacting with a set of scheduler extensions.
-6. **Default Storage Class**: Make sure you have configured only one default storage class. Having multiple default storage classes will cause PVC migrations to fail.
+6. **Network Connectivity:** Ports 9001 and 9010 on the destination cluster should be reachable by the source cluster.
+7. **Default Storage Class**: Make sure you have configured only one default storage class. Having multiple default storage classes will cause PVC migrations to fail.
 
 ## Steps:
 ### 1. Update the 'config-vars' file:
