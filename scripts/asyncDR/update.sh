@@ -197,7 +197,10 @@ printf "Launched repository update (cloning) process. Please wait until it compl
       else
         printf "The pod is not in running state, skipping set-permissions.\n" >> "${PX_LOG_FILE}"
       fi
+      sleep $vSleepSeconds
+      vChecksDone=$(( vChecksDone + 1 ))
     done;
+
     if (( vChecksDone > vTotalChecks )); then
       printf "\nWaiting for the pod to come in running state has timedout, skipping set-permissions\n" | tee -a "${PX_LOG_FILE}"
       exit 1;
