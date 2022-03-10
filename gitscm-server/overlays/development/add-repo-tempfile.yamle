@@ -1,0 +1,18 @@
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: XX-namespace-XX
+  name: git-repo-git-mac
+  labels:
+    app: git-server-for-git-mac
+    include-in-backup: yes
+    type: git-server
+spec:
+  storageClassName: px-gitrepo-sc
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
