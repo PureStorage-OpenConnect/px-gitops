@@ -1,19 +1,20 @@
+
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: XX-namespace-XX
-  name: git-server-for-XX-label-XX
+  namespace: git-mac3
+  name: git-server-for-git-mac3
 spec:
   template:
     spec:
       schedulerName: stork
       containers:
-        - name: git-server-for-XX-label-XX
+        - name: git-server-for-git-mac3
           volumeMounts:
-          - mountPath: /home/git/repos/XX-repo-XX
-            name: git-repo-XX-repo-XX
+          - mountPath: /home/git/repos/git-mac3
+            name: git-repo-git-mac3
       volumes:
-      - name: git-repo-XX-repo-XX
+      - name: git-repo-git-mac3
         persistentVolumeClaim:
-          claimName: git-repo-XX-repo-XX
+          claimName: git-repo-git-mac3

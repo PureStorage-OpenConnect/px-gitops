@@ -2,16 +2,16 @@
 set -e -u
 set -o pipefail
 
-echo > ./overlays/development/add-repo-tempfile.yaml
-echo > ./overlays/development/add-volume-and-volumemount-tempfile.yaml
-echo > ./base/git-server-tempfile.yaml
-cp ./base/git-server.yaml ./base/git-server-tempfile.yaml
+echo > ./overlays/development/add-repo.yaml
+echo > ./overlays/development/add-volume-and-volumemount.yaml
+echo > ./base/git-server.yaml
+cp ./template/git-server.yaml ./base/git-server.yaml
 
 
 echo "                                                           "
 echo "Enter namespace in which you want to deploy"
 read namespace
-sed -ie "s,XX-label-XX,$namespace,g" ./base/git-server-tempfile.yaml
+sed -ie "s,XX-label-XX,$namespace,g" ./base/git-server.yaml
 kubectl create ns $namespace
 kubectl label namespaces $namespace app=git-server-for-$namespace include-in-backup=yes type=git-server
 echo "                                                           "
@@ -45,20 +45,31 @@ echo "You must enter a minimum of one Repo name. If you do not want to enter mor
         while true; do
             read -p "Enter the Git Repo name: " repo
             [[ -z $repo ]] && break
-            cat ./overlays/development/add-repo.yaml >> ./overlays/development/add-repo-tempfile.yaml
-	    cat ./overlays/development/add-volume-and-volumemount.yaml >> ./overlays/development/add-volume-and-volumemount-tempfile.yaml
-	    sed -ie "s,XX-namespace-XX,$namespace,g" ./base/git-server-tempfile.yaml
-	    sed -ie "s,XX-repo-XX,$repo,g" ./overlays/development/add-repo-tempfile.yaml
-	    sed -ie "s,XX-label-XX,$namespace,g" ./overlays/development/add-repo-tempfile.yaml
-	    sed -ie "s,XX-repo-XX,$repo,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
-	    sed -ie "s,XX-label-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
-            sed -ie "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-repo-tempfile.yaml
-            sed -ie "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount-tempfile.yaml
+            cat ./template/add-repo.yaml >> ./overlays/development/add-repo.yaml
+	    cat ./template/add-volume-and-volumemount.yaml >> ./overlays/development/add-volume-and-volumemount.yaml
+	    sed -ie "s,XX-namespace-XX,$namespace,g" ./base/git-server.yaml
+	    sed -ie "s,XX-repo-XX,$repo,g" ./overlays/development/add-repo.yaml
+	    sed -ie "s,XX-label-XX,$namespace,g" ./overlays/development/add-repo.yaml
+	    sed -ie "s,XX-repo-XX,$repo,g" ./overlays/development/add-volume-and-volumemount.yaml
+	    sed -ie "s,XX-label-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount.yaml
+            sed -ie "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-repo.yaml
+            sed -ie "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount.yaml
 	    
         done
 ./kustomize build ./overlays/development
 kubectl apply -k ./overlays/development
+sleep 2
 
+countBase=`ls -1 ./base/*.yamle 2>/dev/null | wc -l`
+countOverlays=`ls -1 ./overlays/development/*.yamle 2>/dev/null | wc -l`
+countScripts=`ls -1 ./scripts/*.she 2>/dev/null | wc -l`
+if [ "$countBase" != "0" ] && [ "$countOverlays" != "0" ] && [ "$countScripts" != "0" ]
+then 
+rm ./base/*.yamle
+rm ./overlays/development/*.yamle
+rm ./scripts/*.she
+fi
+sleep 1
 
 
 echo -e "\nChecking pod status.....";  
