@@ -1,0 +1,19 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: XX-namespace-XX
+  name: git-server-for-XX-label-XX
+spec:
+  template:
+    spec:
+      schedulerName: stork
+      containers:
+        - name: git-server-for-XX-label-XX
+          volumeMounts:
+          - mountPath: /home/git/repos/XX-repo-XX
+            name: git-repo-XX-repo-XX
+      volumes:
+      - name: git-repo-XX-repo-XX
+        persistentVolumeClaim:
+          claimName: git-repo-XX-repo-XX

@@ -2,12 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: git-server-service
-  namespace: XX-namespace-XX
+  namespace: git-mac3
   labels:
-    app: git-server-for-XX-label-XX
+    app: git-server-for-git-mac3
 spec:
   selector:
-    app: git-server-for-XX-label-XX
+    app: git-server-for-git-mac3
   type: LoadBalancer
   ports:
   - port: 22
@@ -17,17 +17,17 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: XX-namespace-XX
-  name: git-server-for-XX-label-XX
+  namespace: git-mac3
+  name: git-server-for-git-mac3
   labels:
-    app: git-server-for-XX-label-XX
+    app: git-server-for-git-mac3
     include-in-backup: yes
     type: git-server
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: git-server-for-XX-label-XX
+      app: git-server-for-git-mac3
       include-in-backup: yes
       type: git-server
 # strategy:
@@ -35,7 +35,7 @@ spec:
   template:
     metadata:
       labels:
-        app: git-server-for-XX-label-XX
+        app: git-server-for-git-mac3
         include-in-backup: yes
         type: git-server
     spec:
@@ -43,7 +43,7 @@ spec:
       - name: regcred    
       schedulerName: stork
       containers:
-      - name: git-server-for-XX-label-XX
+      - name: git-server-for-git-mac3
         image: sn1-r620-a04-03.puretec.purestorage.com/gitscm/server:latest
         ports:
         - containerPort: 22
