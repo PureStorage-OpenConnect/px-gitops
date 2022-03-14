@@ -15,7 +15,7 @@ This repo helps in performing different Gitops processes using different scripts
 4) **Create-branch:**
 * Create branch of an existing repository (Implements PX Backup/Restore)
 
-## Guides to perform different Gitops processes.
+## Guides to perform different gitops processes.
 
 - [Gitscm-server](https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/gitscm-server/README.md)
 - [AsyncDR](https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/asyncDR/readme.md)
