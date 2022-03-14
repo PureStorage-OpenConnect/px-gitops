@@ -17,6 +17,7 @@ This repo helps in performing different Gitops processes using different scripts
 
 ## Guides to perform different Gitops processes.
 
-- [Gitscm-server] (https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/gitscm-server/README.md)
 - [Gitscm-server](https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/gitscm-server/README.md)
-- [AsyncDR] ()
+- [AsyncDR](https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/asyncDR/readme.md)
+- [Autopilot](https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/autopilot/readme.md)
+- [Create-branch](https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/gitscm-server/README.md)
