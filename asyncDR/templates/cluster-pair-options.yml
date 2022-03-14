@@ -1,0 +1,4 @@
+    ip: "<PX_DST_PX_NODE_IP>"
+    port: "<PX_DST_PX_SVC_PORT>"
+    token: "<PX_DST_TOKEN>"
+    mode: "<PX_DR_MODE>"

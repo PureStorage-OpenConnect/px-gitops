@@ -1,0 +1,432 @@
+
+
+==========================================================
+BEGIN: 2022-03-02-13-55-05
+Executing: ./setup-autopilot-rule.sh 
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Setting up Autopilot rule (Global) for git servers.
+Checking connectivity to the cluster by listing kube-system namespace.
+
+
+==========================================================
+BEGIN: 2022-03-02-13-57-47
+Executing: ./setup-autopilot-rule.sh 
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Setting up Autopilot rule (Global) for git servers.
+Checking connectivity to the cluster by listing kube-system namespace.
+NAME          STATUS   AGE
+kube-system   Active   19d
+Successful
+Creating Autopilot rule manifest: 
+
+==========================================================
+BEGIN: 2022-03-02-14-02-54
+Executing: ./setup-autopilot-rule.sh 
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Setting up Autopilot rule (Global) for git servers.
+Checking connectivity to the cluster by listing kube-system namespace.
+NAME          STATUS   AGE
+kube-system   Active   19d
+Successful
+Creating Autopilot rule manifest: 
+
+==========================================================
+BEGIN: 2022-03-02-14-03-40
+Executing: ./setup-autopilot-rule.sh 
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Setting up Autopilot rule (Global) for git servers.
+Checking connectivity to the cluster by listing kube-system namespace.
+NAME          STATUS   AGE
+kube-system   Active   19d
+Successful
+Creating Autopilot rule manifest: Done! Saved at: ./manifest-files/ap-rule-git-servers.yml
+
+
+==========================================================
+BEGIN: 2022-03-02-14-09-07
+Executing: ./setup-autopilot-rule.sh 
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Setting up Autopilot rule (Global) for git servers.
+Checking connectivity to the cluster by listing kube-system namespace.
+NAME          STATUS   AGE
+kube-system   Active   19d
+Successful
+
+
+==========================================================
+BEGIN: 2022-03-02-14-13-02
+Executing: ./setup-autopilot-rule.sh 
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Setting up Autopilot rule (Global) for git servers.
+Checking connectivity to the cluster by listing kube-system namespace.
+NAME          STATUS   AGE
+kube-system   Active   19d
+Successful
+Creating Autopilot rule manifest: Done! Saved at: ./manifest-files/nslbl-k8s-app-git-server-pvclblk8s-app-git-server-limit-50.yml
+
+
+==========================================================
+BEGIN: 2022-03-02-14-14-03
+Executing: ./setup-autopilot-rule.sh 
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Setting up Autopilot rule (Global) for git servers.
+Checking connectivity to the cluster by listing kube-system namespace.
+NAME          STATUS   AGE
+kube-system   Active   19d
+Successful
+Creating Autopilot rule manifest: Done! Saved at: ./manifest-files/nslbl-k8s-app-git-server-pvclbl-k8s-app-git-server-limit-50.yml
+
+
+==========================================================
+BEGIN: 2022-03-02-14-15-37
+Executing: ./setup-autopilot-rule.sh 
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Setting up Autopilot rule (Global) for git servers.
+Checking connectivity to the cluster by listing kube-system namespace.
+NAME          STATUS   AGE
+kube-system   Active   19d
+Successful
+Creating Autopilot rule manifest: Done! Saved at: ./manifest-files/nslbl-k8s-app-git-server-pvclbl-k8s-app-git-server-limit-50-scale-50.yml
+
+
+==========================================================
+BEGIN: 2022-03-02-14-16-43
+Executing: ./setup-autopilot-rule.sh 
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Setting up Autopilot rule (Global) for git servers.
+Checking connectivity to the cluster by listing kube-system namespace.
+NAME          STATUS   AGE
+kube-system   Active   19d
+Successful
+Creating Autopilot rule manifest: Done! Saved at: ./manifest-files/nslbl-k8s-app-git-server-pvclbl-k8s-app-git-server-limit-50-scale-50.yml
+Apply Autopilot rule manifest: autopilotrule.autopilot.libopenstorage.org/nslbl-k8s-app-git-server-pvclbl-k8s-app-git-server-limit-50-scale-50 created
+Done!
+Describe Autopilot rule:
+Name:         nslbl-k8s-app-git-server-pvclbl-k8s-app-git-server-limit-50-scale-50
+Namespace:    
+Labels:       <none>
+Annotations:  <none>
+API Version:  autopilot.libopenstorage.org/v1alpha1
+Kind:         AutopilotRule
+Metadata:
+  Creation Timestamp:  2022-03-02T14:16:47Z
+  Finalizers:
+    autopilot.libopenstorage.org/delete
+  Generation:  2
+  Managed Fields:
+    API Version:  autopilot.libopenstorage.org/v1alpha1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:finalizers:
+      f:spec:
+        f:conditions:
+          f:provider:
+          f:type:
+        f:pollInterval:
+    Manager:      autopilot
+    Operation:    Update
+    Time:         2022-03-02T14:16:47Z
+    API Version:  autopilot.libopenstorage.org/v1alpha1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .:
+          f:kubectl.kubernetes.io/last-applied-configuration:
+      f:spec:
+        .:
+        f:actions:
+        f:conditions:
+          .:
+          f:expressions:
+        f:namespaceSelector:
+          .:
+          f:matchLabels:
+            .:
+            f:k8s-app:
+        f:selector:
+          .:
+          f:matchLabels:
+            .:
+            f:k8s-app:
+    Manager:         kubectl-client-side-apply
+    Operation:       Update
+    Time:            2022-03-02T14:16:47Z
+  Resource Version:  8859298
+  UID:               b9b9cf8c-241a-4b35-bbe9-1d2e2174eaf5
+Spec:
+  Actions:
+    Name:  openstorage.io.action.volume/resize
+    Params:
+      Maxsize:          30Gi
+      Scalepercentage:  50
+  Conditions:
+    Expressions:
+      Key:       100 * (px_volume_usage_bytes / px_volume_capacity_bytes)
+      Operator:  Gt
+      Values:
+        50
+    Provider:  prometheus
+    Type:      monitoring
+  Namespace Selector:
+    Match Labels:
+      k8s-app:    git-server
+  Poll Interval:  10
+  Selector:
+    Match Labels:
+      k8s-app:  git-server
+Events:         <none>
+Autopilot rule has been set up.
+
+
+==========================================================
+BEGIN: 2022-03-02-14-17-46
+Executing: ./setup-autopilot-rule.sh 
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Setting up Autopilot rule (Global) for git servers.
+Checking connectivity to the cluster by listing kube-system namespace.
+NAME          STATUS   AGE
+kube-system   Active   19d
+Successful
+Creating Autopilot rule manifest: Done! Saved at: ./manifest-files/nslbl-k8s-app-git-server-pvclbl-k8s-app-git-server-limit-50-scale-50.yml
+Apply Autopilot rule manifest: autopilotrule.autopilot.libopenstorage.org/nslbl-k8s-app-git-server-pvclbl-k8s-app-git-server-limit-50-scale-50 unchanged
+Done!
+Describe Autopilot rule:
+Name:         nslbl-k8s-app-git-server-pvclbl-k8s-app-git-server-limit-50-scale-50
+Namespace:    
+Labels:       <none>
+Annotations:  <none>
+API Version:  autopilot.libopenstorage.org/v1alpha1
+Kind:         AutopilotRule
+Metadata:
+  Creation Timestamp:  2022-03-02T14:16:47Z
+  Finalizers:
+    autopilot.libopenstorage.org/delete
+  Generation:  2
+  Managed Fields:
+    API Version:  autopilot.libopenstorage.org/v1alpha1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:finalizers:
+      f:spec:
+        f:conditions:
+          f:provider:
+          f:type:
+        f:pollInterval:
+    Manager:      autopilot
+    Operation:    Update
+    Time:         2022-03-02T14:16:47Z
+    API Version:  autopilot.libopenstorage.org/v1alpha1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .:
+          f:kubectl.kubernetes.io/last-applied-configuration:
+      f:spec:
+        .:
+        f:actions:
+        f:conditions:
+          .:
+          f:expressions:
+        f:namespaceSelector:
+          .:
+          f:matchLabels:
+            .:
+            f:k8s-app:
+        f:selector:
+          .:
+          f:matchLabels:
+            .:
+            f:k8s-app:
+    Manager:         kubectl-client-side-apply
+    Operation:       Update
+    Time:            2022-03-02T14:16:47Z
+  Resource Version:  8859298
+  UID:               b9b9cf8c-241a-4b35-bbe9-1d2e2174eaf5
+Spec:
+  Actions:
+    Name:  openstorage.io.action.volume/resize
+    Params:
+      Maxsize:          30Gi
+      Scalepercentage:  50
+  Conditions:
+    Expressions:
+      Key:       100 * (px_volume_usage_bytes / px_volume_capacity_bytes)
+      Operator:  Gt
+      Values:
+        50
+    Provider:  prometheus
+    Type:      monitoring
+  Namespace Selector:
+    Match Labels:
+      k8s-app:    git-server
+  Poll Interval:  10
+  Selector:
+    Match Labels:
+      k8s-app:  git-server
+Events:         <none>
+Autopilot rule has been set up.
+
+
+==========================================================
+BEGIN: 2022-03-02-15-53-19
+Executing: ./setup-autopilot-rule.sh 
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Setting up Autopilot rule (Global) for git servers.
+Checking connectivity to the cluster by listing kube-system namespace.
+NAME          STATUS   AGE
+kube-system   Active   19d
+Successful
+Creating Autopilot rule manifest: Done! Saved at: ./manifest-files/nslbl-type-git-server-pvclbl-type-git-server-limit-50-scale-50.yml
+Apply Autopilot rule manifest: autopilotrule.autopilot.libopenstorage.org/nslbl-type-git-server-pvclbl-type-git-server-limit-50-scale-50 created
+Done!
+Describe Autopilot rule:
+Name:         nslbl-type-git-server-pvclbl-type-git-server-limit-50-scale-50
+Namespace:    
+Labels:       <none>
+Annotations:  <none>
+API Version:  autopilot.libopenstorage.org/v1alpha1
+Kind:         AutopilotRule
+Metadata:
+  Creation Timestamp:  2022-03-02T15:53:26Z
+  Finalizers:
+    autopilot.libopenstorage.org/delete
+  Generation:  2
+  Managed Fields:
+    API Version:  autopilot.libopenstorage.org/v1alpha1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:finalizers:
+      f:spec:
+        f:conditions:
+          f:provider:
+          f:type:
+        f:pollInterval:
+    Manager:      autopilot
+    Operation:    Update
+    Time:         2022-03-02T15:53:26Z
+    API Version:  autopilot.libopenstorage.org/v1alpha1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .:
+          f:kubectl.kubernetes.io/last-applied-configuration:
+      f:spec:
+        .:
+        f:actions:
+        f:conditions:
+          .:
+          f:expressions:
+        f:namespaceSelector:
+          .:
+          f:matchLabels:
+            .:
+            f:type:
+        f:selector:
+          .:
+          f:matchLabels:
+            .:
+            f:type:
+    Manager:         kubectl-client-side-apply
+    Operation:       Update
+    Time:            2022-03-02T15:53:26Z
+  Resource Version:  8889321
+  UID:               c3fb837d-3a6c-4660-ad62-0b5d9acc9e19
+Spec:
+  Actions:
+    Name:  openstorage.io.action.volume/resize
+    Params:
+      Maxsize:          30Gi
+      Scalepercentage:  50
+  Conditions:
+    Expressions:
+      Key:       100 * (px_volume_usage_bytes / px_volume_capacity_bytes)
+      Operator:  Gt
+      Values:
+        50
+    Provider:  prometheus
+    Type:      monitoring
+  Namespace Selector:
+    Match Labels:
+      Type:       git-server
+  Poll Interval:  10
+  Selector:
+    Match Labels:
+      Type:  git-server
+Events:
+  Type    Reason      Age   From       Message
+  ----    ------      ----  ----       -------
+  Normal  Transition  2s    autopilot  rule: nslbl-type-git-server-pvclbl-type-git-server-limit-50-scale-50:pvc-1d57b00f-e3d6-4503-a6e5-8c7e4de33e83 transition from Initializing => Normal
+Autopilot rule has been set up.
+
+
+==========================================================
+BEGIN: 2022-03-02-15-54-36
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Started process to fillup the volumes. Please wait until it completes.
+Checking: Command-line parameter must passed: Successful
+Checking connectivity to the cluster by listing kube-system namespace.
+NAME          STATUS   AGE
+kube-system   Active   19d
+Successful
+Checking: Namespace must exist and must be a valid git-repo: 
+Error: Repository namespace "wordpress-app-main" does not exist on the cluster OR it is not a valid git server namespace.
+
+
+
+==========================================================
+BEGIN: 2022-03-02-15-56-06
+Checking utilities:
+/home/rbpcadmin/bin/kubectl
+/usr/bin/sed
+All utililities are available
+Started process to fillup the volumes. Please wait until it completes.
+Checking: Command-line parameter must passed: Successful
+Checking connectivity to the cluster by listing kube-system namespace.
+NAME          STATUS   AGE
+kube-system   Active   19d
+Successful
+Checking: Namespace must exist and must be a valid git-repo: Valid
+Finding a pod from the namespace: Found pod 'git-server-for-wordpress-app-main-5444db8f9f-52ww5'
+Started filling the pvc: Successful
