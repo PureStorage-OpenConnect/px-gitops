@@ -18,5 +18,5 @@ This repo helps in performing different Gitops processes using different scripts
 ## Guides to perform different Gitops processes.
 
 - [Gitscm-server] (https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/gitscm-server/README.md)
-- [AWS IAM Policy provisioning Guide](https://github.com/PureStorage-OpenConnect/k8s-px-terraform/blob/master/docs/aws-admin/README.md)
+- [Gitscm-server](https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/gitscm-server/README.md)
 - [AsyncDR] ()
