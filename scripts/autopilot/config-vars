@@ -1,8 +1,0 @@
-# Line starting with # will be treated as a comment.
-
-##Set autopilot rule config variables.
-  PVC_MATCH_LABEL="type=git-server"
-  NAMESPACE_MATCH_LABEL="type=git-server"
-  VOLUME_USAGE_PERCENTAGE_TO_TRIGGER_THE_ACTION="50"
-  SCALE_PERCENTAGE="50"
-  VOLUME_MAX_SIZE="30Gi"
