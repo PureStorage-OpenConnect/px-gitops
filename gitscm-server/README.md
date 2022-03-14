@@ -68,7 +68,7 @@ The external-IP is the ip displayed on output when running the "kubectl get all 
 ## Repository Path (inside the pod)
 
 ```
-/home/git/repos/<your-repo-name>
+/home/git/repos/<repository>
 ```
 
 ## Credentails
