@@ -28,7 +28,7 @@ kubectl create secret generic git-ssh-key --from-file=$PWD/id_rsa --from-file=$P
 kubectl label secret git-ssh-key -n $namespace  app=git-server-for-$namespace include-in-backup=yes type=git-server
 echo "                                                           "
 mkdir -p gitserver-sshkey
-mkdir ./gitserver-sshkey/$namespace && mv id_rsa id_rsa.pub ./gitserver-sshkey/$namespace
+mkdir -p ./gitserver-sshkey/$namespace && mv id_rsa id_rsa.pub ./gitserver-sshkey/$namespace
 echo "                                                           "
 cp ./scripts/mirror-git-repo-template.sh ./scripts/mirror-git-repo.sh
 echo "Enter the existing git repo url to want to mirror "
