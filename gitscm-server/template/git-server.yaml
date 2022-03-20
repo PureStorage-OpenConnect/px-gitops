@@ -44,7 +44,7 @@ spec:
       schedulerName: stork
       containers:
       - name: git-server-for-XX-label-XX
-        image: sn1-r620-a04-03.puretec.purestorage.com/gitscm/server:latest
+        image: bikashrc25/git-server:latest
         ports:
         - containerPort: 22
         lifecycle:
