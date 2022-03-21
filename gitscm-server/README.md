@@ -28,7 +28,7 @@ Kustomize traverses a Kubernetes manifest to add, remove or update configuration
 
 To mirror the repository into the new repository, you can use any one from below reposiotry:
 
-> https://github.com/PureStorage-OpenConnect/wordpressApplication-code-and-manifest.git    (Contain wordpress code, Dockerfile and manifest)
+> https://github.com/PureStorage-OpenConnect/wordpress-application.git    (Contain wordpress code, Dockerfile, manifest and wp test cases)
 
 > https://github.com/PureStorage-OpenConnect/javaApplication-code.git         (Contain java code, Dockerfile and manifest) 
 
