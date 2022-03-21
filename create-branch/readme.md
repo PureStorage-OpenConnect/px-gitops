@@ -4,6 +4,7 @@ Prerequisites:
 
 Steps: 
 1)  Configure variables in "config-vars" file. Here is the description of all the variables:
+
   1.1 Provide aws access:
       PX_AWS_REGION:                        Set with aws region you want to use for s3 backup.
       PX_AWS_ACCESS_KEY_ID:                 Your aws access key.
