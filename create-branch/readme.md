@@ -79,7 +79,7 @@ Steps:
 ## Repository Path (inside the pod)
 
 ```
-/home/git/repos/<your-repo-name>
+/home/git/repos/<repository>
 ```
 
 ## Credentails
