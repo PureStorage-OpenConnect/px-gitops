@@ -273,15 +273,17 @@ kubectl create secret -n $PX_DESTINATION_NAMESPACE generic regcred \
     --from-file=.dockerconfigjson=${TEMPLATES_MANIFEST_DIR}/config.json \
     --type=kubernetes.io/dockerconfigjson ${PX_KUBECONF_DESTINATION}
 
-while true; do
-     read -p "Enter the branch name: " branch
-     [[ -z $branch ]] && break
-     echo -n " $branch" >> branch.txt
-done
+#while true; do
+#     read -p "Enter the branch name: " branch
+#     [[ -z $branch ]] && break
+#     echo -n " $branch" >> branch.txt
+#done
 
-multipleBranch="$(cat branch.txt)"
-echo $multipleBranch
-rm branch.txt
+#multipleBranch="$(cat branch.txt)"
+#echo $multipleBranch
+#rm branch.txt
+
+read -p "Enter the branch name: " branch
 
 echo -e "\nChecking pod status.....";  
   vChecksDone=1;
@@ -292,8 +294,8 @@ echo -e "\nChecking pod status.....";
       if [[ "${vRetVal}" = "Running" ]]; then
          Vpodname="$(kubectl get pod -n $PX_DESTINATION_NAMESPACE ${PX_KUBECONF_DESTINATION} | awk 'FNR==2{print $1}')"
          echo $Vpodname;
-         kubectl ${PX_KUBECONF_DESTINATION} cp create-multiple-branch.sh $PX_DESTINATION_NAMESPACE/$Vpodname:/opt
-         kubectl ${PX_KUBECONF_DESTINATION} exec --stdin --tty $Vpodname -n $PX_DESTINATION_NAMESPACE -- /bin/bash -c "bash /opt/create-multiple-branch.sh $multipleBranch"
+         kubectl ${PX_KUBECONF_DESTINATION} cp create-git-branch.sh $PX_DESTINATION_NAMESPACE/$Vpodname:/opt
+         kubectl ${PX_KUBECONF_DESTINATION} exec --stdin --tty $Vpodname -n $PX_DESTINATION_NAMESPACE -- /bin/bash -c "/opt/create-multiple-branch.sh $branch"
          break;
       fi   
       vChecksDone=$(( vChecksDone + 1 ));
