@@ -6,9 +6,10 @@ Steps:
 1)  Configure variables in "config-vars" file. Here is the description of all the variables:
 
   1.1 Provide aws access:
-      PX_AWS_REGION:                        Set with aws region you want to use for s3 backup.
-      PX_AWS_ACCESS_KEY_ID:                 Your aws access key.
-      PX_AWS_SECRET_ACCESS_KEY:             Your aws secret access key.
+  
+        PX_AWS_REGION:                        Set with aws region you want to use for s3 backup.
+        PX_AWS_ACCESS_KEY_ID:                 Your aws access key.
+        PX_AWS_SECRET_ACCESS_KEY:             Your aws secret access key.
 
       Example:
         PX_AWS_REGION="us-east-2"
@@ -16,6 +17,7 @@ Steps:
         PX_AWS_SECRET_ACCESS_KEY="0mZfAKIAd5dBUfF2BXqz4vP/pc0NkcTZpbiiWEwseJlc"
 
   1.2 Provide kubeconfig files:
+  
       PX_KUBECONF_PATH_SOURCE_CLUSTER:      Path of kube config of source cluster. 
       PX_KUBECONF_PATH_DESTINATION_CLUSTER: Path of kube config of destination cluster.       
 
