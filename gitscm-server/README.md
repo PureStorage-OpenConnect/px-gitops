@@ -67,7 +67,7 @@ The external-IP is the ip displayed on output when running the "kubectl get all 
 ---
 if you receive below warning while ssh into git server or cloning the git repository. Run the following command 
 
- ssh-keygen -R **external-IP**
+> ssh-keygen -R **external-IP**
 
 
 ![](./add-host-key.png?raw=true "Title")
