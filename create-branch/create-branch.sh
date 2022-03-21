@@ -292,8 +292,8 @@ echo -e "\nChecking pod status.....";
       if [[ "${vRetVal}" = "Running" ]]; then
          Vpodname="$(kubectl get pod -n $PX_DESTINATION_NAMESPACE ${PX_KUBECONF_DESTINATION} | awk 'FNR==2{print $1}')"
          echo $Vpodname;
-         kubectl ${PX_KUBECONF_DESTINATION} cp create-multiple-branch.sh $PX_DESTINATION_NAMESPACE/$Vpodname:/tmp
-         kubectl ${PX_KUBECONF_DESTINATION} exec --stdin --tty $Vpodname -n $PX_DESTINATION_NAMESPACE -- /bin/bash -c "bash /tmp/create-multiple-branch.sh $multipleBranch"
+         kubectl ${PX_KUBECONF_DESTINATION} cp create-multiple-branch.sh $PX_DESTINATION_NAMESPACE/$Vpodname:/script
+         kubectl ${PX_KUBECONF_DESTINATION} exec --stdin --tty $Vpodname -n $PX_DESTINATION_NAMESPACE -- /bin/bash -c "bash /script/create-multiple-branch.sh $multipleBranch"
          break;
       fi   
       vChecksDone=$(( vChecksDone + 1 ));
