@@ -65,7 +65,10 @@ The external-IP is the ip displayed on output when running the "kubectl get all 
 > kubectl exec --stdin --tty **pod-name** -n **namespace-name** -- /bin/bash
 
 ---
-if you receive below warning while ssh into git server or cloning the git repository. Run the following command > ssh-keygen -R **external-IP**
+if you receive below warning while ssh into git server or cloning the git repository. Run the following command 
+
+> ssh-keygen -R **external-IP**
+
 
 ![](./add-host-key.png?raw=true "Title")
 
