@@ -57,7 +57,7 @@ echo "You must enter a minimum of one Repo name. If you do not want to enter mor
             sed -ie "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount.yaml
 	    
         done
-./kustomize build ./overlays/development
+
 kubectl apply -k ./overlays/development
 sleep 2
 
