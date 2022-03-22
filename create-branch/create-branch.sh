@@ -282,10 +282,31 @@ kubectl create secret -n $PX_DESTINATION_NAMESPACE generic regcred \
 #multipleBranch="$(cat branch.txt)"
 #echo $multipleBranch
 #rm branch.txt
-
 read -p "Enter the branch name: " branch
+#echo -n " $branch" >> branch.txt
+#gitbranch="$(cat branch.txt)"
+#echo $gitbranch
+#rm branch.txt
+echo -e "\nChecking pod status.....";
+  vChecksDone=1;
+  vTotalChecks=40;
+  while (( vChecksDone <= vTotalChecks ))
+    do  
+      vRetVal="$(kubectl get pod -n $PX_SOURCE_NAMESPACE ${PX_KUBECONF_SOURCE} | awk 'FNR==2{print $3}')"
+      if [[ "${vRetVal}" = "Running" ]]; then
+         Vpodname="$(kubectl get pod -n $PX_SOURCE_NAMESPACE ${PX_KUBECONF_SOURCE} | awk 'FNR==2{print $1}')"
+         kubectl ${PX_KUBECONF_SOURCE} cp ./git-branch-scripts/create-git-branch-main-ns.sh $PX_SOURCE_NAMESPACE/$Vpodname:/opt
+         kubectl ${PX_KUBECONF_SOURCE} exec --stdin --tty $Vpodname -n $PX_SOURCE_NAMESPACE -- /bin/bash -c "/opt/create-git-branch-main-ns.sh $branch"
+         break;
+      fi   
+      vChecksDone=$(( vChecksDone + 1 ));
+      sleep 10
+    done;
+    if (( vChecksDone > vTotalChecks )); then
+       printf "\n\n    pod is not ready. And checking process has timed out.\n\n"          
+       exit 1
+    fi
 
-echo -e "\nChecking pod status.....";  
   vChecksDone=1;
   vTotalChecks=40;
   while (( vChecksDone <= vTotalChecks ))
@@ -294,8 +315,8 @@ echo -e "\nChecking pod status.....";
       if [[ "${vRetVal}" = "Running" ]]; then
          Vpodname="$(kubectl get pod -n $PX_DESTINATION_NAMESPACE ${PX_KUBECONF_DESTINATION} | awk 'FNR==2{print $1}')"
          echo $Vpodname;
-         kubectl ${PX_KUBECONF_DESTINATION} cp create-git-branch.sh $PX_DESTINATION_NAMESPACE/$Vpodname:/opt
-         kubectl ${PX_KUBECONF_DESTINATION} exec --stdin --tty $Vpodname -n $PX_DESTINATION_NAMESPACE -- /bin/bash -c "/opt/create-multiple-branch.sh $branch"
+         kubectl ${PX_KUBECONF_DESTINATION} cp ./git-branch-scripts/create-git-branch.sh $PX_DESTINATION_NAMESPACE/$Vpodname:/opt
+         kubectl ${PX_KUBECONF_DESTINATION} exec --stdin --tty $Vpodname -n $PX_DESTINATION_NAMESPACE -- /bin/bash -c "/opt/create-git-branch.sh $branch"
          break;
       fi   
       vChecksDone=$(( vChecksDone + 1 ));
