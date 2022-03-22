@@ -30,6 +30,10 @@ set -o pipefail
   vCONFIGFILE=./config-vars
   source ${vCONFIGFILE}
 
+# Set label name and value if you want to create backup of selected resources.
+  PX_BACKUP_RESOURCES_SELECTOR_LABEL_NAME="include-in-backup"
+  PX_BACKUP_RESOURCES_SELECTOR_LABEL_VALUE="yes"
+
 ##Checking S3-Bucket credentials:
   if [[ "${PX_S3_ACCESS_KEY_ID}x" == "x" ]]; then      echo "PX_S3_ACCESS_KEY_ID is not set. Please edit the ${vCONFIGFILE} file and put the correct value."; exit 1; fi
   if [[ "${PX_S3_SECRET_ACCESS_KEY}x" == "x" ]]; then  echo "PX_S3_SECRET_ACCESS_KEY is not set. Please edit the ${vCONFIGFILE} file and put the correct value."; exit 1; fi
