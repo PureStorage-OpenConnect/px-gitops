@@ -91,6 +91,6 @@ Root user details
 > git clone ssh://git@**external-IP**/home/git/repos/**repo-name**
 
 **NOTE:** The repo name is the one you created when running the command "**./git-server-script.sh**".
-The external-IP is the ip displayed on output when running the "kubectl get all -n namespace-name" command above.
+The external-IP is the ip displayed on output when running the "**kubectl get all -n namespace-name**" command above.
 
 
