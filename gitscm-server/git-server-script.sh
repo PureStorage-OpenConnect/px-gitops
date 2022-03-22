@@ -33,9 +33,10 @@ echo "                                                           "
 cp ./scripts/mirror-git-repo-template.sh ./scripts/mirror-git-repo.sh
 echo "Enter the existing git repo url to want to mirror "
 read url
-echo "                                                           "
-echo "Enter the repo name with suffix '.git' from above git repo url you just entered"
-read repo
+#echo "                                                           "
+#echo "Enter the repo name with suffix '.git' from above git repo url you just entered"
+#read repo
+repo="$(echo $url | cut -d"/" -f5)"
 sed -ie "s,XX-url-XX,$url,g" ./scripts/mirror-git-repo.sh
 sed -ie "s,XX-repo-XX,$repo,g" ./scripts/mirror-git-repo.sh
 kubectl create secret generic deployment --from-file=./scripts/deploy.sh  -n $namespace
