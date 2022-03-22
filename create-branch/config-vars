@@ -14,9 +14,5 @@
   #PX_KUBECONF_PATH_SOURCE_CLUSTER="/home/user/.kube/PS_Rancher"
   #PX_KUBECONF_PATH_DESTINATION_CLUSTER="/home/user/.kube/PS_vSphereVMs"
 
-# Set label name and value if you want to create backup of selected resources.
-  PX_BACKUP_RESOURCES_SELECTOR_LABEL_NAME="include-in-backup"
-  PX_BACKUP_RESOURCES_SELECTOR_LABEL_VALUE="yes"
-
 # Keep portworx backup for future use or delete after creating the branch (values: yes|no).
   PX_KEEP_BACKUP="yes"
