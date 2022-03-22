@@ -46,14 +46,6 @@ To mirror the repository into the new repository, you can use any one from below
 > kubectl get all -n **namespace-name**
 
 
-**To clone the repository, run this command**
-
-
-> git clone ssh://git@**external-IP**/home/git/repos/**repo-name**
-
-**NOTE:** The repo name is the one you created when running the command "./git-server-script.sh" in the previous step above.
-The external-IP is the ip displayed on output when running the "kubectl get all -n namespace-name" command above.
-
 **To start shell session inside the container using ssh command**
 
 
@@ -90,5 +82,15 @@ Root user details
 * username: root
 * password: osmium76
 
+---
+## Optional Command
+
+**To clone the repository, run this command**
+
+
+> git clone ssh://git@**external-IP**/home/git/repos/**repo-name**
+
+**NOTE:** The repo name is the one you created when running the command "./git-server-script.sh" in the previous step above.
+The external-IP is the ip displayed on output when running the "kubectl get all -n namespace-name" command above.
 
 
