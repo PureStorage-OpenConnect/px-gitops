@@ -3,11 +3,11 @@ kind: Application
 metadata:
   name: wordpress-app
   namespace: argocd
-# annotations:
-#   argocd-image-updater.argoproj.io/image-list: myimage=sn1-r620-a04-03.puretec.purestorage.com/wordpress/wordpress
-#   argocd-image-updater.argoproj.io/myimage.update-strategy: latest
-#   argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/manifest-repo-cred-24807
-#   argocd-image-updater.argoproj.io/git-branch: master
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: myimage=sn1-r620-a04-03.puretec.purestorage.com/wordpress/wordpress
+    argocd-image-updater.argoproj.io/myimage.update-strategy: latest
+    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/manifest-repo-cred-24807
+    argocd-image-updater.argoproj.io/git-branch: master
 spec:
   project: default
   source:
