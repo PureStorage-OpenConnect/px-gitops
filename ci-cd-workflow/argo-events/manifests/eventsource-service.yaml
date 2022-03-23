@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-webhook-service
+  namespace: argo-events  
+spec:
+  ports:
+  - name: master
+    port: 13000
+    protocol: TCP
+    targetPort: 13000
+  - name: dev-01  
+    port: 12000
+    protocol: TCP
+    targetPort: 12000    
+  selector:
+    eventsource-name: wordpress-webhook
+  type: LoadBalancer

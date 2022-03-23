@@ -1,0 +1,149 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ClusterWorkflowTemplate
+metadata:
+  name: ci-for-java-app-master-branch
+  namespace: argo
+spec:
+  entryPoint: ci-pipeline-to-automate-build-and-namespace-backup
+  volumes:
+  - name: jfrog-config
+    secret:
+      secretName: jfrog-config
+      items:
+        - key: .dockerconfigjson
+          path: config.json                 
+  - name: application-build-code
+  - name: application-dockefile
+  - name: kubeconfig
+    secret:
+      secretName: kubernetes-kube-config  
+  - name: repo-sshkey
+    secret:
+      secretName: repo-sshkey    
+  - name: snapshot
+    secret:
+      secretName: snapshot-script
+  - name: restorescript
+    secret:
+      secretName: restore-snapshot-script           
+  templates:
+  - name: ci-pipeline-to-automate-build-and-namespace-backup
+    dag:
+      tasks:
+      - name: application-unit-testing
+        template: application-unit-testing
+      - name: pvc-snapshot
+        depends: "(application-unit-testing.Succeeded)"
+        template: on-pass              
+      - name: build-docker-image
+        template: build-docker-image
+        depends: "(application-unit-testing.Succeeded)"   
+      - name: pvc-snapshot-restore
+        depends: "(application-unit-testing.Failed)"
+        template: on-fail             
+  - name: build-docker-image
+    metadata:
+    container:
+      image: gcr.io/kaniko-project/executor:latest
+      command: [/kaniko/executor]
+      args:
+        - "--context=dir:///application-dockerfile"
+        - "--destination=sn1-r620-a04-03.puretec.purestorage.com/springboot/maven-master:{{workflow.name}}"
+      volumeMounts:
+      - name: jfrog-config
+        mountPath: /kaniko/.docker/
+      - name: application-dockefile
+        mountPath: /application-dockerfile    
+    initContainers:
+    - name: git-clone
+      image: bitnami/git
+      command: ["/bin/sh", "-c"]
+      args: 
+      - |
+        mkdir -p /root/.ssh
+        ls -lrth /root/.ssh
+        cp /repo-sshkey/id_rsa /root/.ssh
+        chmod -R 600 /root/.ssh
+        ls -lrth /root/.ssh
+        git clone ssh://git@10.21.236.110:31173/home/git/repos/springboot-app --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
+        ls -larth /dockerfile
+        rm -rf /dockerfile/.git
+        cp -r /dockerfile/. /application-dockerfile
+        ls -larth /application-dockerfile      
+      volumeMounts:
+      - name: application-dockefile  
+        mountPath: /application-dockerfile    
+      - name: repo-sshkey
+        mountPath: /repo-sshkey
+  - name: application-unit-testing
+    metadata:
+    container:
+      image: openjdk:14.0-jdk-buster
+      command: ["/bin/bash", "-c"]
+      args:        
+      - |
+        set -e 
+        set -o pipefail
+        cd /application-build-code
+        ls /application-build-code
+        curl -fL https://getcli.jfrog.io | sh
+        ./jfrog config add artifactory-server --artifactory-url=https://sn1-r620-a04-03.puretec.purestorage.com/artifactory --user=admin --password=Purestorage123 --interactive=false
+        ./jfrog rt ping
+        ./mvnw dependency:go-offline 
+        ./mvnw test
+        ./mvnw install
+        mkdir ./build
+        mv ./target/demo-0.0.1-SNAPSHOT.jar ./target/maven-build-$(date +%F-%H:%M).jar
+        mv ./target/maven-build-* build/
+        ./jfrog rt u build/maven-build-* springboot-builds
+      volumeMounts:  
+      - name: application-build-code  
+        mountPath: /application-build-code
+    initContainers:
+    - name: git-clone
+      image: bitnami/git
+      command: ["/bin/sh", "-c"]
+      args: 
+      - |
+        mkdir -p /root/.ssh
+        ls -lrth /root/.ssh
+        cp /repo-sshkey/id_rsa /root/.ssh
+        chmod -R 600 /root/.ssh
+        ls -lrth /root/.ssh
+        git clone ssh://git@10.21.236.110:31173/home/git/repos/springboot-app --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
+        ls -larth /application-code
+        rm -rf /application-code/.git
+        cp -r /application-code/.  /application-build-code
+        ls -larth /application-build-code      
+      volumeMounts:
+      - name: application-build-code  
+        mountPath: /application-build-code
+      - name: repo-sshkey
+        mountPath: /repo-sshkey      
+  - name: on-pass
+    metadata:
+    container:
+      image: bitnami/git
+      command: ["/bin/sh", "-c"]
+      args: 
+      - |
+        bash /snapshot-script/create-snapshot.sh
+      volumeMounts:
+      - name: snapshot
+        mountPath: /snapshot-script
+      - name: kubeconfig
+        mountPath: /root/.kube             
+  - name: on-fail
+    metadata:
+    container:
+      image: bitnami/git
+      command: ["/bin/sh", "-c"]
+      args: 
+      - |
+        bash /restore-snapshot-script/restore-snapshot.sh
+      volumeMounts:
+      - name: restorescript
+        mountPath: /restore-snapshot-script
+      - name: kubeconfig
+        mountPath: /root/.kube  
+

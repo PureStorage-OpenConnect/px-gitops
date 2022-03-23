@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "determining branch"
+
+if ! [ -t 0 ]; then
+  read -a ref
+fi
+
+IFS='/' read -ra REF <<< "${ref[2]}"
+branch="${REF[2]}"
+
+if [ "master" == "$branch" ]; then
+  echo 'master was pushed'
+  curl -d '{"message":"ci pipeline"}' -H "Content-Type: application/json" -X POST 10.21.236.65:13000/master
+fi
+
+if [ "dev-01" == "$branch" ]; then
+  echo 'dev-01 was pushed'
+  curl -d '{"message":"ci pipeline"}' -H "Content-Type: application/json" -X POST 10.21.236.65:12000/dev-01
+fi
+
+echo "done"

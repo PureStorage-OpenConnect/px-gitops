@@ -1,0 +1,158 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ClusterWorkflowTemplate
+metadata:
+  name: ci-for-java-app-dev-branch
+  namespace: argo
+spec:
+  entryPoint: ci-pipeline-to-automate-build-and-namespace-backup
+  volumes:
+  - name: jfrog-config
+    secret:
+      secretName: jfrog-config
+      items:
+        - key: .dockerconfigjson
+          path: config.json                 
+  - name: wordpress-home-dir
+  - name: application-dockefile
+  - name: docker-path
+  - name: wordpress-code
+  - name: kubeconfig
+    secret:
+      secretName: kubernetes-kube-config  
+  - name: wordpress-repo-sshkey
+    secret:
+      secretName: wordpress-repo-sshkey    
+  - name: snapshot
+    secret:
+      secretName: wordpress-snapshot-script
+  - name: restorescript
+    secret:
+      secretName: wordpress-restore-snapshot-script           
+  templates:
+  - name: ci-pipeline-to-automate-build-and-namespace-backup
+    dag:
+      tasks:
+      - name: build-docker-image
+        template: build-docker-image   
+        depends: "(wordpress-unit-test.Succeeded)"                         
+      - name: wordpress-unit-test
+        template: wordpress-unit-test
+      - name: px-snapshot
+        depends: "(wordpress-unit-test.Succeeded)"   
+        template: on-pass   
+      - name: px-snapshot-restore
+        depends: "(wordpress-unit-test.Failed)"
+        template: on-fail                    
+  - name: build-docker-image
+    metadata:
+    container:
+      image: gcr.io/kaniko-project/executor:latest
+      command: [/kaniko/executor]
+      args:
+        - "--context=dir:///application-dockerfile"
+        - "--destination=sn1-r620-a04-03.puretec.purestorage.com/wordpress/wordpress:{{workflow.name}}"
+      volumeMounts:
+      - name: jfrog-config
+        mountPath: /kaniko/.docker/
+      - name: application-dockefile
+        mountPath: /application-dockerfile    
+    initContainers:
+    - name: git-clone
+      image: bitnami/git
+      command: ["/bin/sh", "-c"]
+      args: 
+      - |
+        mkdir -p /root/.ssh
+        cp /wordpress-repo-sshkey/id_rsa /root/.ssh
+        chmod -R 600 /root/.ssh
+        ls -lrth /root/.ssh
+        git clone ssh://git@10.21.236.156/home/git/repos/wordpress-main --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
+        ls -larth /dockerfile
+        rm -rf /dockerfile/.git
+        cp -r /dockerfile/. /application-dockerfile
+        ls -larth /application-dockerfile      
+      volumeMounts:
+      - name: application-dockefile  
+        mountPath: /application-dockerfile    
+      - name: wordpress-repo-sshkey
+        mountPath: /wordpress-repo-sshkey
+  - name: wordpress-unit-test
+    container:
+      image: ubuntu         # Docker already provides an image for running a Docker daemon
+      command: ["/bin/sh", "-c"]
+      args: 
+      - |
+        apt update
+        ls -lrth /wordpress-code
+        cp -r /wordpress-code/*   /home/wordpress
+        ls -larth  /home/wordpress      
+        apt install curl git docker-compose -y 
+        curl https://releases.rancher.com/install-docker/20.10.sh | sh
+        /etc/init.d/docker start
+        useradd wordpress -s /bin/bash
+        chown -R wordpress:wordpress /home/wordpress/*
+        usermod -a -G docker wordpress
+        curl -fsSL https://deb.nodesource.com/setup_12.x | bash
+        apt-get install -y nodejs        
+        su - wordpress -c "git clone https://github.com/WordPress/wordpress-develop.git && cd wordpress-develop && rm package.json && rm -rf tests/phpunit/tests/* && mv src src-bak && mkdir src && cp -r src-bak/js src && ls -lrth  tests/phpunit/tests/"
+        ls -lrth /home/wordpress
+        su - wordpress -c "cp -r code/* wordpress-develop/src && ls -lrth wordpress-develop/src && cp package.json wordpress-develop/ && cp -r test-cases/* wordpress-develop/tests/phpunit/tests/"
+        su - wordpress -c "cd wordpress-develop && npm install && npm run build:dev && npm run env:start && 
+        echo '             ' && docker ps && sleep 10 &&  npm run env:install && sleep 10 && npm run test:php"        
+      securityContext:
+        privileged: true  
+      volumeMounts:    
+      - name: wordpress-home-dir
+        mountPath: /home/wordpress   
+      - name: docker-path
+        mountPath: /var/lib/docker 
+      - name: wordpress-code  
+        mountPath: /wordpress-code        
+    initContainers:
+    - name: git-clone
+      image: bitnami/git
+      command: ["/bin/sh", "-c"]
+      args: 
+      - |
+        mkdir -p /root/.ssh
+        ls -lrth /root/.ssh
+        cp /wordpress-repo-sshkey/id_rsa /root/.ssh
+        chmod -R 600 /root/.ssh
+        ls -lrth /root/.ssh
+        git clone ssh://git@10.21.236.156/home/git/repos/wordpress-main --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
+        ls -larth /application-code
+        rm -rf /application-code/.git
+        cp -r /application-code/.  /wordpress-code
+        ls -larth /wordpress-code      
+      volumeMounts:
+      - name: wordpress-code  
+        mountPath: /wordpress-code
+      - name: wordpress-repo-sshkey
+        mountPath: /wordpress-repo-sshkey   
+  - name: on-pass
+    metadata:
+    container:
+      image: bitnami/git
+      command: ["/bin/sh", "-c"]
+      args: 
+      - |
+        bash /snapshot-script/create-snapshot.sh
+      volumeMounts:
+      - name: snapshot
+        mountPath: /snapshot-script
+      - name: kubeconfig
+        mountPath: /root/.kube             
+  - name: on-fail
+    metadata:
+    container:
+      image: bitnami/git
+      command: ["/bin/sh", "-c"]
+      args: 
+      - |
+        bash /restore-snapshot-script/restore-snapshot.sh
+      volumeMounts:
+      - name: restorescript
+        mountPath: /restore-snapshot-script
+      - name: kubeconfig
+        mountPath: /root/.kube                            
+

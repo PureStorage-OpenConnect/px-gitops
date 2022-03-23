@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: sensor-wordpress-app-master-branch
+  namespace: argo-events
+spec:
+  template:
+    serviceAccountName: operate-workflow-sa
+  dependencies:
+    - name: master
+      eventSourceName: wordpress-webhook
+      eventName: master
+  triggers:
+  - template:
+      name: ci-pipeline
+      argoWorkflow:
+        group: argoproj.io
+        version: v1alpha1
+        resource: workflows
+        operation: submit
+        source:
+          resource:
+            apiVersion: argoproj.io/v1alpha1
+            kind: Workflow
+            metadata:          
+              generateName: ci-wordpress-app-master-
+              namespace: argo
+            spec:
+              workflowTemplateRef:
+                name: ci-for-java-app-master-branch
+                clusterScope: true
