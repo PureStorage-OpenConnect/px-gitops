@@ -292,24 +292,6 @@ read -p "Enter the branch name: " branch
 #echo $gitbranch
 #rm branch.txt
 echo -e "\nChecking pod status.....";
-  vChecksDone=1;
-  vTotalChecks=40;
-  while (( vChecksDone <= vTotalChecks ))
-    do  
-      vRetVal="$(kubectl get pod -n $PX_SOURCE_NAMESPACE ${PX_KUBECONF_SOURCE} | awk 'FNR==2{print $3}')"
-      if [[ "${vRetVal}" = "Running" ]]; then
-         Vpodname="$(kubectl get pod -n $PX_SOURCE_NAMESPACE ${PX_KUBECONF_SOURCE} | awk 'FNR==2{print $1}')"
-         kubectl ${PX_KUBECONF_SOURCE} cp ./git-branch-scripts/create-git-branch-main-ns.sh $PX_SOURCE_NAMESPACE/$Vpodname:/opt
-         kubectl ${PX_KUBECONF_SOURCE} exec --stdin --tty $Vpodname -n $PX_SOURCE_NAMESPACE -- /bin/bash -c "/opt/create-git-branch-main-ns.sh $branch"
-         break;
-      fi   
-      vChecksDone=$(( vChecksDone + 1 ));
-      sleep 10
-    done;
-    if (( vChecksDone > vTotalChecks )); then
-       printf "\n\n    pod is not ready. And checking process has timed out.\n\n"          
-       exit 1
-    fi
 
   vChecksDone=1;
   vTotalChecks=40;
