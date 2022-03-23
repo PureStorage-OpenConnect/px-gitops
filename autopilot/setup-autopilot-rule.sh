@@ -6,8 +6,10 @@ set -o pipefail
   PX_TIME_STAMP="$(date -u '+%Y-%m-%d-%H-%M-%S')";
   PX_LOG_FILE="./debug.log";
   . config-vars
+  PVC_MATCH_LABEL="type=git-server"
+  NAMESPACE_MATCH_LABEL="type=git-server"
 printf "\n\n==========================================================\nBEGIN: ${PX_TIME_STAMP}\n" >> "${PX_LOG_FILE}"
-printf "Executing: ${0} ${*@Q}\n"  >> "${PX_LOG_FILE}"
+printf "Executing: ${0} \n"  >> "${PX_LOG_FILE}"
 ##Check utilities
   printf "Checking utilities:\n" >> "${PX_LOG_FILE}"
   for util in kubectl sed; do
