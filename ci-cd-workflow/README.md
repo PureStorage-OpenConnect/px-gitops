@@ -30,6 +30,7 @@ bash ./scripts/install-ArgoEvents.sh
 ```
 https://github.com/argoproj/argo-workflows/releases
 ```
+---
 
 **Step: 2**
 
@@ -38,6 +39,8 @@ Add details of application code and manifest
 ```
 bash ./scripts/Add-details.sh
 ```
+---
+
 **Step: 3**
 
 **Deploy the application using Argocd**
