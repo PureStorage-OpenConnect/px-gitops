@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: Config
+clusters:
+- name: "pure-px-solutions-01"
+  cluster:
+    server: "https://rancher.puretec.purestorage.com/k8s/clusters/c-mqflq"
+    certificate-authority-data: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpVENDQ\
+      VM2Z0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQTdNUnd3R2dZRFZRUUtFeE5rZVc1aGJXbGoKY\
+      kdsemRHVnVaWEl0YjNKbk1Sc3dHUVlEVlFRREV4SmtlVzVoYldsamJHbHpkR1Z1WlhJdFkyRXdIa\
+      GNOTWpFdwpPVEkwTURNMU1qUTRXaGNOTXpFd09USXlNRE0xTWpRNFdqQTdNUnd3R2dZRFZRUUtFe\
+      E5rZVc1aGJXbGpiR2x6CmRHVnVaWEl0YjNKbk1Sc3dHUVlEVlFRREV4SmtlVzVoYldsamJHbHpkR\
+      1Z1WlhJdFkyRXdXVEFUQmdjcWhrak8KUFFJQkJnZ3Foa2pPUFFNQkJ3TkNBQVJzQ2hGRnI2RFdrc\
+      zdJcS81SndXNUdhOE1Qem5DdWx5REFCRFJvYW41WApzQzg5NTUwYWw3dERBc2lBRTBPdG1BQjlya\
+      0Vkbnh3M0RiVjJEWC9acVpFSW95TXdJVEFPQmdOVkhROEJBZjhFCkJBTUNBcVF3RHdZRFZSMFRBU\
+      UgvQkFVd0F3RUIvekFLQmdncWhrak9QUVFEQWdOSkFEQkdBaUVBejFPaU5MOEEKb1BET2dTWFM2c\
+      2VLd3JBc2FrRVV3MjZSZlZjM0ZsbldrdW9DSVFEeXdmNnpFNlczWVI3RkJIVWpFY0F3OUpxdwpKc\
+      XBmb3VNODBkQ3dFOER4UHc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0t"
+- name: "pure-px-solutions-01-sn1-r720-g09-07"
+  cluster:
+    server: "https://10.21.236.110:6443"
+    certificate-authority-data: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN3akNDQ\
+      WFxZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFTTVJBd0RnWURWUVFERXdkcmRXSmwKT\
+      FdOaE1CNFhEVEl4TVRBd01URTRNelV4TjFvWERUTXhNRGt5T1RFNE16VXhOMW93RWpFUU1BNEdBM\
+      VVFQXhNSAphM1ZpWlMxallUQ0NBU0l3RFFZSktvWklodmNOQVFFQkJRQURnZ0VQQURDQ0FRb0NnZ\
+      0VCQUpRd1NzOEpnUE9KCm9BWVBXOUhMV0NFaExnbm12TGV0WVhCK1ZLd3dyekd6YXJtWUlETGJDZ\
+      mgzY2pibjZiWmFxVGdCbkh6U0FRSWcKR0hEdU9MeFRybmFLTTgvcVlXNEVZRlBiYnNZUElJUHE0d\
+      Dg1dVpHN3hlc1FwRXBlRmNnU1UwRTVIY2hlbkNNawpkZ000amJBclRKQTRUYWNuYUM3Z0pRQnVTL\
+      01DNzBacCt5Mk9oYmgwdG9OdGRmVnNBdFZIUGtzRWcrQ2hKL1dWCjVhTisrS3pLai9sNnlmdSs4U\
+      lRSRHBmeU9rYnptRU9zM2NzakpYMTBKUExXbnU4SXM4L0QwVElIMGMzU29yVmgKTGpEYU04czN4M\
+      kszLzlZQlNobEZyWTdyckRUTE5oZUFqUXlVd3NHREprRUppNzBXZkpxczZOanliSTcvcXpGaQoxd\
+      1RVdkFScDc4OENBd0VBQWFNak1DRXdEZ1lEVlIwUEFRSC9CQVFEQWdLa01BOEdBMVVkRXdFQi93U\
+      UZNQU1CCkFmOHdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBRHQweVhJVUI0UW9UK0dsWEs2aHNUb\
+      zZua0dTTnNmK2tnengKTFlzSk1odEhPc2ovS28yV2N0bTl2eVVnYndrdXlVOGlwaTBQUmIrOW1vb\
+      kJqNUZFeUppSjVGUm9xTmo3dlNWOQpCNS9BK1ZEY081djVoTTRmNzlTdXVHd0p2VDJJalYxNUY1e\
+      mQ2SHh4UHVZQzc2akpyYnNRSk5HOXFGeVFIM2VICmM5R1ZuZThwbUhtVTZTU3VGdDd4VVN0c3lrR\
+      mRGN1I0aFF1eWdjRTUyOGZQS0FVQ053eElkNkpaTkIvVW5HdmgKVzI5Z3VSRkVJK3dEOUpUaFBGM\
+      mRzSEZaNzlHaGFtWWJhaHd1YlI5dWphN3pMWjkrK0licFpMbkppeUQ4djdvZwpzN2owWTBoYUFnc\
+      mJCTkNjcGd3Y1hWOFhkdWR3RmNvRHBsWjVROHV1cUI1UlZUOHB0VmM9Ci0tLS0tRU5EIENFUlRJR\
+      klDQVRFLS0tLS0K"
+- name: "pure-px-solutions-01-sn1-r720-g09-09"
+  cluster:
+    server: "https://10.21.236.111:6443"
+    certificate-authority-data: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN3akNDQ\
+      WFxZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFTTVJBd0RnWURWUVFERXdkcmRXSmwKT\
+      FdOaE1CNFhEVEl4TVRBd01URTRNelV4TjFvWERUTXhNRGt5T1RFNE16VXhOMW93RWpFUU1BNEdBM\
+      VVFQXhNSAphM1ZpWlMxallUQ0NBU0l3RFFZSktvWklodmNOQVFFQkJRQURnZ0VQQURDQ0FRb0NnZ\
+      0VCQUpRd1NzOEpnUE9KCm9BWVBXOUhMV0NFaExnbm12TGV0WVhCK1ZLd3dyekd6YXJtWUlETGJDZ\
+      mgzY2pibjZiWmFxVGdCbkh6U0FRSWcKR0hEdU9MeFRybmFLTTgvcVlXNEVZRlBiYnNZUElJUHE0d\
+      Dg1dVpHN3hlc1FwRXBlRmNnU1UwRTVIY2hlbkNNawpkZ000amJBclRKQTRUYWNuYUM3Z0pRQnVTL\
+      01DNzBacCt5Mk9oYmgwdG9OdGRmVnNBdFZIUGtzRWcrQ2hKL1dWCjVhTisrS3pLai9sNnlmdSs4U\
+      lRSRHBmeU9rYnptRU9zM2NzakpYMTBKUExXbnU4SXM4L0QwVElIMGMzU29yVmgKTGpEYU04czN4M\
+      kszLzlZQlNobEZyWTdyckRUTE5oZUFqUXlVd3NHREprRUppNzBXZkpxczZOanliSTcvcXpGaQoxd\
+      1RVdkFScDc4OENBd0VBQWFNak1DRXdEZ1lEVlIwUEFRSC9CQVFEQWdLa01BOEdBMVVkRXdFQi93U\
+      UZNQU1CCkFmOHdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBRHQweVhJVUI0UW9UK0dsWEs2aHNUb\
+      zZua0dTTnNmK2tnengKTFlzSk1odEhPc2ovS28yV2N0bTl2eVVnYndrdXlVOGlwaTBQUmIrOW1vb\
+      kJqNUZFeUppSjVGUm9xTmo3dlNWOQpCNS9BK1ZEY081djVoTTRmNzlTdXVHd0p2VDJJalYxNUY1e\
+      mQ2SHh4UHVZQzc2akpyYnNRSk5HOXFGeVFIM2VICmM5R1ZuZThwbUhtVTZTU3VGdDd4VVN0c3lrR\
+      mRGN1I0aFF1eWdjRTUyOGZQS0FVQ053eElkNkpaTkIvVW5HdmgKVzI5Z3VSRkVJK3dEOUpUaFBGM\
+      mRzSEZaNzlHaGFtWWJhaHd1YlI5dWphN3pMWjkrK0licFpMbkppeUQ4djdvZwpzN2owWTBoYUFnc\
+      mJCTkNjcGd3Y1hWOFhkdWR3RmNvRHBsWjVROHV1cUI1UlZUOHB0VmM9Ci0tLS0tRU5EIENFUlRJR\
+      klDQVRFLS0tLS0K"
+
+users:
+- name: "pure-px-solutions-01"
+  user:
+    token: "kubeconfig-user-kjzb6.c-mqflq:c8vstq7sl97szpdkdwpldgwrrhpl4ckwk28gwmnbl7t46rvbfkr72c"
+
+
+contexts:
+- name: "pure-px-solutions-01"
+  context:
+    user: "pure-px-solutions-01"
+    cluster: "pure-px-solutions-01"
+- name: "pure-px-solutions-01-sn1-r720-g09-07"
+  context:
+    user: "pure-px-solutions-01"
+    cluster: "pure-px-solutions-01-sn1-r720-g09-07"
+- name: "pure-px-solutions-01-sn1-r720-g09-09"
+  context:
+    user: "pure-px-solutions-01"
+    cluster: "pure-px-solutions-01-sn1-r720-g09-09"
+
+current-context: "pure-px-solutions-01"
+

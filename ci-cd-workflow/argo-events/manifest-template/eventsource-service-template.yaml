@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: XX-serviceName-XX-webhook-service
+  namespace: argo-events  
+spec:
+  ports:
+  - name: master
+    port: 13000
+    protocol: TCP
+    targetPort: 13000
+  - name: XX-branch-name-XX  
+    port: 12000
+    protocol: TCP
+    targetPort: 12000    
+  selector:
+    eventsource-name: XX-eventSource-XX-webhook
+  type: LoadBalancer

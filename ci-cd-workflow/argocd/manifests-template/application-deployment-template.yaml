@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: XX-appName-XX-app
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: myimage=XX-imagename-XX
+    argocd-image-updater.argoproj.io/myimage.update-strategy: latest
+    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/manifest-repo-cred-XX-number-XX
+    argocd-image-updater.argoproj.io/git-branch: master
+spec:
+  project: default
+  source:
+    repoURL: XX-url-XX
+    targetRevision: master
+    path: XX-path-XX
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: XX-namespace-XX
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
+      allowEmpty: true

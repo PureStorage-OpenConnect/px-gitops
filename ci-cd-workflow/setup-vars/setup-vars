@@ -1,0 +1,7 @@
+#Application Git Repo details
+
+gitRepoNamespace="wordpress-main"
+gitRepoName="wordpress-main"
+ClusterKubeConfigFilePath="/Users/rbpcadmin/Downloads/rancher"
+gitRepoUrl="ssh://git@10.21.236.155/home/git/repos/wordpress-main"
+directoryPath="manifest/overlays/development"

@@ -1,0 +1,7 @@
+#Application Git Repo details
+
+gitRepoNamespace="XX-gitRepoNamespace-XX"
+gitRepoName="XX-gitRepoName-XX"
+ClusterKubeConfigFilePath="XX-ClusterKubeConfigFilePath-XX"
+gitRepoUrl="XX-gitRepoUrl-XX"
+directoryPath="XX-directoryPath-XX"

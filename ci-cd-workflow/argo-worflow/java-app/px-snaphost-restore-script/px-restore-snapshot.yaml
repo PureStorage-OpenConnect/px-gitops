@@ -1,0 +1,10 @@
+apiVersion: stork.libopenstorage.org/v1alpha1
+kind: VolumeSnapshotRestore
+metadata:
+  name: java-app-restore-XX-restorename-XX
+  namespace: springboot-code-main
+  labels:
+    name: restore-of-java-app
+spec:
+  sourceName: XX-snapshot-name-XX
+  sourceNamespace: springboot-code-main

@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: wordpress-webhook
+  namespace: argo-events
+spec:
+  service:
+    ports:
+      - port: 12000
+        targetPort: 12000
+      - port: 13000
+        targetPort: 13000 
+  webhook:
+    dev-01:
+      port: "12000"
+      endpoint: /dev-01
+      method: POST
+    master:
+      port: "13000"
+      endpoint: /master
+      method: POST        
+                  
+
+  

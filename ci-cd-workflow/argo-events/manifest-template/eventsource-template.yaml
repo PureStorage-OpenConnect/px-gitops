@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: XX-webhookName-XX-webhook
+  namespace: argo-events
+spec:
+  service:
+    ports:
+      - port: 12000
+        targetPort: 12000
+      - port: 13000
+        targetPort: 13000 
+  webhook:
+    XX-branch-name-XX:
+      port: "12000"
+      endpoint: /XX-branch-name-XX
+      method: POST
+    master:
+      port: "13000"
+      endpoint: /master
+      method: POST        
+                  
+
+  
