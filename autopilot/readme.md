@@ -36,6 +36,8 @@ This will create a rule for Autopilot.
 
 ### 3. Fillup PVCs for testing
 
-Call the script as follows to fill up the PVC. 'springboot-java' is the namespace the script will fill the PVCs for.
+Call the script as follows to fill up the PVC.
+
 	./workload.sh springboot-java
 
+> Note: '**springboot-java**' is the namespace the script will fill the PVCs for.
