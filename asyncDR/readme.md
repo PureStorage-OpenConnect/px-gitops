@@ -10,7 +10,7 @@ Use following command to check version:
 3. **KubeConfig files** You must have kube config files for both clusters.
 4. **storkctl**: Run `storkctl version`. If it returns version number then it is installed, else install it with following commands. Make sure to replace the **<Provide-Full-Path-Of-Any-One-KubeConfig-File>** for **KUBECONFIG** variable:
 
-	> Note: '**--retries**' parameter only works with kubectl v.1.23 or later (Tested with v.1.23.4). If this version is not available try without the option, but in some cases it fails with '**unexpected EOF**' error. In that situation please upgrade kubectl.
+	> Note: '**--retries**' parameter only works with kubectl v.1.23 or later (Tested with v.1.23.4). If this version is not available try without the **--retries** option, but in some cases it fails with '**unexpected EOF**' error. In that situation please upgrade kubectl.
 
 		export KUBECONFIG=<Provide-Full-Path-Of-Any-One-KubeConfig-File>
 		STORK_POD=$(kubectl get pods --all-namespaces -l name=stork -o jsonpath='{.items[0].metadata.namespace} {.items[0].metadata.name}')
@@ -18,11 +18,11 @@ Use following command to check version:
 		sudo mv storkctl /usr/local/bin
 		sudo chmod +x /usr/local/bin/storkctl
 
-5. **Secret Store :** Make sure you have configured a secret store on both your clusters. This will be used to store the credentials for the objectstore. Use following command to verify:
+5. **Secret Store :** Make sure you have configured a secret store on both clusters. This will be used to store the credentials for the objectstore. Use following command to verify:
 
 		kubectl get storageclusters --all-namespaces -o jsonpath='{.items[*].spec.secretsProvider}{"\n"}'
 
-6. **Network Connectivity:** Ports 9001 and 9010 on the destination cluster should be reachable by the source cluster.
+6. **Network Connectivity:** Ports 9001 and 9010 of the destination cluster should be reachable on the source cluster.
 7. **Default Storage Class**: Make sure you have configured only one default storage class. Having multiple default storage classes will cause PVC migrations to fail. To verify you have only one default class configured run the following command. You should only see one default class in the list:
 	
 		kubectl get sc --kubeconfig=<Enter Path Of your Source Clusters Kubeconfig File>
@@ -30,9 +30,16 @@ Use following command to check version:
 		kubectl get sc --kubeconfig=<Enter Path Of your Destination Clusters Kubeconfig File>
 	
 
-Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`.
 
 ## Steps:
+
+Clone the current repository and switch to the correct folder:
+	
+	git clone https://github.com/PureStorage-OpenConnect/px-gitops.git
+	cd px-gitops/asyncDR
+
+Now follow these steps:
+
 ### 1. Update the 'config-vars' file:
 You will need to specify few values with correct information into the **config-vars** file.
 
