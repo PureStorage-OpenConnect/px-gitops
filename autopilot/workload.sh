@@ -70,8 +70,9 @@ printf "Started process to fillup the volumes. Please wait until it completes.\n
   if [[ "${PX_GIT_POD_NAME}" != "" ]]; then
     printf "Found pod '${PX_GIT_POD_NAME}'\n" >> "${PX_LOG_FILE}"
     printf "Started filling the pvc: " >> "${PX_LOG_FILE}"
-    kubectl exec --tty --stdin "${PX_GIT_POD_NAME}" -n "${PX_NAMESPACE}" -- bash -c 'dd if=/dev/urandom of="$(df --output=target | grep /home/git/repos/| head -1)/data-file" bs=10M count=700' 2>> "${PX_LOG_FILE}"
+    kubectl exec --tty --stdin "${PX_GIT_POD_NAME}" -n "${PX_NAMESPACE}" -- bash -c 'dd if=/dev/urandom of="$(df --output=target | grep /home/git/repos/| head -1)/data-file" bs=10M count=700' >> "${PX_LOG_FILE}" 2>&1
     fun_progress
+    printf "\nSuccessful\n"
     printf "Successful\n" >> "${PX_LOG_FILE}"
   else
     printf "Unable to find a pod to run the script.\n" | tee -a "${PX_LOG_FILE}"
