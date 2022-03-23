@@ -21,3 +21,4 @@ This repo helps in performing different Gitops processes using different scripts
 - [AsyncDR](https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/asyncDR/readme.md)
 - [Autopilot](https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/autopilot/readme.md)
 - [Create-branch](https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/create-branch/readme.md)
+- [ci-cd-workflow](https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/ci-cd-workflow/README.md)
