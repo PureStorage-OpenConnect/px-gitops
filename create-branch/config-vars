@@ -1,8 +1,8 @@
 # Line starting with # will be treated as a comment.
 
 # S3 Bucket access.
-  PX_S3_ACCESS_KEY_ID="KBBMOEFKCAKGKPPFPZRBFIMLPHJSFBSACHOIFAAIN"
-  PX_S3_SECRET_ACCESS_KEY="c1192582A5fe4af5+6644616267GNHBFB7b18f3ec"
+  PX_S3_ACCESS_KEY_ID="KBBMOEFKCAKGKPPFPZRBFIMLPHJSFBSACHOIFAAIN"        #This is not a valid key. Make sure to add yours.
+  PX_S3_SECRET_ACCESS_KEY="c1192582A5fe4af5+6644616267GNHBFB7b18f3ec"    #This is not a valid key. Make sure to add yours.
   PX_S3_BUCKET_ENDPOINT="http://10.121.236.202"
   PX_S3_DISABLE_SSL="true"
   # Only applicable for AWS S3 Bucket.
