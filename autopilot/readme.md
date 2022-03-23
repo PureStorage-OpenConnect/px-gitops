@@ -6,10 +6,6 @@ Here are the steps:
 ### 1. Set the configuration variables:
 
 Edit the **config-vars** file to set the variables. Here is the description about each variable:
-	
-**NAMESPACE_MATCH_LABEL:** Provide the namespace label. Autopilot will filter the namespaces based on this label and will take the actions only on the PVCs which exist in those namespaces.
-
-**PVC_MATCH_LABEL:** Provide the PVC label. Autopilot will take the actions on the PVCs which match this label.
 
 **VOLUME_USAGE_PERCENTAGE_TO_TRIGGER_THE_ACTION:** Set the limit in percentage, so Autopilot can take the specified action once this limit is reached. 
 
