@@ -62,8 +62,8 @@ printf "Setting up Autopilot rule (Global) for git servers.\n" | tee -a "${PX_LO
   printf "Apply Autopilot rule manifest: " >> "${PX_LOG_FILE}"
   kubectl apply -f ${PX_AUTOPILOT_RULE_MANIFEST_FILE} >> "${PX_LOG_FILE}" 2>&1
   printf "Done!\n" >> "${PX_LOG_FILE}"
-
   sleep 2
   printf "Describe Autopilot rule:\n" >> "${PX_LOG_FILE}"
   kubectl describe -f ${PX_AUTOPILOT_RULE_MANIFEST_FILE} >> "${PX_LOG_FILE}" 2>&1
-  printf "Autopilot rule has been set up.\n" | tee -a "${PX_LOG_FILE}"
+  printf "Autopilot rule has been set up with the name: ${PX_AUTOPILOT_RULE_NAME}\n\n" | tee -a "${PX_LOG_FILE}"
+
