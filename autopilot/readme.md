@@ -33,17 +33,23 @@ Here is the sample file with all the variables set:
 
 
 
-### 2. Run the script.
+### 2. To create a rule for Autopilot.
 
-Call the script as follows:
+Call the script as follows. The script will provide the **rule name** which we will use in next command to verify the rule.
 
 	./setup-autopilot-rule.sh
-This will create a rule for Autopilot.
+	
+Use following command To verify the rule:	
+	
+	kubectl describe autopilotrule < rule name >
 
 ### 3. Fillup PVCs for testing
 
 Call the script as follows to fill up the PVC.
 
-	./workload.sh springboot-java
+	./workload.sh < Namespace Name>
 
-> Note: '**springboot-java**' is the namespace the script will fill the PVCs for.
+ E.g. **./workload.sh springboot-java**
+
+ Here **springboot-java** is the namespace the script will fill the PVCs for
+ 
