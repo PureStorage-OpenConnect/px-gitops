@@ -15,8 +15,6 @@ Edit the **config-vars** file to set the variables. Here is the description abou
 
 Here is the sample file with all the variables set:
 
-	  PVC_MATCH_LABEL="k8s-app=git-server"
-	  NAMESPACE_MATCH_LABEL="k8s-app=git-server"
 	  VOLUME_USAGE_PERCENTAGE_TO_TRIGGER_THE_ACTION="50"
 	  SCALE_PERCENTAGE="50"
 	  VOLUME_MAX_SIZE="30Gi"
