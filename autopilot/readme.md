@@ -3,6 +3,18 @@
 This script will set Autopilot rule to to auto expand the PVCs when the usage reach the specified limit in percentage.
 Here are the steps:
 
+
+**To start the deployment for the first time**
+
+Clone the current repository using
+
+    git clone https://github.com/PureStorage-OpenConnect/px-gitops.git
+
+Then in your terminal change the directory
+
+    cd px-gitops/autopilot
+    
+    
 ### 1. Set the configuration variables:
 
 Edit the **config-vars** file to set the variables. Here is the description about each variable:
