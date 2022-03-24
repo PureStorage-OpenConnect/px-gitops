@@ -45,7 +45,7 @@ Example:
     PX_KUBECONF_PATH_SOURCE_CLUSTER="/home/myuser/.kube/PS_Rancher-cluster"
     PX_KUBECONF_PATH_DESTINATION_CLUSTER="/home/myuser/.kube/PS_vSphereVMs"
 
-If you are going to create the branch on the same cluster, use same kube-config for both as follows:
+If you are going to create the branch on the same cluster or different cluster, use same kube-config for both as follows:
 
     PX_KUBECONF_PATH_SOURCE_CLUSTER="/home/myuser/.kube/PS_Rancher-cluster"
     PX_KUBECONF_PATH_DESTINATION_CLUSTER="/home/myuser/.kube/PS_Rancher-cluster"
