@@ -292,7 +292,6 @@ read -p "Enter the branch name: " branch
 #echo $gitbranch
 #rm branch.txt
 SourceGitExternalIP="$(kubectl get all -n  $PX_SOURCE_NAMESPACE ${PX_KUBECONF_SOURCE} | awk 'FNR==7{print $4}')"
-echo $SourceGitExternalIP
 echo > ./git-branch-scripts/create-git-branch.sh
 cp ./templates/create-git-branch-template.sh   ./git-branch-scripts/create-git-branch.sh
 sed -ie "s,XX-externalIP-XX,$SourceGitExternalIP,g" git-branch-scripts/create-git-branch.sh
