@@ -7,6 +7,12 @@ echo > ./overlays/development/add-volume-and-volumemount.yaml
 echo > ./base/git-server.yaml
 cp ./template/git-server.yaml ./base/git-server.yaml
 
+if kubectl get sc | grep px-gitrepo-sc
+then 
+echo "                 "
+else
+kubectl apply -f px-gitrepo-sc.yaml
+fi
 
 echo "                                                           "
 echo "Enter namespace in which you want to deploy"
