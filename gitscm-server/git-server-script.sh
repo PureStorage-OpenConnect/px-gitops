@@ -7,7 +7,7 @@ echo > ./overlays/development/add-volume-and-volumemount.yaml
 echo > ./base/git-server.yaml
 cp ./template/git-server.yaml ./base/git-server.yaml
 
-if kubectl get sc | grep px-gitrepo-sc
+if kubectl get sc | grep px-gitrepo-sc 2>&1 >/dev/null
 then 
 echo "                 "
 else
