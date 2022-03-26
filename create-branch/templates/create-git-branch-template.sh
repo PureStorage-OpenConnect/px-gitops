@@ -15,7 +15,7 @@ if [[ "$BRANCH" = "master" || "$BRANCH" = "main" ]]; then
     for branch; do echo $branch && git update-ref refs/heads/$branch refs/heads/$BRANCH; done
 	su - git -c "cd repos/$ls && git symbolic-ref HEAD refs/heads/$branch;"
     su - git -c "cd repos/$ls && git remote add main ssh://git@XX-externalIP-XX/home/git/repos/$ls"
-    su - git -c "ssh-keyscan -t rsa XX-externalIP-XX >> ~/.ssh/known_hosts 2>&1 >/dev/null"
+    su - git -c "ssh-keyscan -t rsa XX-externalIP-XX >> ~/.ssh/known_hosts"
     chown -R git:git /home/*
     su - git -c "cd repos/$ls &&  git push main $branch"
 fi    
