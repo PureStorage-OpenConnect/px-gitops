@@ -60,6 +60,7 @@ spec:
       - name: ssh-key
         secret:
           secretName: git-ssh-key
+          defaultMode: 0400
       - name: deployment
         secret:
           secretName: deployment                
