@@ -1,8 +1,13 @@
 
-# Autopilot configuration for git-server
-This script will set Autopilot rule to to auto expand the PVCs when the usage reach the specified limit in percentage.
-Here are the steps:
+# Autopilot for git-server
+This script will set an Autopilot rule to auto expand the PVCs when the usage reaches the specified limit in percentage.
 
+## Pre-requisites:
+- Access to a running portworx cluster with Autopilot.
+- A running git-server on that cluster. Check [gitscm-server](https://github.com/PureStorage-OpenConnect/px-gitops/tree/main/gitscm-server) to create a new one.
+- Installed: kubectl and git (to clone this repo).
+
+## Here are the steps:
 
 **To start the deployment for the first time**
 
@@ -38,18 +43,44 @@ Here is the sample file with all the variables set:
 Call the script as follows. The script will provide the **rule name** which we will use in next command to verify the rule.
 
 	./setup-autopilot-rule.sh
+
+> Note the rule name in the output of command. We will use this name in the next command to verify it.
 	
-Use following command To verify the rule:	
+Use following command to verify the rule:	
 	
-	kubectl describe autopilotrule < rule name >
+	kubectl describe autopilotrule <rule-name>
 
-### 3. Fillup PVCs for testing
+> Note: Autopilot rules are applied globally on all git-server namespaces.
 
-Call the script as follows to fill up the PVC.
+### 3. Testing: Fillup PVCs with some data files:
 
-	./workload.sh < Namespace Name>
+- Identify the git-server namespace you want to run the test on:
+	
+		kubectl get ns
+	
+- Set a variable with namespace name:
 
- E.g. **./workload.sh springboot-java**
+		export NS_NAME=<Replace with the name namespace>
 
- Here **springboot-java** is the namespace the script will fill the PVCs for
- 
+- Check current PVC stats in the namespace:
+	
+		kubectl get pvc -n ${NS_NAME}
+	
+- Call the script to fill up the PVC.
+
+	The script takes two parameters:
+	1. Namespace name
+	2. Total size of the data files (in GB) you want to write on the PVC.
+	
+	So here we are writing 6GB of data files to the PVC:
+
+		./workload.sh ${NS_NAME} 6
+
+	Once done you will see the latest volume stats.
+
+- Now check the new size the PVC:
+
+	It can take approx 5 minutes for autopilot to take the action on the PVC. So you can keep trying the following command until the size is expanded:
+
+		kubectl get pvc -n ${NS_NAME}
+	
