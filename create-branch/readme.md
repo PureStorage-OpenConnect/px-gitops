@@ -92,7 +92,7 @@ After configuring all the variables run the script as follows to begin the proce
 
 ![](./pod-details.png?raw=true "Title")
 
-Note: You should have the latest version of git on your local system.
+**Note**: You should have the latest version of git on your local system.
 
 **To clone the repository, run this command**
 
