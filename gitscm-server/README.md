@@ -59,7 +59,7 @@ To mirror the repository into the new repository, you can use any one from below
 ---
 if you receive below warning while ssh into git server or cloning the git repository. Run the following command 
 
-> ssh-keygen -R **external-IP**
+    ssh-keygen -R **external-IP**
 
 
 ![](./add-host-key.png?raw=true "Title")
