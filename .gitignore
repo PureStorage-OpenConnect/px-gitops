@@ -3,3 +3,4 @@ gitscm-server/kustomize
 create-branch-using-backup-and-restore/generated-manifests/**
 create-branch**/generated-manifests/**
 autopilot/manifest-files
+autopilot/debug.log
