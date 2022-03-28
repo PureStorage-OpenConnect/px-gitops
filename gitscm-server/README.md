@@ -9,7 +9,7 @@ The script will perform following actions:
 
 Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`. Then in your terminal move to the git-scm folder `cd px-gitops/gitscm-server` and run the following command  to install kustomize.
 
-> curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+  curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
 
 The above script detects your OS and downloads the appropriate kustomize binary to your current working directory.
 
@@ -28,9 +28,9 @@ Kustomize traverses a Kubernetes manifest to add, remove or update configuration
 
 To mirror the repository into the new repository, you can use any one from below reposiotry:
 
-> https://github.com/PureStorage-OpenConnect/wordpress-application.git    (Contain wordpress code, Dockerfile, manifest and wp test cases)
+  https://github.com/PureStorage-OpenConnect/wordpress-application.git    (Contain wordpress code, Dockerfile, manifest and wp test cases)
 
-> https://github.com/PureStorage-OpenConnect/javaApplication-code.git         (Contain java code, Dockerfile and manifest) 
+  https://github.com/PureStorage-OpenConnect/javaApplication-code.git         (Contain java code, Dockerfile and manifest) 
 
 
 
@@ -43,18 +43,18 @@ To mirror the repository into the new repository, you can use any one from below
 **To check the git-server deployment details(pod, deployment,replicaset, service)**
 
 
-> kubectl get all -n **namespace-name**
+  kubectl get all -n **namespace-name**
 
 
 **To start shell session inside the container using ssh command**
 
 
-> ssh git@**external-IP**
+   ssh git@**external-IP**
 
 **To start shell session inside the container using kubectl exec command**
 
 
-> kubectl exec --stdin --tty **pod-name** -n **namespace-name** -- /bin/bash
+  kubectl exec --stdin --tty **pod-name** -n **namespace-name** -- /bin/bash
 
 ---
 if you receive below warning while ssh into git server or cloning the git repository. Run the following command 
@@ -72,6 +72,7 @@ if you receive below warning while ssh into git server or cloning the git reposi
 
 ## Credentails
 
+Note: You should have the latest version of git on your local system.
 There are the default environment credentials
 
 * Git username: git
