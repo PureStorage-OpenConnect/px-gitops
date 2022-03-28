@@ -81,33 +81,34 @@ After configuring all the variables run the script as follows to begin the proce
 **To check the git-server deployment details(pod, deployment, replicaset, service)**
 
 
-> kubectl get all -n **namespace-name**
+    kubectl get all -n **namespace-name**
 
 
 **To check the repo-name, run this command**
 
-> kubectl describe pods **pod-name** -n **namespace-name** | grep -A1 'Mounts:' | awk 'FNR == 2 {print}' | cut -d"/" -f5 | awk '{print $1}'
+    kubectl describe pods **pod-name** -n **namespace-name** | grep -A1 'Mounts:' | awk 'FNR == 2 {print}' | cut -d"/" -f5 | awk '{print $1}'
 
 **Note:** The pod name is the name of pod displayed on output when running the "kubectl get all -n namespace-name" command above. For reference please check below screenshot.
 
 ![](./pod-details.png?raw=true "Title")
 
+Note: You should have the latest version of git on your local system.
 
 **To clone the repository, run this command**
 
-> git clone ssh://git@**external-IP**/home/git/repos/**repo-name**
+    git clone ssh://git@**external-IP**/home/git/repos/**repo-name**
 
 **NOTE:** The external-IP is the ip displayed on output when running the "kubectl get all -n namespace-name" command above.
 
 **To start shell session inside the container using ssh command**
 
 
-> ssh git@**external-IP**
+    ssh git@**external-IP**
 
 **To start shell session inside the container using kubectl exec command**
 
 
-> kubectl exec --stdin --tty **pod-name** -n **namespace-name** -- /bin/bash
+    kubectl exec --stdin --tty **pod-name** -n **namespace-name** -- /bin/bash
 
 
 ## Repository Path (inside the pod)
