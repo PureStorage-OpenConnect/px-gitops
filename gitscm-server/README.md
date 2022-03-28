@@ -72,7 +72,6 @@ if you receive below warning while ssh into git server or cloning the git reposi
 
 ## Credentails
 
-Note: You should have the latest version of git on your local system.
 There are the default environment credentials
 
 * Git username: git
@@ -85,6 +84,8 @@ Root user details
 
 ---
 ## Optional Command
+
+Note: You should have the latest version of git on your local system.
 
 **To clone the repository, run this command**
 
