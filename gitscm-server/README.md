@@ -43,18 +43,18 @@ To mirror the repository into the new repository, you can use any one from below
 **To check the git-server deployment details(pod, deployment,replicaset, service)**
 
 
-  kubectl get all -n **namespace-name**
+    kubectl get all -n **namespace-name**
 
 
 **To start shell session inside the container using ssh command**
 
 
-   ssh git@**external-IP**
+     ssh git@**external-IP**
 
 **To start shell session inside the container using kubectl exec command**
 
 
-  kubectl exec --stdin --tty **pod-name** -n **namespace-name** -- /bin/bash
+     kubectl exec --stdin --tty **pod-name** -n **namespace-name** -- /bin/bash
 
 ---
 if you receive below warning while ssh into git server or cloning the git repository. Run the following command 
