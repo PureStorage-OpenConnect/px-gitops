@@ -78,7 +78,7 @@ Use following command to verify the rule:
 
 	Once done you will see the latest volume stats.
 
-- Now check the new size the PVC:
+- Now check the new size of the PVC:
 
 	It can take approx 5 minutes for autopilot to take the action on the PVC. So you can keep trying the following command until the size is expanded:
 
