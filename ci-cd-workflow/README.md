@@ -36,6 +36,13 @@ https://github.com/argoproj/argo-workflows/releases
 
 Add details of application code and manifest
 
+Before running the script you should have the below details of application Git repo with you:
+
+1) Repository Namespace
+2) Repo Name
+3) Cluster KubeConfig File Path
+4) Git Repository file path
+5) Direct path of manfiest from Git repository
 ```
 ./Add-details.sh
 ```
@@ -44,6 +51,11 @@ Add details of application code and manifest
 **Step: 3**
 
 **Deploy the application using Argocd**
+
+Before running the script you should have the below details:-
+
+1) Application docker image name without image tag
+
 ```
 ./applicationDeployment.sh
 ```
@@ -153,13 +165,13 @@ First change directory to **argo-workflow**, now you can see two application dir
 **Run below script to deploy wordkflow template for java application**
 
 ```
-bash ./argo-worflow/java-app/submit-ci-cluster-workflow-template.sh
+./submit-ci-cluster-workflow-template.sh
 ```
 
 **Run below script to deploy wordkflow template for wordpress application**
 
 ```
-bash ./argo-worflow/wordpress-app/submit-ci-cluster-workflow-template.sh
+./submit-ci-cluster-workflow-template.sh
 ```
 ---
 
@@ -201,5 +213,5 @@ With combination of both Argo-events and Argo-worflows we have a fully operation
 **Run below script to deploy Argo-events**
 
 ```
-bash  ./scripts/Deploy-argo-events.sh
+./Deploy-argo-events.sh
 ```
