@@ -10,15 +10,6 @@ The script will perform following actions:
 Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`. Then in your terminal move to the git-scm folder `cd px-gitops/gitscm-server` and run the following command  to install kustomize.
 
 
-
-The above script detects your OS and downloads the appropriate kustomize binary to your current working directory.
-
-**Kustomize**
-
-Kustomize traverses a Kubernetes manifest to add, remove or update configuration options without forking. It is available both as a standalone binary and as a native feature of kubectl
-
-
-
 **Now run the following script to deploy git-server**
 
 ```
