@@ -14,16 +14,16 @@
 
 **Install Argocd**
 ```
-bash ./scripts/installAgrocd.sh
+./installAgrocd.sh
 ```
 **Install Argoworkflow**
 
 ```
-bash ./scripts/installArgoWorkflow.sh
+./installArgoWorkflow.sh
 ```
 **Install Argo-events**
 ```
-bash ./scripts/install-ArgoEvents.sh
+./install-ArgoEvents.sh
 ```
 
 **Install Argo CLI**
@@ -37,7 +37,7 @@ https://github.com/argoproj/argo-workflows/releases
 Add details of application code and manifest
 
 ```
-bash ./scripts/Add-details.sh
+./Add-details.sh
 ```
 ---
 
@@ -45,7 +45,7 @@ bash ./scripts/Add-details.sh
 
 **Deploy the application using Argocd**
 ```
-bash  ./scripts/applicationDeployment.sh
+./applicationDeployment.sh
 ```
 
 ---
