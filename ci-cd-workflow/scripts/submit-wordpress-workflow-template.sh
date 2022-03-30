@@ -11,7 +11,7 @@ cp ../argo-worflow/wordpress-app/px-snaphshot-restore-script-template/px-snapsho
 
 
 CurrentClusterPath="$(echo $KUBECONFIG)"
-echo $CurrentClusterPath
+#echo $CurrentClusterPath
 echo "Creating kubernetes secret for jfrog credentials in argo namespace"
 kubectl create secret generic jfrog-config -n argo \
     --from-file=.dockerconfigjson=../config.json \
@@ -57,7 +57,7 @@ kubectl get secret git-ssh-key -n $gitRepoNamespace -o jsonpath='{.data.id_rsa}'
 sleep 2
 base64 -d ./$gitRepoNamespace/id_rsa.tmp > ./$gitRepoNamespace/id_rsa
 export KUBECONFIG=$CurrentClusterPath
-echo $KUBECONFIG
+#echo $KUBECONFIG
 echo "Creating kubernetes secret for application code git server ssh private key"
 kubectl create secret generic wordpress-repo-sshkey --from-file=./$gitRepoNamespace/id_rsa -n argo
 sleep 3
