@@ -8,7 +8,7 @@ Use following command to check version:
 		kubectl version --client
 2. **Portworx:** You will need 2 portworx clusters with AsyncDR license enabled. Portworx version 2.1 or later needs to be installed on both clusters. Also requires Stork v2.2+ on both of the clusters.
 3. **KubeConfig files** You must have kube config files for both clusters.
-4. **storkctl**: Run `storkctl version`. If it returns version number then it is installed, else install it with following commands. Make sure to replace the **<Provide-Full-Path-Of-Any-One-KubeConfig-File>** for **KUBECONFIG** variable:
+4. **storkctl**: Run `storkctl version`. If it returns version number then it is installed, else install it with following commands. Make sure to replace the **< Provide-Full-Path-Of-Any-One-KubeConfig-File >** for **KUBECONFIG** variable:
 
 	> Note: '**--retries**' parameter only works with kubectl v.1.23 or later (Tested with v.1.23.4). If this version is not available try without the **--retries** option, but in some cases it fails with '**unexpected EOF**' error. In that situation please upgrade kubectl.
 
