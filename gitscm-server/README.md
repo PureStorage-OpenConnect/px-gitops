@@ -7,7 +7,7 @@ The script will perform following actions:
 
 **To start the deployment for the first time**
 
-Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`. Then in your terminal move to the git-scm folder `cd px-gitops/gitscm-server` and run the following command  to install kustomize.
+Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`. Then in your terminal move to the git-scm folder `cd px-gitops/gitscm-server`.
 
 
 **Now run the following script to deploy git-server**
