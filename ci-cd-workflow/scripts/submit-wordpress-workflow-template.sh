@@ -50,7 +50,7 @@ cat $ClusterKubeConfigFilePath > config
 echo "Creating kubernetes secret for application git repo cluster kubeconfig. "
 kubectl create secret generic kubernetes-kube-config --from-file=config -n argo
 sleep 2
-export KUBECONFIG=$ClusterKubeConfigFilePath
+#export KUBECONFIG=$ClusterKubeConfigFilePath
 echo "                                                    "
 mkdir -p $gitRepoNamespace
 kubectl get secret git-ssh-key -n $gitRepoNamespace -o jsonpath='{.data.id_rsa}' > ./$gitRepoNamespace/id_rsa.tmp
