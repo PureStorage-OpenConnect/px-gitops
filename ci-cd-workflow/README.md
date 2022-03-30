@@ -20,7 +20,7 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
 
 **Install Argocd**
 ```
-./installAgrocd.sh
+./installArgocd.sh
 ```
 * Run the following command to check the status of argocd
 
