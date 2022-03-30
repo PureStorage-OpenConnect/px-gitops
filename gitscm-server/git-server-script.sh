@@ -49,7 +49,7 @@ select gitoption in Git-server-for-Dockerfiles Git-server-for-application; do
     kubectl create secret generic deployment --from-file=./scripts/deploy.sh  -n $namespace
     kubectl label secret deployment -n $namespace  app=git-server-for-$namespace include-in-backup=yes type=git-server
     echo "                                                           "
-    echo "You must enter a minimum of one Repo name. If you do not want to enter more than one repo or have entered all desired repo names leave repo name blank and press 'enter' to execute"
+    #echo "You must enter a minimum of one Repo name. If you do not want to enter more than one repo or have entered all desired repo names leave repo name blank and press 'enter' to execute"
 
             #while true; do
                 read -p "Enter the Git Repo name: " repo
@@ -148,7 +148,7 @@ select gitoption in Git-server-for-Dockerfiles Git-server-for-application; do
     kubectl create secret generic deployment --from-file=./scripts/deploy.sh  -n $namespace
     kubectl label secret deployment -n $namespace  app=git-server-for-$namespace include-in-backup=yes type=git-server
     echo "                                                           "
-    echo "You must enter a minimum of one Repo name. If you do not want to enter more than one repo or have entered all desired repo names leave repo name blank and press 'enter' to execute"
+#    echo "You must enter a minimum of one Repo name. If you do not want to enter more than one repo or have entered all desired repo names leave repo name blank and press 'enter' to execute"
 
            # while true; do
                 read -p "Enter the Git Repo name: " repo
