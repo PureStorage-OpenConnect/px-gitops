@@ -2,10 +2,24 @@
 # Remote Site Collaboration using AsyncDR Replication
 ## Prerequisites:
 
-1. **kubectl (v1.23.4 or later) installed:** You can follow [official documentaion](https://kubernetes.io/docs/tasks/tools/) to install kubectl as per you operating environment.
-Use following command to check version:
+1. **kubectl (v1.23.4 or later):** You can follow these steps to install kubectl as per you operating environment:
+
+	Use following command to check:
 		
 		kubectl version --client
+
+	If it is not installed use following commands to install:
+	
+	**Linux:**
+	
+		curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+		sudo install -o root -g root -m 0755 kubectl /usr/bin/kubectl
+		
+	**macOS:**
+		
+		brew install kubectl
+		
+
 2. **Portworx:** You will need 2 portworx clusters with AsyncDR license enabled. Portworx version 2.1 or later needs to be installed on both clusters. Also requires Stork v2.2+ on both of the clusters.
 3. **KubeConfig files** You must have kube config files for both clusters.
 4. **storkctl**: Run `storkctl version`. If it returns version number then it is installed, else install it with following commands. Make sure to replace the **< Provide-Full-Path-Of-Any-One-KubeConfig-File >** for **KUBECONFIG** variable:
