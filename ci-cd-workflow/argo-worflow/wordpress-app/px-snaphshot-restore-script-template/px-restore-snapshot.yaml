@@ -1,0 +1,10 @@
+apiVersion: stork.libopenstorage.org/v1alpha1
+kind: VolumeSnapshotRestore
+metadata:
+  name: wordpress-app-restore-XX-restorename-XX
+  namespace: XX-namespace-XX
+  labels:
+    name: restore-of-wordpress-app
+spec:
+  sourceName: XX-snapshot-name-XX
+  sourceNamespace: XX-namespace-XX
