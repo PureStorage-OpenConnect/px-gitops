@@ -10,6 +10,12 @@
 
 5) Argo CLI
 
+---
+**To start the deployment for the first time**
+
+Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`. Then in your terminal move to the git-scm folder `cd px-gitops/ci-cd-workflow/scripts`.
+
+
 **Step 1:** (Install Prerequisites)
 
 **Install Argocd**
