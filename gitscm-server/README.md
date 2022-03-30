@@ -66,12 +66,12 @@ if you receive below warning while ssh into git server or cloning the git reposi
 There are the default environment credentials
 
 * Git username: git
-* Git password: osmium76
+* Git password: PureStorage123
 
 Root user details
 
 * username: root
-* password: osmium76
+* password: PureStorage123
 
 ---
 ## Optional Command
