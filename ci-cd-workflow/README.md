@@ -22,15 +22,44 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
 ```
 ./installAgrocd.sh
 ```
+* Run the following command to check the status of argocd
+
+   > kubectl get all -n argocd
+
+*  Log in to Argo CD
+
+   Open a browser to the Argo CD external UI, and login by visiting the IP/hostname in a browser.
+   
+   **UserName**: admin
+   
+   **Password**: Run the following command to retrieve password
+   
+   > kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo 
+   
+   
 **Install Argoworkflow**
 
 ```
 ./installArgoWorkflow.sh
 ```
+
+* Run the following command to check the status of argo and the public URL for the Argo server UI.
+
+   > kubectl get all -n argo
+
+* The public URL will be returned by this command in the EXTERNAL-IP column.
+* Now open a browser and navigate to: https://{YOUR_EXTERNAL_IP}:2746
+
+
+
 **Install Argo-events**
 ```
 ./install-ArgoEvents.sh
 ```
+
+* Run the following command to check the status of argo-events
+
+   > kubectl get all -n argo-events
 
 **Install Argo CLI**
 ```
@@ -47,7 +76,7 @@ Before running the script you should have the below details of application Git r
 1) Repository Namespace
 2) Repo Name
 3) Cluster KubeConfig File Path
-4) Git Repository file path
+4) Git Repository url
 5) Direct path of manfiest from Git repository
 ```
 ./Add-details.sh
@@ -134,17 +163,18 @@ It is possible to define **volumes**, like you would specify those in an ordinar
 
 We can also define template which will hold other templates which we did in this case.
 
+**For Example:**
 
 Here we have created two workflow templates for dev and master branch for springboot java application
 
 **Argo-workflow path**
 
 Dev-Branch: 
-> ./workflow-templates/clusterworkflowtemplate-for-dev.yaml 
+> ./argo-worflow/java-app/workflow-templates/clusterworkflowtemplate-for-dev.yaml 
 
 Master-Branch: 
 
-> ./workflow-templates/clusterworkflowtemplate-for-master.yaml 
+> ./argo-worflow/java-app/workflow-templates/clusterworkflowtemplate-for-master.yaml 
 
 We have defined a `ci-pipeline-to-automate-build-and-namespace-backup` template which is the entrypoint. This template contains multiple steps, which in turn are all other templates.
 
@@ -168,6 +198,8 @@ As we are using application i.e. java and wordpress. We have to run separate scr
 
 First change directory to **argo-workflow**, now you can see two application directorries i.e. `java-app` and `wordpress-app`. Now change directory in any of two applicaton-directory for which you want to submit wordlflow template.
 
+**Note:** Before running the below script, make you should have the workflow template ready according to your application requirement.
+
 **Run below script to deploy wordkflow template for java application**
 
 ```
@@ -177,7 +209,7 @@ First change directory to **argo-workflow**, now you can see two application dir
 **Run below script to deploy wordkflow template for wordpress application**
 
 ```
-./submit-ci-cluster-workflow-template.sh
+./submit-wordpress-workflow-template.sh
 ```
 ---
 
