@@ -91,7 +91,7 @@ To verify the remote replica run the following command:
 	kubectl get all -n <EnterNameSpaceName> --kubeconfig=<Enter Path Of your Destination Clusters Kubeconfig File>
 
 
-### 3. Re-Clone the remote replica to ger up-to-date data:
+### 3. Re-Clone the remote replica to get up-to-date data:
 
 This step is not requred 1st time because it is automated in the previous script, but needs to be run whenever you want the latest data ready in the remote repository to get a pull or clone:
 
