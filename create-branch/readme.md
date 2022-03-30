@@ -78,7 +78,7 @@ After configuring all the variables run the script as follows to begin the proce
 
 ## Commands
 
-**NOTE:** For every varriable between <> you will need to replace that value with your input. For example <namespace-name> will need to be replaced with your value.
+**NOTE:** For every varriable between <> you will need to replace that value with your input. For example < namespace-name > will need to be replaced with your value.
 
 **To check the git-server deployment details(pod, deployment, replicaset, service)**
 
