@@ -78,7 +78,7 @@ After configuring all the variables run the script as follows to begin the proce
 
 ## Commands
 
-**NOTE:** Every bold text on the commands needs to be replaced with your variables. For example: If we look at the command "kubectl get all -n **namespace-name**" here we will need to replace "namespace-name" with the namespace you have created.
+**NOTE:** For every varriable between <> you will need to replace that value with your input. For example <namespace-name> will need to be replaced with your value.
 
 **To check the git-server deployment details(pod, deployment, replicaset, service)**
 
