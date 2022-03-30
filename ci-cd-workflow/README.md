@@ -93,14 +93,14 @@ Registry Configuration manifest:
 
 Now, it will add a few annotations in the ArgoCD application. Here are the basic ones:
 
-```
 annotations:
+```
  argocd-image-updater.argoproj.io/write-back-method: git:secret:<secret-namespace>/<your-secret-name>
  argocd-image-updater.argoproj.io/image-list: <alias>=<registry-url>
+```
 The first annotation tells ArgoCD to be declarative, i.e. it will commit an override file.
 By default, the annotation value in ArgoCD is the imperative mode. Here we prefer the declarative way, so our repository is our only **source of truth for the state of the
 cluster.**
-```
 
 The second annotation tells the image updater which image in which registry it should watch for updates and gives it an alias.
 The <**secret-namespaces**> and <**your-secret-name**> here are the references to the secret that was created by the script in the **Deploy Git Credentials** part earlier.
