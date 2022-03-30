@@ -29,7 +29,7 @@ To mirror the repository into the new repository, you can use any one from below
 
 ## Commands
 
-**NOTE:** For every varriable between <> you will need to replace that value with your input. For example < namespace-name > will need to be replaced with your value.
+**NOTE:** For every variable between <> you will need to replace that value with your input. For example kubectl get all -n < namespace-name > will need to be replaced with your value. If we call it "mynamespace" and after replacing it with your value it will look like kubectl get all -n mynamespace 
 
 **To check the git-server deployment details(pod, deployment,replicaset, service)**
 
