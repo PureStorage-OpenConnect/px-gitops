@@ -11,7 +11,7 @@ cp /snapshot-script/px-snapshot.yaml /tmp/px-snapshot-tmp.yaml
 Noresource="No resources found in XX-namespace-XX namespace."
 getSnapshot="$(kubectl get VolumeSnapshot -n XX-namespace-XX 2>&1)"
 if [[ "$Noresource" == "$getSnapshot" ]]; then
-  sed -i "s,XX-namespace-XX,1,g" /tmp/px-snapshot-tmp.yaml
+  sed -i "s,XX-repo-XX,1,g" /tmp/px-snapshot-tmp.yaml
   kubectl apply -f /tmp/px-snapshot-tmp.yaml
 else
   vSNAPSHOT="$(kubectl get VolumeSnapshot -n XX-namespace-XX -l=name=snapshot-of-wordpress-app --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1:].metadata.name}')"
@@ -19,7 +19,7 @@ else
   echo $snapshotID;
   NewID="$(expr $snapshotID + 1)"
   echo $NewID
-  sed -i "s,XX-namespace-XX,$NewID,g" /tmp/px-snapshot-tmp.yaml
+  sed -i "s,XX-repo-XX,$NewID,g" /tmp/px-snapshot-tmp.yaml
   kubectl apply -f /tmp/px-snapshot-tmp.yaml
 fi
 sleep 5
