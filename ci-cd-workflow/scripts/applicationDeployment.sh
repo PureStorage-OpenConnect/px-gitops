@@ -40,9 +40,9 @@ sed -ie "s,XX-url-XX,$gitRepoUrl,g" ../argocd/manifests/application-deployment.y
 sed -ie "s,XX-path-XX,$directoryPath,g" ../argocd/manifests/application-deployment.yaml
 
 encodedurl="$(echo -n $gitRepoUrl |  base64 )"
-echo $encodedurl
+#echo $encodedurl
 sed -ie "s,XX-app-code-url-XX,$encodedurl,g" ../argocd/manifests/application-repo-secret.yaml
-echo $ClusterKubeConfigFilePath
+#echo $ClusterKubeConfigFilePath
 export KUBECONFIG=$ClusterKubeConfigFilePath
 
 encodedId_rsaKey="$(kubectl get secret git-ssh-key -n $gitRepoNamespace  -o jsonpath='{.data.id_rsa}')"
