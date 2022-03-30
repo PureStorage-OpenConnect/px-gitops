@@ -34,23 +34,23 @@ To mirror the repository into the new repository, you can use any one from below
 **To check the git-server deployment details(pod, deployment,replicaset, service)**
 
 
-    kubectl get all -n **namespace-name**
+    kubectl get all -n <namespace-name>
 
 
 **To start shell session inside the container using ssh command**
 
 
-     ssh git@**external-IP**
+     ssh git@<external-IP>
 
 **To start shell session inside the container using kubectl exec command**
 
 
-     kubectl exec --stdin --tty **pod-name** -n **namespace-name** -- /bin/bash
+     kubectl exec --stdin --tty <pod-name> -n <namespace-name> -- /bin/bash
 
 ---
 if you receive below warning while ssh into git server or cloning the git repository. Run the following command 
 
-    ssh-keygen -R **external-IP**
+    ssh-keygen -R <external-IP>
 
 
 ![](./add-host-key.png?raw=true "Title")
@@ -81,7 +81,7 @@ Note: You should have the latest version of git on your local system.
 **To clone the repository, run this command**
 
 
-    git clone ssh://git@**external-IP**/home/git/repos/**repo-name**
+    git clone ssh://git@<external-IP>/home/git/repos/<repo-name>
 
 **NOTE:** The repo name is the one you created when running the command "**./git-server-script.sh**".
 The external-IP is the ip displayed on output when running the "**kubectl get all -n namespace-name**" command above.
