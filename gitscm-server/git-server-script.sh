@@ -15,6 +15,8 @@ select gitoption in Git-server-for-Dockerfiles Git-server-for-application; do
     then 
     echo "                 "
     else
+    echo "                 "
+    echo "No storage class was found. Created new storage class for git server."
     kubectl apply -f px-gitrepo-sc.yaml
     fi
 
@@ -49,9 +51,9 @@ select gitoption in Git-server-for-Dockerfiles Git-server-for-application; do
     echo "                                                           "
     echo "You must enter a minimum of one Repo name. If you do not want to enter more than one repo or have entered all desired repo names leave repo name blank and press 'enter' to execute"
 
-            while true; do
+            #while true; do
                 read -p "Enter the Git Repo name: " repo
-                [[ -z $repo ]] && break
+            #    [[ -z $repo ]] && break
                 cat ./template/add-repo.yaml >> ./overlays/development/add-repo.yaml
           cat ./template/add-volume-and-volumemount.yaml >> ./overlays/development/add-volume-and-volumemount.yaml
           sed -ie "s,XX-namespace-XX,$namespace,g" ./base/git-server.yaml
@@ -62,7 +64,7 @@ select gitoption in Git-server-for-Dockerfiles Git-server-for-application; do
                 sed -ie "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-repo.yaml
                 sed -ie "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount.yaml
           
-            done
+            #done
 
     kubectl apply -k ./overlays/development
     sleep 2
@@ -107,6 +109,8 @@ select gitoption in Git-server-for-Dockerfiles Git-server-for-application; do
     then 
     echo "                 "
     else
+    echo "                 "
+    echo "No storage class was found. Created new storage class for git server."   
     kubectl apply -f px-gitrepo-sc.yaml
     fi
 
@@ -146,9 +150,9 @@ select gitoption in Git-server-for-Dockerfiles Git-server-for-application; do
     echo "                                                           "
     echo "You must enter a minimum of one Repo name. If you do not want to enter more than one repo or have entered all desired repo names leave repo name blank and press 'enter' to execute"
 
-            while true; do
+           # while true; do
                 read -p "Enter the Git Repo name: " repo
-                [[ -z $repo ]] && break
+            #    [[ -z $repo ]] && break
                 cat ./template/add-repo.yaml >> ./overlays/development/add-repo.yaml
           cat ./template/add-volume-and-volumemount.yaml >> ./overlays/development/add-volume-and-volumemount.yaml
           sed -ie "s,XX-namespace-XX,$namespace,g" ./base/git-server.yaml
@@ -159,7 +163,7 @@ select gitoption in Git-server-for-Dockerfiles Git-server-for-application; do
                 sed -ie "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-repo.yaml
                 sed -ie "s,XX-namespace-XX,$namespace,g" ./overlays/development/add-volume-and-volumemount.yaml
           
-            done
+            #done
 
     kubectl apply -k ./overlays/development
     sleep 2
