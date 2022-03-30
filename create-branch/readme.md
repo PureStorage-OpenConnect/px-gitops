@@ -58,6 +58,8 @@ You can leave these varialbe blank. This way the default kube-config that is `~/
 **Retain portworx backup:**
 
     PX_KEEP_BACKUP:             Set this variable as "no" if you do not want to keep the backup after the branch is created as follows:
+    
+ Example:
   
     PX_KEEP_BACKUP="no"
 
