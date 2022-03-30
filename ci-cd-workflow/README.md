@@ -203,7 +203,7 @@ First change directory to **argo-workflow**, now you can see two application dir
 **Run below script to deploy wordkflow template for java application**
 
 ```
-./submit-ci-cluster-workflow-template.sh
+./submit-java-workflow-template.sh
 ```
 
 **Run below script to deploy wordkflow template for wordpress application**
