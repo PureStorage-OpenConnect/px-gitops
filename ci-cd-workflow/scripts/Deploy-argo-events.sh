@@ -79,12 +79,10 @@ sleep 1
 kubectl apply -f ../argo-events/manifests/sensor-for-master-branch.yaml
 sleep 1
 webhookServiceIP="$(kubectl get svc $opt-webhook-service -n argo-events | awk 'FNR==2{print $4}')"
-echo $webhookServiceIP
 sed -ie "s,XX-externalIP-XX,$webhookServiceIP,g" ../argo-events/git-Hook/post-receive
 source ../setup-vars/setup-vars
 export KUBECONFIG=$ClusterKubeConfigFilePath
 Vpodname="$(kubectl get pod -n $gitRepoNamespace | awk 'FNR==2{print $1}')"
-echo $Vpodname
 kubectl cp ../argo-events/git-Hook/post-receive $gitRepoNamespace/$Vpodname:/home/git/repos/$gitRepoName/hooks && 
 sleep 1
 kubectl exec --stdin --tty $Vpodname -n $gitRepoNamespace -- /bin/bash -c "chmod 777 /home/git/repos/$gitRepoName/hooks/post-receive"
