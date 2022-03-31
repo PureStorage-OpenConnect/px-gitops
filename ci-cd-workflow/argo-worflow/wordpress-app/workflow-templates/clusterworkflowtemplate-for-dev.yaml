@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ClusterWorkflowTemplate
 metadata:
-  name: ci-for-java-app-dev-branch
+  name: ci-for-wordpress-app-dev-branch
   namespace: argo
 spec:
   entryPoint: ci-pipeline-to-automate-build-and-namespace-backup
@@ -37,11 +37,10 @@ spec:
         depends: "(wordpress-unit-test.Succeeded)"                         
       - name: wordpress-unit-test
         template: wordpress-unit-test
-      - name: px-snapshot
-        depends: "(wordpress-unit-test.Succeeded)"   
+        depends: "(px-snapshot-restore.Failed)"        
+      - name: px-snapshot  
         template: on-pass   
       - name: px-snapshot-restore
-        depends: "(wordpress-unit-test.Failed)"
         template: on-fail                    
   - name: build-docker-image
     metadata:
@@ -66,7 +65,7 @@ spec:
         cp /wordpress-repo-sshkey/id_rsa /root/.ssh
         chmod -R 600 /root/.ssh
         ls -lrth /root/.ssh
-        git clone ssh://git@10.21.236.156/home/git/repos/wordpress-main --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
+        git clone --branch dev-01 ssh://git@10.21.236.62/home/git/repos/wordpress-main --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
         ls -larth /dockerfile
         rm -rf /dockerfile/.git
         cp -r /dockerfile/. /application-dockerfile
@@ -119,7 +118,7 @@ spec:
         cp /wordpress-repo-sshkey/id_rsa /root/.ssh
         chmod -R 600 /root/.ssh
         ls -lrth /root/.ssh
-        git clone ssh://git@10.21.236.156/home/git/repos/wordpress-main --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
+        git clone --branch dev-01 ssh://git@10.21.236.62/home/git/repos/wordpress-main --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
         ls -larth /application-code
         rm -rf /application-code/.git
         cp -r /application-code/.  /wordpress-code
@@ -155,4 +154,3 @@ spec:
         mountPath: /restore-snapshot-script
       - name: kubeconfig
         mountPath: /root/.kube                            
-
