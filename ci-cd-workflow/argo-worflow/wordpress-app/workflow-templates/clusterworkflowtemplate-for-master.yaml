@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ClusterWorkflowTemplate
 metadata:
-  name: ci-for-java-app-master-branch
+  name: ci-for-wordpress-app-master-branch
   namespace: argo
 spec:
   entryPoint: ci-pipeline-to-automate-build-and-namespace-backup
@@ -12,35 +12,37 @@ spec:
       items:
         - key: .dockerconfigjson
           path: config.json                 
-  - name: application-build-code
+  - name: wordpress-home-dir
   - name: application-dockefile
+  - name: docker-path
+  - name: wordpress-code
   - name: kubeconfig
     secret:
       secretName: kubernetes-kube-config  
-  - name: repo-sshkey
+  - name: wordpress-repo-sshkey
     secret:
-      secretName: repo-sshkey    
+      secretName: wordpress-repo-sshkey    
   - name: snapshot
     secret:
-      secretName: snapshot-script
+      secretName: wordpress-snapshot-script
   - name: restorescript
     secret:
-      secretName: restore-snapshot-script           
+      secretName: wordpress-restore-snapshot-script           
   templates:
   - name: ci-pipeline-to-automate-build-and-namespace-backup
     dag:
       tasks:
-      - name: application-unit-testing
-        template: application-unit-testing
-      - name: pvc-snapshot
-        depends: "(application-unit-testing.Succeeded)"
-        template: on-pass              
       - name: build-docker-image
-        template: build-docker-image
-        depends: "(application-unit-testing.Succeeded)"   
-      - name: pvc-snapshot-restore
-        depends: "(application-unit-testing.Failed)"
-        template: on-fail             
+        template: build-docker-image   
+        depends: "(wordpress-unit-test.Succeeded)"                         
+      - name: wordpress-unit-test
+        template: wordpress-unit-test
+      - name: px-snapshot
+        depends: "(wordpress-unit-test.Succeeded)"   
+        template: on-pass   
+      - name: px-snapshot-restore
+        depends: "(wordpress-unit-test.Failed)"
+        template: on-fail                    
   - name: build-docker-image
     metadata:
     container:
@@ -48,7 +50,7 @@ spec:
       command: [/kaniko/executor]
       args:
         - "--context=dir:///application-dockerfile"
-        - "--destination=sn1-r620-a04-03.puretec.purestorage.com/springboot/maven-master:{{workflow.name}}"
+        - "--destination=sn1-r620-a04-03.puretec.purestorage.com/wordpress/wordpress:{{workflow.name}}"
       volumeMounts:
       - name: jfrog-config
         mountPath: /kaniko/.docker/
@@ -61,11 +63,10 @@ spec:
       args: 
       - |
         mkdir -p /root/.ssh
-        ls -lrth /root/.ssh
-        cp /repo-sshkey/id_rsa /root/.ssh
+        cp /wordpress-repo-sshkey/id_rsa /root/.ssh
         chmod -R 600 /root/.ssh
         ls -lrth /root/.ssh
-        git clone ssh://git@10.21.236.110:31173/home/git/repos/springboot-app --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
+        git clone ssh://git@10.21.236.62/home/git/repos/wordpress-main --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
         ls -larth /dockerfile
         rm -rf /dockerfile/.git
         cp -r /dockerfile/. /application-dockerfile
@@ -73,32 +74,40 @@ spec:
       volumeMounts:
       - name: application-dockefile  
         mountPath: /application-dockerfile    
-      - name: repo-sshkey
-        mountPath: /repo-sshkey
-  - name: application-unit-testing
-    metadata:
+      - name: wordpress-repo-sshkey
+        mountPath: /wordpress-repo-sshkey
+  - name: wordpress-unit-test
     container:
-      image: openjdk:14.0-jdk-buster
-      command: ["/bin/bash", "-c"]
-      args:        
+      image: ubuntu         # Docker already provides an image for running a Docker daemon
+      command: ["/bin/sh", "-c"]
+      args: 
       - |
-        set -e 
-        set -o pipefail
-        cd /application-build-code
-        ls /application-build-code
-        curl -fL https://getcli.jfrog.io | sh
-        ./jfrog config add artifactory-server --artifactory-url=https://sn1-r620-a04-03.puretec.purestorage.com/artifactory --user=admin --password=Purestorage123 --interactive=false
-        ./jfrog rt ping
-        ./mvnw dependency:go-offline 
-        ./mvnw test
-        ./mvnw install
-        mkdir ./build
-        mv ./target/demo-0.0.1-SNAPSHOT.jar ./target/maven-build-$(date +%F-%H:%M).jar
-        mv ./target/maven-build-* build/
-        ./jfrog rt u build/maven-build-* springboot-builds
-      volumeMounts:  
-      - name: application-build-code  
-        mountPath: /application-build-code
+        apt update
+        ls -lrth /wordpress-code
+        cp -r /wordpress-code/*   /home/wordpress
+        ls -larth  /home/wordpress      
+        apt install curl git docker-compose -y 
+        curl https://releases.rancher.com/install-docker/20.10.sh | sh
+        /etc/init.d/docker start
+        useradd wordpress -s /bin/bash
+        chown -R wordpress:wordpress /home/wordpress/*
+        usermod -a -G docker wordpress
+        curl -fsSL https://deb.nodesource.com/setup_12.x | bash
+        apt-get install -y nodejs        
+        su - wordpress -c "git clone https://github.com/WordPress/wordpress-develop.git && cd wordpress-develop && rm package.json && rm -rf tests/phpunit/tests/* && mv src src-bak && mkdir src && cp -r src-bak/js src && ls -lrth  tests/phpunit/tests/"
+        ls -lrth /home/wordpress
+        su - wordpress -c "cp -r code/* wordpress-develop/src && ls -lrth wordpress-develop/src && cp package.json wordpress-develop/ && cp -r test-cases/* wordpress-develop/tests/phpunit/tests/"
+        su - wordpress -c "cd wordpress-develop && npm install && npm run build:dev && npm run env:start && 
+        echo '             ' && docker ps && sleep 10 &&  npm run env:install && sleep 10 && npm run test:php"        
+      securityContext:
+        privileged: true  
+      volumeMounts:    
+      - name: wordpress-home-dir
+        mountPath: /home/wordpress   
+      - name: docker-path
+        mountPath: /var/lib/docker 
+      - name: wordpress-code  
+        mountPath: /wordpress-code        
     initContainers:
     - name: git-clone
       image: bitnami/git
@@ -107,19 +116,19 @@ spec:
       - |
         mkdir -p /root/.ssh
         ls -lrth /root/.ssh
-        cp /repo-sshkey/id_rsa /root/.ssh
+        cp /wordpress-repo-sshkey/id_rsa /root/.ssh
         chmod -R 600 /root/.ssh
         ls -lrth /root/.ssh
-        git clone ssh://git@10.21.236.110:31173/home/git/repos/springboot-app --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
+        git clone  ssh://git@10.21.236.62/home/git/repos/wordpress-main --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
         ls -larth /application-code
         rm -rf /application-code/.git
-        cp -r /application-code/.  /application-build-code
-        ls -larth /application-build-code      
+        cp -r /application-code/.  /wordpress-code
+        ls -larth /wordpress-code      
       volumeMounts:
-      - name: application-build-code  
-        mountPath: /application-build-code
-      - name: repo-sshkey
-        mountPath: /repo-sshkey      
+      - name: wordpress-code  
+        mountPath: /wordpress-code
+      - name: wordpress-repo-sshkey
+        mountPath: /wordpress-repo-sshkey   
   - name: on-pass
     metadata:
     container:
@@ -145,5 +154,5 @@ spec:
       - name: restorescript
         mountPath: /restore-snapshot-script
       - name: kubeconfig
-        mountPath: /root/.kube  
+        mountPath: /root/.kube                            
 
