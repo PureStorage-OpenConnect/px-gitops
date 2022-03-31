@@ -23,7 +23,7 @@ spec:
             apiVersion: argoproj.io/v1alpha1
             kind: Workflow
             metadata:          
-              generateName: ci-XX-appName-XX-app-dev-
+              generateName: ci-XX-appName-XX-dev-
               namespace: argo
             spec:
               workflowTemplateRef:
