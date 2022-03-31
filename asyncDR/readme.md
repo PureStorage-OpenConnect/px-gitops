@@ -32,7 +32,7 @@
 		sudo mv storkctl /usr/local/bin
 		sudo chmod +x /usr/local/bin/storkctl
 
-5. **Secret Store :** Make sure you have configured a secret store on both clusters. This will be used to store the credentials for the objectstore. Use following command to verify:
+5. **Secret Store :** Make sure you have configured a secret store on both clusters. This will be used to store the credentials. Use following command to verify:
 
 		kubectl get storageclusters --all-namespaces -o jsonpath='{.items[*].spec.secretsProvider}{"\n"}'
 
@@ -40,10 +40,8 @@
 7. **Default Storage Class**: Make sure you have configured only one default storage class. Having multiple default storage classes will cause PVC migrations to fail. To verify you have only one default class configured run the following command. You should only see one default class in the list:
 	
 		kubectl get sc --kubeconfig=<Enter Path Of your Source Clusters Kubeconfig File>
-	
-		kubectl get sc --kubeconfig=<Enter Path Of your Destination Clusters Kubeconfig File>
-	
 
+		kubectl get sc --kubeconfig=<Enter Path Of your Destination Clusters Kubeconfig File>
 
 ## Steps:
 
