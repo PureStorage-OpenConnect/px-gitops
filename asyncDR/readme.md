@@ -102,6 +102,27 @@ To verify the remote replica run the following command:
 
 	kubectl get all -n <EnterNameSpaceName> --kubeconfig=<Enter Path Of your Destination Clusters Kubeconfig File>
 
+## Commands:
+
+* First clone the remote repo
+
+	git clone < Git repo Url >
+
+* Now from your terminal move to the cloned directory using following:
+
+	cd < cloned directory name >
+	
+* Now add central repository here.
+
+	git remote add central ssh://git@<External-IP>/home/git/repos/<Repo-Name>
+	
+Example:
+ 
+	touch file
+	git add file 
+	git commit -m "fill"
+	git push central
+	
 
 ### 3. Re-Clone the remote replica to get up-to-date data:
 
