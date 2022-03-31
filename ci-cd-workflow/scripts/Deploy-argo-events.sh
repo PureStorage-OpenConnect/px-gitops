@@ -10,13 +10,6 @@ select opt in java  wordpress ; do
   case $opt in
     java)
     echo "                                          "    
-    echo "Enter the workflow template details for java app"
-    echo "Workflow template for dev branch: "
-    read  workflowTemplateDev
-    echo "                                          "
-    echo "Workflow template for master branch: "
-    read workflowTemplateMaster
-    echo "                                          "
     echo "Enter the java application git repo dev branch name and make sure it exit there"
     read devBranch
     cp ../argo-events/git-Hook/post-receive-template ../argo-events/git-Hook/post-receive
@@ -31,8 +24,8 @@ select opt in java  wordpress ; do
     sed -ie "s,XX-branch-name-XX,$devBranch,g"    ../argo-events/manifests/eventsource-service.yaml
     sed -ie "s,XX-eventSource-XX,$opt,g"   ../argo-events/manifests/eventsource-service.yaml
     sed -ie "s,XX-appName-XX,$opt,g"  ../argo-events/manifests/sensor-for-dev-branch.yaml
-    sed -ie "s,XX-Workflow-template-dev-branch-XX,$workflowTemplateDev,g"  ../argo-events/manifests/sensor-for-dev-branch.yaml
-    sed -ie "s,XX-Workflow-template-master-branch-XX,$workflowTemplateMaster,g"  ../argo-events/manifests/sensor-for-master-branch.yaml
+    sed -ie "s,XX-Workflow-template-dev-branch-XX,ci-for-java-app-dev-branch,g"  ../argo-events/manifests/sensor-for-dev-branch.yaml
+    sed -ie "s,XX-Workflow-template-master-branch-XX,ci-for-java-app-master-branch,g"  ../argo-events/manifests/sensor-for-master-branch.yaml
     sed -ie "s,XX-branch-name-XX,$devBranch,g"    ../argo-events/manifests/sensor-for-dev-branch.yaml
     sed -ie "s,XX-webhookName-XX,$opt,g"  ../argo-events/manifests/sensor-for-dev-branch.yaml
     sed -ie "s,XX-appName-XX,$opt,g" ../argo-events/manifests/sensor-for-master-branch.yaml
@@ -47,13 +40,6 @@ select opt in java  wordpress ; do
     ;;
     wordpress)
     echo "                                          "    
-    echo "Enter the workflow template details for wordpress app"
-    echo "Workflow template for dev branch: "
-    read  workflowTemplateDev
-    echo "                                          "
-    echo "Workflow template for master branch: "
-    read workflowTemplateMaster
-    echo "                                          "
     echo "Enter the wordpress application git repo dev branch name and make sure it exit there"
     read devBranch
     cp ../argo-events/git-Hook/post-receive-template ../argo-events/git-Hook/post-receive
@@ -68,8 +54,8 @@ select opt in java  wordpress ; do
     sed -ie "s,XX-branch-name-XX,$devBranch,g"    ../argo-events/manifests/eventsource-service.yaml
     sed -ie "s,XX-eventSource-XX,$opt,g"   ../argo-events/manifests/eventsource-service.yaml
     sed -ie "s,XX-appName-XX,$opt,g"  ../argo-events/manifests/sensor-for-dev-branch.yaml
-    sed -ie "s,XX-Workflow-template-dev-branch-XX,$workflowTemplateDev,g"  ../argo-events/manifests/sensor-for-dev-branch.yaml
-    sed -ie "s,XX-Workflow-template-master-branch-XX,$workflowTemplateMaster,g"  ../argo-events/manifests/sensor-for-master-branch.yaml
+    sed -ie "s,XX-Workflow-template-dev-branch-XX,ci-for-wordpress-app-dev-branch,g"  ../argo-events/manifests/sensor-for-dev-branch.yaml
+    sed -ie "s,XX-Workflow-template-master-branch-XX,ci-for-wordpress-app-master-branch,g"  ../argo-events/manifests/sensor-for-master-branch.yaml
     sed -ie "s,XX-branch-name-XX,$devBranch,g"    ../argo-events/manifests/sensor-for-dev-branch.yaml
     sed -ie "s,XX-webhookName-XX,$opt,g"  ../argo-events/manifests/sensor-for-dev-branch.yaml
     sed -ie "s,XX-appName-XX,$opt,g" ../argo-events/manifests/sensor-for-master-branch.yaml
