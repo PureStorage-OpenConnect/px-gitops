@@ -37,11 +37,12 @@ spec:
         depends: "(wordpress-unit-test.Succeeded)"                         
       - name: wordpress-unit-test
         template: wordpress-unit-test
-        depends: "(px-snapshot-restore.Failed)"        
-      - name: px-snapshot  
+      - name: px-snapshot
+        depends: "(wordpress-unit-test.Succeeded)"   
         template: on-pass   
       - name: px-snapshot-restore
-        template: on-fail                    
+        depends: "(wordpress-unit-test.Failed)"
+        template: on-fail                   
   - name: build-docker-image
     metadata:
     container:
