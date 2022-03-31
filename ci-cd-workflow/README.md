@@ -13,7 +13,7 @@
 ---
 **To start the deployment for the first time**
 
-Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`. Then in your terminal move to the git-scm folder `cd px-gitops/ci-cd-workflow/scripts`.
+Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`. Then in your terminal move to the ci-cd-workflow folder `cd px-gitops/ci-cd-workflow/scripts`.
 
 
 **Step 1:** (Install Prerequisites)
@@ -77,7 +77,7 @@ Before running the script you should have the below details of application Git r
 2) Repo Name
 3) Cluster KubeConfig File Path
 4) Git Repository url
-5) Direct path of manfiest from Git repository
+5) Directory path of manfiest from Git repository
 ```
 ./Add-details.sh
 ```
