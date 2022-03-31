@@ -50,7 +50,7 @@ spec:
       command: [/kaniko/executor]
       args:
         - "--context=dir:///application-dockerfile"
-        - "--destination=sn1-r620-a04-03.puretec.purestorage.com/wordpress/wordpress:{{workflow.name}}"
+        - "--destination=sn1-r620-a04-03.puretec.purestorage.com/puretec-wordpress/wordpress:{{workflow.name}}"
       volumeMounts:
       - name: jfrog-config
         mountPath: /kaniko/.docker/
