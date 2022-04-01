@@ -10,7 +10,7 @@ select opt in java  wordpress ; do
   case $opt in
     java)
     echo "                                          "    
-    echo "Enter the java application git repo dev branch name and make sure it exits there"
+    echo "Enter the java application git repo dev branch name and make sure it exists there"
     read devBranch
     cp ../argo-events/git-Hook/post-receive-template ../argo-events/git-Hook/post-receive
     cp ../argo-events/manifest-template/eventsource-template.yaml      ../argo-events/manifests/eventSource.yaml
@@ -40,7 +40,7 @@ select opt in java  wordpress ; do
     ;;
     wordpress)
     echo "                                          "    
-    echo "Enter the wordpress application git repo dev branch name and make sure it exits there"
+    echo "Enter the wordpress application git repo dev branch name and make sure it exists there"
     read devBranch
     cp ../argo-events/git-Hook/post-receive-template ../argo-events/git-Hook/post-receive
     cp ../argo-events/manifest-template/eventsource-template.yaml      ../argo-events/manifests/eventSource.yaml
