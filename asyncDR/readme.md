@@ -34,7 +34,9 @@
 
 5. **Secret Store :** Make sure you have configured a secret store on both clusters. This will be used to store the credentials. Use following command to verify:
 
-		kubectl get storageclusters --all-namespaces -o jsonpath='{.items[*].spec.secretsProvider}{"\n"}'
+		kubectl get storageclusters --all-namespaces -o jsonpath='{.items[*].spec.secretsProvider}{"\n"}' --kubeconfig=<Enter Path Of your Source Clusters Kubeconfig File>
+
+		kubectl get storageclusters --all-namespaces -o jsonpath='{.items[*].spec.secretsProvider}{"\n"}' --kubeconfig==<Enter Path Of your Destination Clusters Kubeconfig File>
 
 6. **Network Connectivity:** Ports 9001 and 9010 of the destination cluster should be reachable on the source cluster.
 7. **Default Storage Class**: Make sure you have configured only one default storage class. Having multiple default storage classes will cause PVC migrations to fail. To verify you have only one default class configured run the following command. You should only see one default class in the list:
@@ -86,46 +88,63 @@ Here is an example file arter setting up all the variables:
 
 ### 2. Setup AsyncDR and replicate the git repository to the remote cluster.
 
-This script will setup AsyncDR and replicate a repository to the remote cluster. After the repository is replicated, on remote cluster it will create a clone of the replicated repository into a new usable namespace.
+This script will setup AsyncDR and replicate a repository namespace to the remote cluster. After the repository is replicated, on remote cluster it will create a clone of the replicated repository into a new usable namespace.
 
->Note: We are creating the clone because we can not directly use the remote replica. Portworx needs all the PVCs free because it will be syncing data to it as per the schedule policy. So as a workarround we create clone and use that.
+>Note: We are creating the clone because we can not directly use the remote replica. Portworx needs all the PVCs free on destination site because it will be syncing data as per the schedule policy. It remains in standby mode. So as a workarround we create a secondary namespace using the PX-Clone and start the application there.
 
-To find out what namespaces you have you can run the following command
+1st set two separate variables with kube-config files, one for source cluster and one for the destination cluster. We will use this variables to perform checks and getting information from those clusters.
+
+	export KUBE_CONF_SOURCE=<Path to the Source cluster kubeconfig file>
+	export KUBE_CONF_DESTINATON=<Path to the Destination cluster kubeconfig file>
 	
-	kubectl get ns --kubeconfig=<Enter Path Of your Source Clusters Kubeconfig File>
+List the available namespaces on the source and identify the one you want to replicate.
 	
- For example if you want to replicate "springboot-code-main", run the script as follows.
- 
-	./start-async-repl.sh springboot-code-main
-Once completed, you will see a namespace "springboot-code-main-remote". (Note the **'remote'** part in the name. It is same you set as suffix with **PX_DST_NAMESPACE_SUFFIX** variable)
+	kubectl get ns --kubeconfig=${KUBE_CONF_SOURCE}
+	
+Now run the script specifying the desired namespace:
+ 	
+	./start-async-repl.sh <NameSpace you want to replicate>
+
+Once completed, you will see two namespaces on the desitnation cluster. One with the same name as the source and another with a suffix "-remote". Use following command to check:
+	
+	kubectl get ns --kubeconfig=${KUBE_CONF_DESTINATON}
+
+> Note: The suffix **'remote'** is the same you set with the **PX_DST_NAMESPACE_SUFFIX** variable in the variables configuration file.
+
+### 3. Verify and use the remote replica:
+	
 To verify the remote replica run the following command:
+> Note: In following command specify the namespace name with suffix. 
 
-	kubectl get all -n <EnterNameSpaceName> --kubeconfig=<Enter Path Of your Destination Clusters Kubeconfig File>
+	kubectl get all -n <EnterNameSpaceName> --kubeconfig==${KUBE_CONF_DESTINATON}
 
-## Commands:
+* Now clone the remote repo.
 
-* First clone the remote repo
+	> Note: The previous AsyncDR setup script will provide the repo URL on completion:
 
-	git clone < Git repo Url >
+		git clone < Git repo Url >
 
 * Now from your terminal move to the cloned directory using following:
 
-	cd < cloned directory name >
+		cd < cloned directory name >
 	
-* Now add central repository here.
+* Now add central repository here, so you can push the changes to the centeral repo.
 
-	git remote add central ssh://git@<External-IP>/home/git/repos/<Repo-Name>
+		git remote add central ssh://git@<External-IP>/home/git/repos/<Repo-Name>
+
+	> Note: The romote replica is readonly, so you can only clone but can not push back to that.
+
+* Make some changes and push to the central repo: 
+
+		echo "Some new code!" > file
+		git add file 
+		git commit -m "Adding new file."
+		git push central
 	
-Example:
- 
-	touch file
-	git add file 
-	git commit -m "fill"
-	git push central
-	
+### 4. Update the remote replica:
 
-### 3. Re-Clone the remote replica to get up-to-date data:
+The changes in the central location are being synced to the standby namespace at remote site as per the schedule policy. Since we can not directly use that namespace, we will need to update the secondary namespace whenever we need to get up-to-date data using git clone or git pull:
 
-This step is not requred 1st time because it is automated in the previous script, but needs to be run whenever you want the latest data ready in the remote repository to get a pull or clone:
+> Note: This step is not requred 1st time because it is automated in the previous script, but needs to be run whenever you want the latest data ready in the remote repository to get a pull or clone:
 
-	./update.sh springboot-code-main
+	./update.sh <NameSpace name>
