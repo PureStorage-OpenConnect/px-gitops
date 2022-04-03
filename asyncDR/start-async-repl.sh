@@ -207,6 +207,10 @@ printf "Started setting up AsyncDR replication. This may take some time.\n" | te
   vSleepSeconds=15
   printf "Verify if application has been migrated to destination cluster.\n" >> "${PX_LOG_FILE}"
   while (( vChecksDone <= vTotalChecks )); do
+    if (( vChecksDone = 6 )); then
+      printf "Taking really long, please wait till it finishes.\n For debug open another terminal tab and try to describe the migration on source cluster as follows:\n" >> "${PX_LOG_FILE}"
+      printf "kubectl ${PX_KUBECONF_SRC} describe -f ${PX_MIGRATION_SCHEDULE_MANIFEST_FILE} -n ${PX_AsyncDR_CRDs_NAMESPACE}\n" >> "${PX_LOG_FILE}"
+    fi
     vRetVal="$(kubectl ${PX_KUBECONF_SRC} get -f ${PX_MIGRATION_SCHEDULE_MANIFEST_FILE} -n ${PX_AsyncDR_CRDs_NAMESPACE} -o jsonpath='{.status.items.Interval[0].status}' 2>> "${PX_LOG_FILE}" || true)"
     printf "(Check ${vChecksDone}), Current status is '${vRetVal}'\n" >> "${PX_LOG_FILE}"
     if [[ "${vRetVal}" == "Successful" ]]; then
@@ -217,10 +221,6 @@ printf "Started setting up AsyncDR replication. This may take some time.\n" | te
     sleep ${vSleepSeconds}
     fun_progress
   done;
-  if (( vChecksDone = 2 )); then
-    printf "Taking really long, please wait till it finishes.\n For debug open another terminal tab and try to describe the migration on source cluster as follows:\n" >> "${PX_LOG_FILE}"
-    printf "kubectl ${PX_KUBECONF_SRC} describe -f ${PX_MIGRATION_SCHEDULE_MANIFEST_FILE} -n ${PX_AsyncDR_CRDs_NAMESPACE}\n" >> "${PX_LOG_FILE}"
-  fi
   if (( vChecksDone > vTotalChecks )); then
     printf "\nUnable to migrate the application. Try to debug the issue.\nRefer the manifest files saved in: ${PX_DIR_FOR_MANIFEST_FILES}\n\n" | tee -a "${PX_LOG_FILE}"
     exit 1;
