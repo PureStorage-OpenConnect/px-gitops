@@ -137,7 +137,7 @@ select gitoption in Git-server-for-Dockerfiles Git-server-for-application; do
     mkdir -p ./gitserver-sshkey/$namespace && mv id_rsa id_rsa.pub ./gitserver-sshkey/$namespace
     echo "                                                           "
     cp ./scripts/mirror-git-repo-template.sh ./scripts/mirror-git-repo.sh
-    echo "Enter the existing git repo url to want to mirror "
+    echo "Enter the existing git repo url that you want to mirror "
     read url
     #echo "                                                           "
     #echo "Enter the repo name with suffix '.git' from above git repo url you just entered"
