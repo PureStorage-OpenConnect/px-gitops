@@ -37,7 +37,7 @@ printf "\n\n==========================================================\nBEGIN: $
     sleep .2
   }
 
-printf "Started setting up AsyncDR replication. This may take some time.\n" | tee -a "${PX_LOG_FILE}"
+printf "Started setting up AsyncDR and migrating the application. This may take some time depending on the environment.\n" | tee -a "${PX_LOG_FILE}"
 ##Check: command-line parameter must passed.
   printf "Checking: Command-line parameter must passed: " >> "${PX_LOG_FILE}"
   if [[ -z "${1+x}" ]]; then
@@ -207,7 +207,7 @@ printf "Started setting up AsyncDR replication. This may take some time.\n" | te
   vSleepSeconds=15
   printf "Verify if application has been migrated to destination cluster.\n" >> "${PX_LOG_FILE}"
   while (( vChecksDone <= vTotalChecks )); do
-    if (( vChecksDone = 6 )); then
+    if [[ "${vChecksDone}" = "6" ]]; then
       printf "Taking really long, please wait till it finishes.\n For debug open another terminal tab and try to describe the migration on source cluster as follows:\n" >> "${PX_LOG_FILE}"
       printf "kubectl ${PX_KUBECONF_SRC} describe -f ${PX_MIGRATION_SCHEDULE_MANIFEST_FILE} -n ${PX_AsyncDR_CRDs_NAMESPACE}\n" >> "${PX_LOG_FILE}"
     fi
