@@ -97,7 +97,7 @@ printf "Launched repository update (cloning) process. Please wait until it compl
   fun_progress
 
   printf "Generating application clone manifest.\n" >> "${PX_LOG_FILE}"
-  PX_APPLICATION_CLONE_NAME="clone-${PX_SRC_NAMESPACE}-to-${PX_DST_NAMESPACE}"
+  PX_APPLICATION_CLONE_NAME="${PX_SRC_NAMESPACE}-to-${PX_DST_NAMESPACE}-clone"
   PX_APPLICATION_CLONE_NAMESPACE="${PX_AsyncDR_CRDs_NAMESPACE}"
   PX_APPLICATION_CLONE_MANIFEST_FILE="${PX_DIR_FOR_MANIFEST_FILES}/${PX_APPLICATION_CLONE_NAME}.yml";
 
@@ -119,7 +119,7 @@ printf "Launched repository update (cloning) process. Please wait until it compl
 
 ##Check if destination NS is already existing.
   printf "Check: If destination namespace \"${PX_DST_NAMESPACE}\" exists already: " >> "${PX_LOG_FILE}"
-  vRetVal="$(kubectl ${PX_KUBECONF_DST} get namespace ${PX_DST_NAMESPACE} -o jsonpath="{.metadata.name}" 2>> "${PX_LOG_FILE}" || true)"
+  vRetVal="$(kubectl ${PX_KUBECONF_DST} get namespace ${PX_DST_NAMESPACE} -o jsonpath="{.metadata.name}" 2>> /dev/null || true)"
   fun_progress
   if [[ "${vRetVal}" == "${PX_DST_NAMESPACE}" ]]; then
     printf "It is already existing.\n" >> "${PX_LOG_FILE}"
@@ -216,7 +216,6 @@ printf "Launched repository update (cloning) process. Please wait until it compl
   else
     printf "No pod is available, skipping set-permissions.\n" >> "${PX_LOG_FILE}"
   fi
-
 
 ##Delete the application clone CRD.
   printf "Delete the application clone CRD: " >> "${PX_LOG_FILE}"
