@@ -4,4 +4,6 @@ create-branch-using-backup-and-restore/generated-manifests/**
 create-branch**/generated-manifests/**
 autopilot/manifest-files
 autopilot/debug.log
+asyncDR/debug.log
+asyncDR/output/*
 asyncDR/templates/aws-credentials
