@@ -104,6 +104,7 @@ List the available namespaces on the source and identify the one you want to rep
 Now run the script specifying the desired namespace:
  	
 	./start-async-repl.sh <NameSpace you want to replicate>
+> Script will return two git URLs: Central and Remote. Please copy and save, you will need them in next steps.
 
 Once completed, you will see two namespaces on the desitnation cluster. One with the same name as the source and another with a suffix "-remote". Use following command to check:
 	
@@ -116,13 +117,13 @@ Once completed, you will see two namespaces on the desitnation cluster. One with
 To verify the remote replica run the following command:
 > Note: In following command specify the namespace name with suffix. 
 
-	kubectl get all -n <EnterNameSpaceName> --kubeconfig==${KUBE_CONF_DESTINATON}
+	kubectl get all -n <EnterNameSpaceName> --kubeconfig=${KUBE_CONF_DESTINATON}
 
 * Now clone the remote repo.
 
-	> Note: The previous AsyncDR setup script will provide the repo URL on completion:
+	> Note: The previous AsyncDR setup script will provide the repo URL on completion. Find git user password [here](https://github.com/PureStorage-OpenConnect/px-gitops/tree/main/gitscm-server#credentails).
 
-		git clone < Git repo Url >
+		git clone < Remote repository URL >
 
 * Now from your terminal move to the cloned directory using following:
 
@@ -130,7 +131,7 @@ To verify the remote replica run the following command:
 	
 * Now add central repository here, so you can push the changes to the centeral repo.
 
-		git remote add central ssh://git@<External-IP>/home/git/repos/<Repo-Name>
+		git remote add central < Central repository URL >
 
 	> Note: The romote replica is readonly, so you can only clone but can not push back to that.
 
@@ -145,6 +146,13 @@ To verify the remote replica run the following command:
 
 The changes in the central location are being synced to the standby namespace at remote site as per the schedule policy. Since we can not directly use that namespace, we will need to update the secondary namespace whenever we need to get up-to-date data using git clone or git pull:
 
-> Note: This step is not requred 1st time because it is automated in the previous script, but needs to be run whenever you want the latest data ready in the remote repository to get a pull or clone:
+> * This step is not requred 1st time because it is automated in the previous script, but needs to be run whenever you want the latest data ready in the remote repository to get a pull or clone.
+> * Enter namespace name without sufix.
 
 	./update.sh <NameSpace name>
+---
+### Cleanup
+
+You can use the following script to delete all the resources created by scripts in this document. The script will require the namespace name as command-line parameter.
+
+	./cleanup.sh <Namespace name>
