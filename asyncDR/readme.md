@@ -133,7 +133,7 @@ To verify the remote replica run the following command:
 
 		git remote add central < Central repository URL >
 
-	> Note: The romote replica is readonly, so you can only clone but can not push back to that.
+	> Note: The remote replica is read-only, so you can only clone but can not push back to that.
 
 * Make some changes and push to the central repo: 
 
@@ -148,6 +148,8 @@ The changes in the central location are being synced to the standby namespace at
 
 > * This step is not requred 1st time because it is automated in the previous script, but needs to be run whenever you want the latest data ready in the remote repository to get a pull or clone.
 > * Enter namespace name without sufix.
+
+Note: Before running below command make sure your working directory is px-gitops/asyncDR
 
 	./update.sh <NameSpace name>
 ---
