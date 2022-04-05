@@ -58,11 +58,17 @@ printf "Launched repository update (cloning) process. Please wait until it compl
   PX_AsyncDR_CRDs_NAMESPACE="kube-system";
 
 ##Check: kube-config file must exist.
-  printf "Checking: kube-config file must exist: " >> "${PX_LOG_FILE}"
-  if [[ ! -f "${PX_KUBECONF_FILE_DESTINATION_CLUSTER}" ]]; then
-    printf "\nError: Kube-config file for the cluster not found: \"${PX_KUBECONF_FILE_DESTINATION_CLUSTER}\"\nMake sure to correctly set the PX_KUBECONF_FILE_DESTINATION_CLUSTER variable in \"${vCONFIFILE}\" file.\n\n"  | tee -a "${PX_LOG_FILE}"
+  printf "Checking: kube-config files must exist: " >> "${PX_LOG_FILE}"
+  if [[ ! -f "${PX_KUBECONF_FILE_SOURCE_CLUSTER}" ]]; then
+    printf "\nError: Kube-config file for the source cluster not found: \"${PX_KUBECONF_FILE_SOURCE_CLUSTER}\"\nMake sure to correctly set the PX_KUBECONF_FILE_SOURCE_CLUSTER variable in \"${vCONFIFILE}\" file.\n\n"  | tee -a "${PX_LOG_FILE}"
     exit 
   fi
+  if [[ ! -f "${PX_KUBECONF_FILE_DESTINATION_CLUSTER}" ]]; then
+    printf "\nError: Kube-config file for the destination cluster not found: \"${PX_KUBECONF_FILE_DESTINATION_CLUSTER}\"\nMake sure to correctly set the PX_KUBECONF_FILE_DESTINATION_CLUSTER variable in \"${vCONFIFILE}\" file.\n\n"  | tee -a "${PX_LOG_FILE}"
+    exit 
+  fi
+
+  PX_KUBECONF_SRC="--kubeconfig=${PX_KUBECONF_FILE_SOURCE_CLUSTER}";
   PX_KUBECONF_DST="--kubeconfig=${PX_KUBECONF_FILE_DESTINATION_CLUSTER}";
   printf "Successful\n" >> "${PX_LOG_FILE}"
   fun_progress
@@ -130,8 +136,10 @@ printf "Launched repository update (cloning) process. Please wait until it compl
       printf "Scaleing down the replicas to 0 for '${vRetVal}' deployment: " >> "${PX_LOG_FILE}"
       kubectl ${PX_KUBECONF_DST} scale --replicas=0 "${vRetVal}" -n "${PX_DST_NAMESPACE}" >> "${PX_LOG_FILE}" 2>&1
       fun_progress
+      sleep 5;
       printf "Deleting PVCs: " >> "${PX_LOG_FILE}"
       kubectl ${PX_KUBECONF_DST} delete pvc --all  -n "${PX_DST_NAMESPACE}"  >> "${PX_LOG_FILE}" 2>&1
+      sleep 5;
       fun_progress
     else
       printf "It is not a valid git repository. So can not continue.\n" >> "${PX_LOG_FILE}";
@@ -149,12 +157,12 @@ printf "Launched repository update (cloning) process. Please wait until it compl
   fun_progress
 
   vChecksDone=1
-  vTotalChecks=40
-  vSleepSeconds=5
+  vTotalChecks=80
+  vSleepSeconds=10
   printf "Verify if application clone is ready.\n" >> "${PX_LOG_FILE}"
   while (( vChecksDone <= vTotalChecks )); do
     vRetVal="$(kubectl ${PX_KUBECONF_DST} get -f ${PX_APPLICATION_CLONE_MANIFEST_FILE} -n ${PX_AsyncDR_CRDs_NAMESPACE} -o jsonpath='{.status.volumes[0].status}' 2>> "${PX_LOG_FILE}" || true)"
-    printf "(Check ${vChecksDone} of ${vTotalChecks}), Current status is '${vRetVal}'\n" >> "${PX_LOG_FILE}"
+    printf "(Check ${vChecksDone}), Current status is '${vRetVal}'\n" >> "${PX_LOG_FILE}"
     if [[ "${vRetVal}" == "Successful" ]]; then
       printf "Verified: The application clone has been created.\n" >> "${PX_LOG_FILE}"
       break;
@@ -217,8 +225,26 @@ printf "Launched repository update (cloning) process. Please wait until it compl
   printf "\n";
   printf "Successfully completed. Repository is ready to use in ${PX_DST_NAMESPACE} namespace.\n\n" | tee -a "${PX_LOG_FILE}"
 
-##Show git repo end-point 
-  printf "Preparing git repo end point.\n" >> "${PX_LOG_FILE}"
+##Show central repo URL 
+  printf "Preparing central git repo URL.\n" >> "${PX_LOG_FILE}"
+  printf "Getting service IP: " >> "${PX_LOG_FILE}"
+  PX_SVC_IP="$(kubectl "${PX_KUBECONF_SRC}" get service git-server-service -n ${PX_SRC_NAMESPACE} -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2> /dev/null || true)"
+
+  if [[ "${PX_SVC_IP}" != "" ]]; then
+    printf "Service IP: ${PX_SVC_IP}\n" >> "${PX_LOG_FILE}"
+    printf "Check if git repository path is available: " >> "${PX_LOG_FILE}"
+    if [[ "${PX_REPO_PATH}" != "" ]]; then
+      PX_REPO_END_POINT="ssh://git@${PX_SVC_IP}/home/git/repos/${PX_REPO_PATH}"
+      printf "Central repository URL: ${PX_REPO_END_POINT}\n" | tee -a "${PX_LOG_FILE}"
+    else
+      printf "Unable to find repository path.\n" >> "${PX_LOG_FILE}"
+    fi
+  else
+    printf "Unable to find service IP.\n" >> "${PX_LOG_FILE}"
+  fi
+
+##Show remote repo URL 
+  printf "Preparing remote git repo URL.\n" >> "${PX_LOG_FILE}"
   printf "Getting service IP: " >> "${PX_LOG_FILE}"
   PX_SVC_IP="$(kubectl "${PX_KUBECONF_DST}" get service git-server-service -n ${PX_DST_NAMESPACE} -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2> /dev/null || true)"
 
@@ -227,7 +253,7 @@ printf "Launched repository update (cloning) process. Please wait until it compl
     printf "Check if git repository path is available: " >> "${PX_LOG_FILE}"
     if [[ "${PX_REPO_PATH}" != "" ]]; then
       PX_REPO_END_POINT="ssh://git@${PX_SVC_IP}/home/git/repos/${PX_REPO_PATH}"
-      printf "Here is the git repository endpoint: ${PX_REPO_END_POINT}\n\n" | tee -a "${PX_LOG_FILE}"
+      printf "Remote repository URL: ${PX_REPO_END_POINT}\n\n" | tee -a "${PX_LOG_FILE}"
     else
       printf "Unable to find repository path.\n" >> "${PX_LOG_FILE}"
     fi
