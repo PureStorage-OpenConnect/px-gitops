@@ -137,7 +137,7 @@ To verify the remote replica run the following command:
 
 * Make some changes and push to the central repo: 
 
-		echo "Some new code!" > file
+		echo "Some new code" > file
 		git add file 
 		git commit -m "Adding new file."
 		git push central
