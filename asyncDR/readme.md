@@ -164,4 +164,6 @@ Note: Before running below command make sure your working directory is px-gitops
 
 You can use the following script to delete all the resources created by scripts in this document. The script will require the namespace name as command-line parameter.
 
+> Enter namespace name without sufix.
+
 	./cleanup.sh <Namespace name>
