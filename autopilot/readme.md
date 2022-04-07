@@ -76,7 +76,9 @@ Use following command to verify the rule:
 
 		./workload.sh ${NS_NAME} 6
 
-	Once done you will see the latest volume stats.
+	Once done the script will show the latest volume stats.
+
+	> This script will create data files in the pod at /home/git/repos/[repo-name]/data-file-[time-stamp] for the demo purpose. You can delete them by login to your git server pod if you want.
 
 - Now check the new size of the PVC:
 
