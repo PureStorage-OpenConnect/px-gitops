@@ -121,13 +121,15 @@ To verify the remote replica run the following command:
 
 * Now clone the remote repo.
 
-	> Note: The previous AsyncDR setup script will provide the repo URL on completion. Find git user password [here](https://github.com/PureStorage-OpenConnect/px-gitops/tree/main/gitscm-server#credentails).
+	> Note: The previous AsyncDR setup script will provide the two repo URL(central and remote) on completion. Find git user password [here](https://github.com/PureStorage-OpenConnect/px-gitops/tree/main/gitscm-server#credentails).
+	
+	> Now clone the both repo's and make sure you clone both in different directory, Because both repo's will have same name and we cannot clone to same directory.
 
-		git clone < Remote repository URL >
+		git clone < repository URL >
 
-* Now from your terminal move to the cloned directory using following:
+* Now from your terminal move to the remote repo cloned directory using following:
 
-		cd < cloned directory name >
+		cd < remote cloned directory name >
 	
 * Now add central repository here, so you can push the changes to the centeral repo.
 
@@ -142,6 +144,11 @@ To verify the remote replica run the following command:
 		git commit -m "Adding new file."
 		git push central
 	
+* Now to check new changes pushed to central repository or not, first **move** to the central cloned directory from terminal and then do **git pull** using following.
+
+		cd < central cloned directory name >
+		git pull origin 
+		
 ### 4. Update the remote replica:
 
 The changes in the central location are being synced to the standby namespace at remote site as per the schedule policy. Since we can not directly use that namespace, we will need to update the secondary namespace whenever we need to get up-to-date data using git clone or git pull:
