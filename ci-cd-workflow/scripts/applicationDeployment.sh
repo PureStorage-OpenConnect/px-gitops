@@ -50,8 +50,6 @@ source ${vCONFIGFILE}
 PodName="$(kubectl --kubeconfig=$PX_Application_MainBranch_KUBECONF_PATH get all -n $PX_Application_MainBranch_Namespace | awk 'FNR == 2 {print$1}' | cut -d"/" -f2)"
 EXTERNALIP="$(kubectl --kubeconfig=$PX_Application_MainBranch_KUBECONF_PATH get all -n $PX_Application_MainBranch_Namespace | grep  -A1 "EXTERNAL-IP" | awk 'FNR == 2 {print$4}')"
 REPONAME="$(kubectl --kubeconfig=$PX_Application_MainBranch_KUBECONF_PATH describe pods $PodName -n $PX_Application_MainBranch_Namespace | grep -A1 'Mounts:' | awk 'FNR == 2 {print}' | cut -d"/" -f5 | awk '{print $1}')"
-echo $EXTERNALIP
-echo $REPONAME
 gitRepoUrl="ssh://git@$EXTERNALIP/home/git/repos/$REPONAME"
 sed -ie "s,XX-url-XX,$gitRepoUrl,g" ../argocd/manifests/application-deployment.yaml
 sed -ie "s,XX-path-XX,manifest/overlays/development,g" ../argocd/manifests/application-deployment.yaml
