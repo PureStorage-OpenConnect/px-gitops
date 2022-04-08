@@ -9,8 +9,8 @@ cp ../argo-worflow/wordpress-app/px-snaphshot-restore-script-template/px-restore
 cp ../argo-worflow/wordpress-app/px-snaphshot-restore-script-template/create-snapshot.sh   ../argo-worflow/wordpress-app/px-snaphost-restore-script/create-snapshot.sh
 cp ../argo-worflow/wordpress-app/px-snaphshot-restore-script-template/restore-snapshot.sh  ../argo-worflow/wordpress-app/px-snaphost-restore-script/restore-snapshot.sh
 cp ../argo-worflow/wordpress-app/px-snaphshot-restore-script-template/px-snapshot.yaml  ../argo-worflow/wordpress-app/px-snaphost-restore-script/px-snapshot.yaml
-cp ../argo-worflow/wordpress-app/workflow-templates/clusterworkflowtemplate-for-dev-temporaryfile.yaml   ../argo-worflow/wordpress-app/workflow-manifests/clusterworkflowtemplate-for-dev.yaml
-cp ../argo-worflow/wordpress-app/workflow-templates/clusterworkflowtemplate-for-master-temporaryfile.yaml   ../argo-worflow/wordpress-app/workflow-manifests/clusterworkflowtemplate-for-master.yaml
+cp ../argo-worflow/wordpress-app/workflow-templates/clusterworkflowtemplate-for-dev.yaml   ../argo-worflow/wordpress-app/workflow-manifests/clusterworkflowtemplate-for-dev.yaml
+cp ../argo-worflow/wordpress-app/workflow-templates/clusterworkflowtemplate-for-master.yaml   ../argo-worflow/wordpress-app/workflow-manifests/clusterworkflowtemplate-for-master.yaml
 
 
 vCONFIGFILE=../setup-vars/setup-vars
