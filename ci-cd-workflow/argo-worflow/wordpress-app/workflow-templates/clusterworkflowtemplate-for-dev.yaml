@@ -18,7 +18,7 @@ spec:
   - name: wordpress-code
   - name: kubeconfig
     secret:
-      secretName: dev-branch-cluster-kube-config  
+      secretName: wordpress-dev-branch-cluster-kube-config  
   - name: wordpress-repo-sshkey
     secret:
       secretName: wordpress-repo-sshkey    
