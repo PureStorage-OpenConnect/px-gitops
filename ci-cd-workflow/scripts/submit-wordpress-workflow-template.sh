@@ -88,7 +88,7 @@ sed -ie "s,XX-EXTERNALIP-XX,$DevEXTERNALIP,g" ../argo-worflow/wordpress-app/work
 sed -ie "s,XX-EXTERNALIP-XX,$MasterEXTERNALIP,g" ../argo-worflow/wordpress-app/workflow-manifests/clusterworkflowtemplate-for-master.yaml
 sed -ie "s,XX-RepoName-XX,$REPONAME,g" ../argo-worflow/wordpress-app/workflow-manifests/clusterworkflowtemplate-for-dev.yaml
 sed -ie "s,XX-RepoName-XX,$REPONAME,g" ../argo-worflow/wordpress-app/workflow-manifests/clusterworkflowtemplate-for-master.yaml
-sleep 20
+sleep 2
 echo "Creating kubernetes px snapshot script secret for dev branch  "
 kubectl create secret generic wordpress-snapshot-script-dev-branch --from-file=../argo-worflow/wordpress-app/px-snaphost-restore-script/px-snapshot.yaml  --from-file=../argo-worflow/wordpress-app/px-snaphost-restore-script/create-snapshot.sh -n argo
 sleep 2
