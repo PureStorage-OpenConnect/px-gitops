@@ -2,9 +2,9 @@ apiVersion: volumesnapshot.external-storage.k8s.io/v1
 kind: VolumeSnapshot
 metadata:
   name: wordpress-app-snapshot-XX-backupname-XX
-  namespace: wordpress-main
+  namespace: wordpress-dev
   labels:
     name: snapshot-of-wordpress-app
 spec:
-  persistentVolumeClaimName: git-repo-wordpress-main
+  persistentVolumeClaimName: git-repo-wordpress-repo
 
