@@ -10,13 +10,12 @@ IFS='/' read -ra REF <<< "${ref[2]}"
 branch="${REF[2]}"
 
 if [ "master" == "$branch" ]; then
+  Commit="build:"
+  LatestCommit="$(git log -1 --stat | awk 'FNR==5{print $1}')"
+  if [ "$Commit" == "$LatestCommit" ]; then
+  echo "new build"
+  else
   echo 'master was pushed'
   curl -d '{"message":"ci pipeline"}' -H "Content-Type: application/json" -X POST XX-externalIP-XX:13000/master
+  fi  
 fi
-
-if [ "dev-01" == "$branch" ]; then
-  echo 'dev-01 was pushed'
-  curl -d '{"message":"ci pipeline"}' -H "Content-Type: application/json" -X POST XX-externalIP-XX:12000/dev-01
-fi
-
-echo "done"
