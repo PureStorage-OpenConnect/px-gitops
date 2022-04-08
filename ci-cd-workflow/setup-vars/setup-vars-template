@@ -4,4 +4,5 @@
   PX_Application_DevBranch_KUBECONF_PATH="XX-DevBranch_KUBECONF_PATH-XX"
   Wordpress_Docker_Image_Main_Branch="bikashrc25/wordpress-main"
   Wordpress_Docker_Image_Dev_Branch="bikashrc25/wordpress-dev"
-  Java_Docker_Image=""  
+  Java_Docker_Image_Main_Branch="sn1-r620-a04-03.puretec.purestorage.com/springboot/springboot-master" 
+  Java_Docker_Image_Main_Branch="sn1-r620-a04-03.puretec.purestorage.com/springboot/springboot-dev"  
