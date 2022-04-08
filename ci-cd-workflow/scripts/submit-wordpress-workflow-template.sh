@@ -46,7 +46,7 @@ sleep 2
 echo "                                           "
 cat $PX_Application_MainBranch_KUBECONF_PATH > config
 echo "Creating kubernetes secret for application git repo cluster kubeconfig. "
-kubectl create secret generic master-branch-cluster-kube-config --from-file=config -n argo
+kubectl create secret generic wordpress-master-branch-cluster-kube-config --from-file=config -n argo
 sleep 2
 echo "                                                    "
 mkdir -p $PX_Application_MainBranch_Namespace
@@ -98,7 +98,7 @@ echo "Creating kubernetes px restore snapshot script secret for dev branch "
 kubectl create secret generic wordpress-restore-snapshot-script-dev-branch  --from-file=../argo-worflow/wordpress-app/px-snaphost-restore-script/px-restore-snapshot.yaml  --from-file=../argo-worflow/wordpress-app/px-snaphost-restore-script/restore-snapshot.sh -n argo
 sleep 2
 echo "                                           "
-kubectl create secret generic dev-branch-cluster-kube-config --from-file=config -n argo
+kubectl create secret generic wordpress-dev-branch-cluster-kube-config --from-file=config -n argo
 
     countYaml=`ls -1 ../argo-worflow/wordpress-app/px-snaphost-restore-script/*.yamle 2>/dev/null | wc -l`
     countScripts=`ls -1 ../argo-worflow/wordpress-app/px-snaphost-restore-script/*.she 2>/dev/null | wc -l`
