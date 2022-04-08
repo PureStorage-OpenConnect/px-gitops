@@ -19,3 +19,11 @@ sleep 5
 kubectl apply  -n argo-events -f https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml &&
 sleep 5
 kubectl apply -n argo-events -f https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/eventbus/native.yaml
+if (kubectl get sc | grep px-file-sc  && kubectl get sc | grep px-db-sc ) 2>&1 >/dev/null
+    then 
+    echo "                 "
+    else
+    echo "                 "
+    echo "No storage class was found. Created new storage class for git server."
+    kubectl apply -f ../storage-class-manifests/storage-classes.yml
+fi
