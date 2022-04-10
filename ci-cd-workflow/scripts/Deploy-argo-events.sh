@@ -12,28 +12,31 @@ select opt in java  wordpress ; do
   case $opt in
     java)
     echo "                                          "    
-    echo "Enter the java application git repo dev branch name and make sure it exists there"
-    read devBranch
+    source ${vCONFIGFILE}
+    DevRepoPodName="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH get all -n $PX_Application_DevBranch_Namespace | awk 'FNR == 2 {print$1}' | cut -d"/" -f2)"
+    REPONAME="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH describe pods $DevRepoPodName -n $PX_Application_DevBranch_Namespace | grep -A1 'Mounts:' | awk 'FNR == 2 {print}' | cut -d"/" -f5 | awk '{print $1}')"
+    DevBranchName="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH exec $DevRepoPodName -n $PX_Application_DevBranch_Namespace -- /bin/bash -c "cd /home/git/repos/$REPONAME && git branch | awk 'FNR == 1 {print$1}' | cut -d '*' -f2")"
+    GetBranchWithoutSpace="$(echo "$DevBranchName" | sed 's/ //g')"
+    cp ../argo-events/manifest-template/eventsource-template.yaml      ../argo-events/manifests/eventSource.yaml
     cp ../argo-events/git-Hook/post-receive-template-dev-branch ../argo-events/git-Hook/dev-branch/post-receive
     cp ../argo-events/git-Hook/post-receive-template-master-branch ../argo-events/git-Hook/master-branch/post-receive
-    cp ../argo-events/manifest-template/eventsource-template.yaml      ../argo-events/manifests/eventSource.yaml
     cp ../argo-events/manifest-template/eventsource-service-template.yaml   ../argo-events/manifests/eventsource-service.yaml
     cp ../argo-events/manifest-template/sensor-template-dev-branch.yaml     ../argo-events/manifests/sensor-for-dev-branch.yaml
     cp ../argo-events/manifest-template/sensor-template-master-branch.yaml  ../argo-events/manifests/sensor-for-master-branch.yaml
-    sed -ie "s,XX-branch-name-XX,$DevBranchName,g"  ../argo-events/git-Hook/dev-branch/post-receive
+    sed -ie "s,XX-branch-name-XX,$GetBranchWithoutSpace,g"  ../argo-events/git-Hook/dev-branch/post-receive
     sed -ie "s,XX-webhookName-XX,$opt,g" ../argo-events/manifests/eventSource.yaml
-    sed -ie "s,XX-branch-name-XX,$DevBranchName,g"  ../argo-events/manifests/eventSource.yaml
+    sed -ie "s,XX-branch-name-XX,$GetBranchWithoutSpace,g"    ../argo-events/manifests/eventSource.yaml
     sed -ie "s,XX-serviceName-XX,$opt,g"   ../argo-events/manifests/eventsource-service.yaml
-    sed -ie "s,XX-branch-name-XX,$DevBranchName,g"    ../argo-events/manifests/eventsource-service.yaml
+    sed -ie "s,XX-branch-name-XX,$GetBranchWithoutSpace,g"    ../argo-events/manifests/eventsource-service.yaml
     sed -ie "s,XX-eventSource-XX,$opt,g"   ../argo-events/manifests/eventsource-service.yaml
     sed -ie "s,XX-appName-XX,$opt,g"  ../argo-events/manifests/sensor-for-dev-branch.yaml
     sed -ie "s,XX-Workflow-template-dev-branch-XX,ci-for-java-app-dev-branch,g"  ../argo-events/manifests/sensor-for-dev-branch.yaml
     sed -ie "s,XX-Workflow-template-master-branch-XX,ci-for-java-app-master-branch,g"  ../argo-events/manifests/sensor-for-master-branch.yaml
-    sed -ie "s,XX-branch-name-XX,$DevBranchName,g"    ../argo-events/manifests/sensor-for-dev-branch.yaml
+    sed -ie "s,XX-branch-name-XX,$GetBranchWithoutSpace,g"    ../argo-events/manifests/sensor-for-dev-branch.yaml
     sed -ie "s,XX-webhookName-XX,$opt,g"  ../argo-events/manifests/sensor-for-dev-branch.yaml
     sed -ie "s,XX-appName-XX,$opt,g" ../argo-events/manifests/sensor-for-master-branch.yaml
     sed -ie "s,XX-webhookName-XX,$opt,g"  ../argo-events/manifests/sensor-for-master-branch.yaml
-    sleep 1
+    sed -ie "s,XX-webhookName-XX,$opt,g" 
     countsetupVars=`ls -1 ../argo-events/manifests/*.yamle 2>/dev/null | wc -l`
     if [ $countsetupVars != 0 ]
     then 
@@ -112,34 +115,4 @@ DevRepoPodName="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH g
 kubectl cp ../argo-events/git-Hook/dev-branch/post-receive  $PX_Application_DevBranch_Namespace/$DevRepoPodName:/home/git/repos/$REPONAME/hooks &&
 sleep 3
 kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH exec --stdin --tty $DevRepoPodName -n $PX_Application_DevBranch_Namespace -- /bin/bash -c "chmod 777 /home/git/repos/$REPONAME/hooks/post-receive && chown -R git:git /home/git/repos/$REPONAME/hooks/post-receive"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#source ../setup-vars/setup-vars
-#export KUBECONFIG=$ClusterKubeConfigFile
-#Vpodname="$(kubectl get pod -n $gitRepoNamespace | awk 'FNR==2{print $1}')"
-#echo $Vpodname
-#kubectl cp ./git-Hook/post-receive $gitRepoNamespace/$Vpodname:/home/git/repos/$gitRepoName/hooks && 
-#kubectl exec --stdin --tty $Vpodname -n $gitRepoNamespace -- /bin/bash -c "chmod 777 /home/git/repos/$gitRepoName/hooks/post-receive"
 
