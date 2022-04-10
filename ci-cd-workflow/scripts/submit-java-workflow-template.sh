@@ -86,8 +86,8 @@ sed -ie "s,XX-namespace-XX,$PX_Application_DevBranch_Namespace,g"  ../argo-worfl
 sed -ie "s,XX-namespace-XX,$PX_Application_DevBranch_Namespace,g" ../argo-worflow/java-app/px-snaphost-restore-script/restore-snapshot.sh
 sed -ie "s,XX-namespace-XX,$PX_Application_DevBranch_Namespace,g" ../argo-worflow/java-app/px-snaphost-restore-script/px-snapshot.yaml
 
-sed -ie "s,XX-java_Docker_Image-XX,$java_Docker_Image_Dev_Branch,g" ../argo-worflow/java-app/workflow-manifests/clusterworkflowtemplate-for-dev.yaml
-sed -ie "s,XX-java_Docker_Image-XX,$java_Docker_Image_Main_Branch,g" ../argo-worflow/java-app/workflow-manifests/clusterworkflowtemplate-for-master.yaml
+sed -ie "s,XX-java_Docker_Image-XX,$Java_Docker_Image_Dev_Branch,g" ../argo-worflow/java-app/workflow-manifests/clusterworkflowtemplate-for-dev.yaml
+sed -ie "s,XX-java_Docker_Image-XX,$Java_Docker_Image_Main_Branch,g" ../argo-worflow/java-app/workflow-manifests/clusterworkflowtemplate-for-master.yaml
 sed -ie "s,XX-PX_Application_DevBranch-XX,$DevBranchName,g" ../argo-worflow/java-app/workflow-manifests/clusterworkflowtemplate-for-dev.yaml
 sed -ie "s,XX-EXTERNALIP-XX,$DevEXTERNALIP,g" ../argo-worflow/java-app/workflow-manifests/clusterworkflowtemplate-for-dev.yaml
 sed -ie "s,XX-EXTERNALIP-XX,$MasterEXTERNALIP,g" ../argo-worflow/java-app/workflow-manifests/clusterworkflowtemplate-for-master.yaml
