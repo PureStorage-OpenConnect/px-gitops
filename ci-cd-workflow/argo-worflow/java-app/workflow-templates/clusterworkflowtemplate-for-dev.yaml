@@ -16,16 +16,16 @@ spec:
   - name: application-dockefile
   - name: kubeconfig
     secret:
-      secretName: kubernetes-kube-config  
+      secretName: master-branch-cluster-kube-config  
   - name: repo-sshkey
     secret:
-      secretName: repo-sshkey    
+      secretName: java-repo-sshkey   
   - name: snapshot
     secret:
-      secretName: snapshot-script
+      secretName: java-snapshot-script-dev-branch
   - name: restorescript
     secret:
-      secretName: restore-snapshot-script           
+      secretName: java-restore-snapshot-script-dev-branch         
   templates:
   - name: ci-pipeline-to-automate-build-and-namespace-backup
     dag:
@@ -48,7 +48,7 @@ spec:
       command: [/kaniko/executor]
       args:
         - "--context=dir:///application-dockerfile"
-        - "--destination=sn1-r620-a04-03.puretec.purestorage.com/springboot/maven-master:{{workflow.name}}"
+        - "--destination=XX-java_Docker_Image-XX:{{workflow.name}}"
       volumeMounts:
       - name: jfrog-config
         mountPath: /kaniko/.docker/
@@ -65,7 +65,7 @@ spec:
         cp /repo-sshkey/id_rsa /root/.ssh
         chmod -R 600 /root/.ssh
         ls -lrth /root/.ssh
-        git clone --branch dev ssh://git@10.21.236.110:31173/home/git/repos/springboot-app --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
+        git clone --branch XX-PX_Application_DevBranch-XX ssh://git@XX-EXTERNALIP-XX/home/git/repos/XX-RepoName-XX --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
         ls -larth /dockerfile
         rm -rf /dockerfile/.git
         cp -r /dockerfile/. /application-dockerfile
@@ -84,8 +84,7 @@ spec:
       - |
         set -e 
         set -o pipefail
-        cd /application-build-code
-        ls /application-build-code
+        cd /application-build-code/code
         curl -fL https://getcli.jfrog.io | sh
         ./jfrog config add artifactory-server --artifactory-url=https://sn1-r620-a04-03.puretec.purestorage.com/artifactory --user=admin --password=Purestorage123 --interactive=false
         ./jfrog rt ping
@@ -110,7 +109,7 @@ spec:
         cp /repo-sshkey/id_rsa /root/.ssh
         chmod -R 600 /root/.ssh
         ls -lrth /root/.ssh
-        git clone --branch dev ssh://git@10.21.236.110:31173/home/git/repos/springboot-app --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
+        git clone --branch XX-PX_Application_DevBranch-XX ssh://git@XX-EXTERNALIP-XX/home/git/repos/XX-RepoName-XX --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
         ls -larth /application-code
         rm -rf /application-code/.git
         cp -r /application-code/.  /application-build-code
