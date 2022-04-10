@@ -2,9 +2,9 @@ apiVersion: volumesnapshot.external-storage.k8s.io/v1
 kind: VolumeSnapshot
 metadata:
   name: java-app-snapshot-XX-backupname-XX
-  namespace: springboot-dev
+  namespace: XX-namespace-XX
   labels:
     name: snapshot-of-java-app
 spec:
-  persistentVolumeClaimName: git-repo-springboot-repo
+  persistentVolumeClaimName: git-repo-XX-repo-XX
 

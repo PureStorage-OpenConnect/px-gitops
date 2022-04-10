@@ -8,11 +8,11 @@ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https:/
 apt-get update
 apt-get install -y kubectl
 cp /restore-snapshot-script/px-restore-snapshot.yaml /tmp/px-restore-snapshot-tmp.yaml
-Noresource="No resources found in springboot-dev namespace."
-getSnapshotRestore="$(kubectl get VolumeSnapshotRestore -n springboot-dev 2>&1)"
+Noresource="No resources found in XX-namespace-XX namespace."
+getSnapshotRestore="$(kubectl get VolumeSnapshotRestore -n XX-namespace-XX 2>&1)"
 if [[ "$Noresource" == "$getSnapshotRestore" ]]; then
     sed -i "s,XX-restorename-XX,1,g" /tmp/px-restore-snapshot-tmp.yaml
-    vSNAPSHOT="$(kubectl get VolumeSnapshot -n springboot-dev -l=name=snapshot-of-java-app --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1:].metadata.name}')"
+    vSNAPSHOT="$(kubectl get VolumeSnapshot -n XX-namespace-XX -l=name=snapshot-of-java-app --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1:].metadata.name}')"
     echo $vSNAPSHOT
     sed -i "s,XX-snapshot-name-XX,$vSNAPSHOT,g" /tmp/px-restore-snapshot-tmp.yaml
     cat /tmp/px-restore-snapshot-tmp.yaml
@@ -20,13 +20,13 @@ if [[ "$Noresource" == "$getSnapshotRestore" ]]; then
     sleep 5
     kubectl describe -f /tmp/px-restore-snapshot-tmp.yaml
 else
-    vSnapshotRestore="$(kubectl get VolumeSnapshotRestore -n springboot-dev -l=name=restore-of-java-app  --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1:].metadata.name}')"
+    vSnapshotRestore="$(kubectl get VolumeSnapshotRestore -n XX-namespace-XX -l=name=restore-of-java-app  --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1:].metadata.name}')"
     SnapshotRestoreID="$(echo $vSnapshotRestore | cut -d"-" -f4)"
     echo $SnapshotRestoreID;
     NewID="$(expr $SnapshotRestoreID + 1)"
     echo $NewID
     sed -i "s,XX-restorename-XX,$NewID,g" /tmp/px-restore-snapshot-tmp.yaml
-    vSNAPSHOT="$(kubectl get VolumeSnapshot -n springboot-dev -l=name=snapshot-of-java-app --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1:].metadata.name}')"
+    vSNAPSHOT="$(kubectl get VolumeSnapshot -n XX-namespace-XX -l=name=snapshot-of-java-app --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1:].metadata.name}')"
     echo $vSNAPSHOT
     sed -i "s,XX-snapshot-name-XX,$vSNAPSHOT,g" /tmp/px-restore-snapshot-tmp.yaml
     cat /tmp/px-restore-snapshot-tmp.yaml

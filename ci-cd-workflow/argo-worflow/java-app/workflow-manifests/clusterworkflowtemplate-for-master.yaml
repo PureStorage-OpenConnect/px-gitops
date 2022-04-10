@@ -48,7 +48,7 @@ spec:
       command: [/kaniko/executor]
       args:
         - "--context=dir:///application-dockerfile"
-        - "--destination=XX-java_Docker_Image-XX:{{workflow.name}}"
+        - "--destination=sn1-r620-a04-03.puretec.purestorage.com/springboot/springboot-master:{{workflow.name}}"
       volumeMounts:
       - name: jfrog-config
         mountPath: /kaniko/.docker/
@@ -65,7 +65,7 @@ spec:
         cp /repo-sshkey/id_rsa /root/.ssh
         chmod -R 600 /root/.ssh
         ls -lrth /root/.ssh
-        git clone ssh://git@XX-EXTERNALIP-XX/home/git/repos/XX-RepoName-XX --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
+        git clone ssh://git@10.21.152.147/home/git/repos/springboot-repo --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
         ls -larth /dockerfile
         rm -rf /dockerfile/.git
         cp -r /dockerfile/. /application-dockerfile
@@ -109,7 +109,7 @@ spec:
         cp /repo-sshkey/id_rsa /root/.ssh
         chmod -R 600 /root/.ssh
         ls -lrth /root/.ssh
-        git clone ssh://git@XX-EXTERNALIP-XX/home/git/repos/XX-RepoName-XX --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
+        git clone ssh://git@10.21.152.147/home/git/repos/springboot-repo --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
         ls -larth /application-code
         rm -rf /application-code/.git
         cp -r /application-code/.  /application-build-code
