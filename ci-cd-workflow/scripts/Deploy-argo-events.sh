@@ -36,7 +36,6 @@ select opt in java  wordpress ; do
     sed -ie "s,XX-webhookName-XX,$opt,g"  ../argo-events/manifests/sensor-for-dev-branch.yaml
     sed -ie "s,XX-appName-XX,$opt,g" ../argo-events/manifests/sensor-for-master-branch.yaml
     sed -ie "s,XX-webhookName-XX,$opt,g"  ../argo-events/manifests/sensor-for-master-branch.yaml
-    sed -ie "s,XX-webhookName-XX,$opt,g" 
     countsetupVars=`ls -1 ../argo-events/manifests/*.yamle 2>/dev/null | wc -l`
     if [ $countsetupVars != 0 ]
     then 
