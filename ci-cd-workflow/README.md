@@ -67,7 +67,7 @@ Before running the script you should have the below details of application Git r
 4) Kubeconfig path of dev branch repository
 
 ```
-./Add-details.sh
+./add-details.sh
 ```
 ---
 
@@ -203,7 +203,7 @@ First change directory to **argo-workflow**, now you can see two application dir
 
 **Step: 5**
 
-**Deploy Argo-events**
+**Deploy Event-Source**
 
 **Summary**
 
@@ -239,5 +239,5 @@ With combination of both Argo-events and Argo-worflows we have a fully operation
 **Run below script to deploy Argo-events**
 
 ```
-./Deploy-argo-events.sh
+./deploy-event-source.sh
 ```
