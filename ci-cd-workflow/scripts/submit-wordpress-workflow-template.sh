@@ -14,10 +14,15 @@ cp ../argo-worflow/wordpress-app/workflow-templates/clusterworkflowtemplate-for-
 
 
 vCONFIGFILE=../setup-vars/setup-vars
+if (kubectl get secret -n argo | grep jfrog-config ) 2>&1 >/dev/null
+then
+echo "                                            "
+else
 echo "Creating kubernetes secret for jfrog credentials in argo namespace"
 kubectl create secret generic jfrog-config -n argo \
     --from-file=.dockerconfigjson=../config.json \
     --type=kubernetes.io/dockerconfigjson
+fi
 sleep 2
 echo "                                                    "           
 #Fetching main repositoey details
