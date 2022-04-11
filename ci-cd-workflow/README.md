@@ -18,9 +18,9 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
 
 **Step 1:** (Install Prerequisites)
 
-**Install Argocd**
+**Install Argocd, Argo-workflows and Argo-events**
 ```
-./installArgocd.sh
+./install-Argo-applications.sh
 ```
 * Run the following command to check the status of argocd
 
@@ -36,26 +36,14 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
    
    > kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo 
    
-   
-**Install Argoworkflow**
-
-```
-./installArgoWorkflow.sh
-```
-
+  
 * Run the following command to check the status of argo and the public URL for the Argo server UI.
 
    > kubectl get all -n argo
 
 * The public URL will be returned by this command in the EXTERNAL-IP column.
+
 * Now open a browser and navigate to: https://{YOUR_EXTERNAL_IP}:2746
-
-
-
-**Install Argo-events**
-```
-./install-ArgoEvents.sh
-```
 
 * Run the following command to check the status of argo-events
 
@@ -73,11 +61,11 @@ Add details of application code and manifest
 
 Before running the script you should have the below details of application Git repo with you:
 
-1) Repository Namespace
-2) Repo Name
-3) Cluster KubeConfig File Path
-4) Git Repository url
-5) Directory path of manfiest from Git repository
+1) Namespace of main branch repository
+2) Kubeconfig path of main branch repository
+3) Namespace of dev branch repository
+4) Kubeconfig path of dev branch repository
+
 ```
 ./Add-details.sh
 ```
