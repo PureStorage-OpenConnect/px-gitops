@@ -1,178 +1,180 @@
 
 # Remote Site Collaboration using AsyncDR Replication
+
+This document will help you to setup AsyncDR and replicate a git repository (namespace) to a remote cluster. In this setup you will need two Portworx clusters accessible using kubectl. One will be your source cluster and another will be destination (remote cluster). Once the repository is replicated to the destination cluster, a clone of the replica namespace will be created as a new namespace.
+
+>Note: We are creating the clone because we can not directly use the remote replica. It remains in the standby state. Portworx needs all the PVCs free on destination site because it will be syncing data as per the schedule policy. So as a workarround we create a secondary namespace using the PX-Clone to make the repository accessible.
+
 ## Prerequisites:
 
-1. **kubectl (v1.23.4 or later):** You can follow these steps to install kubectl as per you operating environment:
-
-	Use following command to check:
-		
-		kubectl version --client
-
-	If it is not installed use following commands to install:
-	
-	**Linux:**
-	
-		curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-		sudo install -o root -g root -m 0755 kubectl /usr/bin/kubectl
-		
-	**macOS:**
-		
-		brew install kubectl
-		
-
-2. **Portworx:** You will need 2 portworx clusters with AsyncDR license enabled. Portworx version 2.1 or later needs to be installed on both clusters. Also requires Stork v2.2+ on both of the clusters.
-3. **KubeConfig files** You must have kube config files for both clusters.
-4. **storkctl**: Run `storkctl version`. If it returns version number then it is installed, else install it with following commands. Make sure to replace the **< Provide-Full-Path-Of-Any-One-KubeConfig-File >** for **KUBECONFIG** variable:
-
-	> Note: '**--retries**' parameter only works with kubectl v.1.23 or later (Tested with v.1.23.4). If this version is not available try without the **--retries** option, but in some cases it fails with '**unexpected EOF**' error. In that situation please upgrade kubectl.
-
-		export KUBECONFIG=<Provide-Full-Path-Of-Any-One-KubeConfig-File>
-		STORK_POD=$(kubectl get pods --all-namespaces -l name=stork -o jsonpath='{.items[0].metadata.namespace} {.items[0].metadata.name}')
-		kubectl cp -n "${STORK_POD% *}"  ${STORK_POD#* }:/storkctl/$(uname -s| awk '{print tolower($0)}')/storkctl ./storkctl --retries=20
-		sudo mv storkctl /usr/local/bin
-		sudo chmod +x /usr/local/bin/storkctl
-
-5. **Secret Store :** Make sure you have configured a secret store on both clusters. This will be used to store the credentials. Use following command to verify:
+* **Softwares or Uitilities required**: [**kubectl**](../install-utilities.md#kubectl-v1234-or-later), [**storkctl**](../install-utilities.md#storkctl)
+* **KubeConfig files** You must have kube config files for both clusters.
+* **Portworx (version 2.1 or later):** Both portworx clusters must have AsyncDR license enabled and configured with Stork v2.2+.
+* **Secret Store :** Configured secret store on both clusters. This will be used to store the credentials. Use following command to verify:
 
 		kubectl get storageclusters --all-namespaces -o jsonpath='{.items[*].spec.secretsProvider}{"\n"}' --kubeconfig=<Enter Path Of your Source Clusters Kubeconfig File>
 
 		kubectl get storageclusters --all-namespaces -o jsonpath='{.items[*].spec.secretsProvider}{"\n"}' --kubeconfig==<Enter Path Of your Destination Clusters Kubeconfig File>
 
-6. **Network Connectivity:** Ports 9001 and 9010 of the destination cluster should be reachable on the source cluster.
-7. **Default Storage Class**: Make sure you have configured only one default storage class. Having multiple default storage classes will cause PVC migrations to fail. To verify you have only one default class configured run the following command. You should only see one default class in the list:
-	
+* **Network Connectivity:** Portworx API of the destination cluster should be reachable at the source cluster. If direct access is not possible, the AsyncDR setup script will create a k8s service.
+* **Default Storage Class**: Make sure you have configured only one default storage class. Having multiple default storage classes will cause PVC migrations to fail. To verify you have only one default class configured run the following command. You should only see one default class in the list:
+
 		kubectl get sc --kubeconfig=<Enter Path Of your Source Clusters Kubeconfig File>
 
 		kubectl get sc --kubeconfig=<Enter Path Of your Destination Clusters Kubeconfig File>
-8. **jq:** You will also need jq utility installed.
 
 ## Prepare:
 
-### Clone the current repository and switch to the correct folder:
+* ### Clone the current repository and switch to the AsyncDR folder:
+
+		git clone https://github.com/PureStorage-OpenConnect/px-gitops.git
+		cd px-gitops/asyncDR
+
+* ### Set KUBE_CONF variables
+
+	Set two separate variables with kube-config files, one for the source cluster and one for the destination. We will use these variables to perform checks and for getting information from the clusters.
 	
-	git clone https://github.com/PureStorage-OpenConnect/px-gitops.git
-	cd px-gitops/asyncDR
+	>Run these commands in same terminal window. This will ensure both cluster are reachable and you can run the scripts from this window. 
 
-### Only required if the destination cluster is running on EKS, GKE or AKS:
+		export KUBE_CONF_SOURCE=<Path to the Source cluster kubeconfig file>
+		export KUBE_CONF_DESTINATON=<Path to the Destination cluster kubeconfig file>
+	
+	Verify if both veriables set up correctly by reaching out to the clusters:
 
-**Setup account credentials**
+		kubectl --kubeconfig=${KUBE_CONF_SOURCE} get nodes 
+		kubectl --kubeconfig=${KUBE_CONF_DESTINATON} get nodes
+	
+* ### Setup cloud account credentials (Only required if the destination cluster is running on EKS, GKE or AKS)
 
-If your destination cluster is running on EKS, GKE or AKS you will need to provde to provide account credentials to Stork on source side. Stork will use these credentials to get the k8s cluster access token.
+	If your destination cluster is running on EKS, GKE or AKS you will need to pass your cloud provider account credentials to the Stork on source cluster. Stork will use these credentials to get the k8s cluster access token.
 
-Please follow the respective link:
+	Please follow the respective link for your cloud provider:
 
-* [AWS-EKS](./presetup-aws.md)
-* [Google-GKE](./presetup-gke.md)
-* [Azure-AKS](./presetup-aks.md)
+	* [AWS-EKS](./presetup-aws.md)
+	* [Google-GKE](./presetup-gke.md)
+	* [Azure-AKS](./presetup-aks.md)
 
-**Enable Authorization**
+* ### Enable Authorization
 
-The source cluster will be reachaing the Portworx api of the destination cluster through the internet, So it is recommended to enable the Authorization on the destination.
+	The source cluster will be reachaing the Portworx api of the destination cluster through the internet, So it is recommended to enable the authorization on the destination in production environments. You may skip this if setup is only for the demo purposes.
+	
+	You can use following commands if you want to enable:
 
-	kubectl --kubeconfig=${KUBE_CONF_DESTINATON} -n portworx patch storageclusters.core.libopenstorage.org px-cluster -p '{"spec":{"security":{"enabled":true}}}' --type=merge
+		kubectl --kubeconfig=${KUBE_CONF_DESTINATON} -n portworx patch storageclusters.core.libopenstorage.org px-cluster -p '{"spec":{"security":{"enabled":true}}}' --type=merge
 
-It will restart all the portworx and stork pods. Keep monitoring the pods until all the pods come up:
+	It will restart all the portworx and stork pods. Keep monitoring the pods until all the pods come up:
 
-	kubectl --kubeconfig=${KUBE_CONF_DESTINATON} -n portworx get pods
+		kubectl --kubeconfig=${KUBE_CONF_DESTINATON} -n portworx get pods
 
-> Look at the **AGE** column to figure out if the pods has been restarted or not.
+	> Look at the **AGE** column to figure out if the pods has been restarted or not.
 
 ## Setup AsyncDR:
 
-### 1. Update the 'config-vars' file:
+### 1. Set configuration variables
+
+Create a configuration file from the template:
+
+	cp templates/config-vars ./config-vars
+
 You will need to specify few values with correct information into the **config-vars** file.
 
 	vi config-vars
 
-These are the variables you will need to set in the file:
+Here is the information about the variables you will need to set in the file:
 
-**PX_KUBECONF_FILE_SOURCE_CLUSTER:** Set path to the kube-config file for source cluster.
+**PX_KUBECONF_FILE_SOURCE_CLUSTER** Set path to the kube-config file for source cluster.
 
-**PX_KUBECONF_FILE_DESTINATION_CLUSTER:** Set path to the kube-config file for destination cluster.
+**PX_KUBECONF_FILE_DESTINATION_CLUSTER** Set path to the kube-config file for destination cluster.
 
-**PX_SCHEDULE_POLICY_INTERVAL_MINUTES:** Set interval time for schedule policy.
+**PX_SCHEDULE_POLICY_INTERVAL_MINUTES** Set interval time for schedule policy in minutes. Set it to 60 or more. For demo purposes you can set it to 10. 
 	
-**PX_SCHEDULE_POLICY_DAILY_TIME:** Set time to schedule execution daily.
+**PX_SCHEDULE_POLICY_DAILY_TIME** Set time to schedule daly execution.
 
-**PX_DST_NAMESPACE_SUFFIX:** Set suffix for the namespace on remote cluster. The "source namespace name+suffix" will be used as the name of namesapce on remote cluster.
+**PX_DST_NAMESPACE_SUFFIX** Set suffix for the namespace on remote cluster. The "source namespace name+suffix" will be used as the name of namesapce on remote cluster.
 
-Here is an example file arter setting up all the variables:
+Here are some variables for S3 Bucket access, this bucket will be used as Object Store by portworx. It is not necessary to use only the AWS bucket, any s3 compatible bucket will work. For example you can use "PureStorage FlashBlade s3 Bucket".
 
-	# Line starting with # will be treated as a comment.
+**PX_S3_ACCESS_KEY_ID** Set with your access key for the Bucket. 
 
-	##Set path to the kube-config files for source and destination clusters.
-	  PX_KUBECONF_FILE_SOURCE_CLUSTER="/home/rbpcadmin/.kube/PS_Rancher"
-	  PX_KUBECONF_FILE_DESTINATION_CLUSTER="/home/rbpcadmin/.kube/PS_BareMetal"
+**PX_S3_SECRET_KEY** Set with your secret access key for the Bucket.
 
-	##Set interval and daily execution time for schedule policy.
-	  PX_SCHEDULE_POLICY_INTERVAL_MINUTES="10";  #720=12Hrs.
-	  PX_SCHEDULE_POLICY_DAILY_TIME="1:33AM";
+**PX_S3_ENDPOINT** Set with the S3 bucket end-point. Use "s3.amazonaws.com" for AWS.
 
-	##Set suffix for the namespace on remote cluster. The "source namespace name+suffix" will be used as the name of namesapce on remote cluster.
-	  PX_DST_NAMESPACE_SUFFIX="remote";
+**PX_S3_DISABLE_SSL** Set it to "true" if the s3 endpoint does not support SSL, else set with "false".
+
+**PX_AWS_REGION** Set with your s3 bucket region. It is ignored if the bucket is not an AWS bucket. Do not delete the variable if using non aws bucket, leave it with the default value.
+
+Here is the sample how all the variables look arter setting up all the values:
+
+	PX_KUBECONF_FILE_SOURCE_CLUSTER="/home/user/.kube/vSphereVMs"
+	PX_KUBECONF_FILE_DESTINATION_CLUSTER="/home/user/.kube/EKS"
+	PX_SCHEDULE_POLICY_INTERVAL_MINUTES="10"
+	PX_SCHEDULE_POLICY_DAILY_TIME="1:33AM"
+	PX_DST_NAMESPACE_SUFFIX="remote"
+	PX_S3_ACCESS_KEY_ID="CJG4MUD6ASJXZXQZCFJLQL"
+	PX_S3_SECRET_KEY="0dBf/8j9D5k5GJxzXqz4vP/pc0NkcTZpbiiWEwse"
+	PX_S3_ENDPOINT="s3.amazonaws.com"
+	PX_S3_DISABLE_SSL="false"
+	PX_AWS_REGION="us-west-2"
 
 ### 2. Setup AsyncDR and replicate the git repository to the remote cluster.
-
-This script will setup AsyncDR and replicate a repository namespace to the remote cluster. After the repository is replicated, on remote cluster it will create a clone of the replicated repository into a new usable namespace.
-
->Note: We are creating the clone because we can not directly use the remote replica. Portworx needs all the PVCs free on destination site because it will be syncing data as per the schedule policy. It remains in standby mode. So as a workarround we create a secondary namespace using the PX-Clone and start the application there.
-
-1st set two separate variables with kube-config files, one for source cluster and one for the destination cluster. We will use this variables to perform checks and getting information from those clusters.
-
-	export KUBE_CONF_SOURCE=<Path to the Source cluster kubeconfig file>
-	export KUBE_CONF_DESTINATON=<Path to the Destination cluster kubeconfig file>
 	
-List the available namespaces on the source and identify the one you want to replicate.
+* List the available namespaces on the source and identify the one you want to replicate.
 	
-	kubectl get ns --kubeconfig=${KUBE_CONF_SOURCE}
+		kubectl get ns --kubeconfig=${KUBE_CONF_SOURCE}
 	
-Now run the script specifying the desired namespace:
+* Now run the AsyncDR setup script specifying the desired namespace:
  	
-	./start-async-repl.sh <NameSpace you want to replicate>
-> Script will return two git URLs: Central and Remote. Please copy and save, you will need them in next steps.
+		./start-async-repl.sh <NameSpace you want to replicate>
 
-Once completed, you will see two namespaces on the desitnation cluster. One with the same name as the source and another with a suffix "-remote". Use following command to check:
-	
-	kubectl get ns --kubeconfig=${KUBE_CONF_DESTINATON}
+* The script will return two git URLs: Central and Remote. Set two variables with the URLs to avoid specifing the URLs with each command.
 
-> Note: The suffix **'remote'** is the same you set with the **PX_DST_NAMESPACE_SUFFIX** variable in the variables configuration file.
+		GIT_REPO_URL_CENTRAL="Enter central repository URL"
+		GIT_REPO_URL_REMOTE="Enter remote repository URL"
+
+* Now check on the the destination cluster, you will see two namespaces there: One with the same name as the source and another with a suffix "-remote". 
+
+		kubectl get ns --kubeconfig=${KUBE_CONF_DESTINATON}
+
+	> Note: The suffix **'remote'** is the same you set with the **PX_DST_NAMESPACE_SUFFIX** variable in the variables configuration file.
 
 ### 3. Verify and use the remote replica:
 	
-To verify the remote replica run the following command:
-> Note: In following command specify the namespace name with suffix. 
+* To verify the remote replica run the following command:
+	> Note: In following command specify the namespace name with the suffix. 
 
-	kubectl get all -n <EnterNameSpaceName> --kubeconfig=${KUBE_CONF_DESTINATON}
+		kubectl get all -n <EnterNameSpaceName> --kubeconfig=${KUBE_CONF_DESTINATON}
 
 * Now clone the remote repo.
 
-	> Note: The previous AsyncDR setup script will provide the two repo URL(central and remote) on completion. Find git user password [here](https://github.com/PureStorage-OpenConnect/px-gitops/tree/main/gitscm-server#credentails).
+	> Find git user password [here](https://github.com/PureStorage-OpenConnect/px-gitops/tree/main/gitscm-server#credentails).
 	
-	> Now clone the both repo's and make sure you clone both in different directory, Because both repo's will have same name and we cannot clone to same directory.
-
-		git clone < repository URL >
+	Now open a separate terminal window and clone the both repo's in different directories:
+	
+		git clone ${GIT_REPO_URL_CENTRAL} ~/central
+		git clone ${GIT_REPO_URL_REMOTE} ~/remote
 
 * Now from your terminal move to the remote repo cloned directory using following:
 
-		cd < remote cloned directory name >
+		cd ~/remote
 	
 * Now add central repository here, so you can push the changes to the centeral repo.
 
-		git remote add central < Central repository URL >
+		git remote add central ${GIT_REPO_URL_CENTRAL}
 
 	> Note: The remote replica is read-only, so you can only clone but can not push back to that.
 
-* Make some changes and push to the central repo: 
+* Make some changes and push to the central repo:
 
 		echo "Some new code" > file
-		git add file 
+		git add file
 		git commit -m "Adding new file."
 		git push central
 	
 * Now to check new changes pushed to central repository or not, first **move** to the central cloned directory from terminal and then do **git pull** using following.
 
-		cd < central cloned directory name >
-		git pull origin 
+		cd ~/central
+		git pull origin
 		
 ### 4. Update the remote replica:
 
@@ -181,7 +183,7 @@ The changes in the central location are being synced to the standby namespace at
 > * This step is not requred 1st time because it is automated in the previous script, but needs to be run whenever you want the latest data ready in the remote repository to get a pull or clone.
 > * Enter namespace name without sufix.
 
-Note: Before running below command make sure your working directory is px-gitops/asyncDR
+Now switch back to the terminal window where you ran the AsyncDR setup script.
 
 	./update.sh <NameSpace name>
 ---
@@ -189,6 +191,16 @@ Note: Before running below command make sure your working directory is px-gitops
 
 You can use the following script to delete all the resources created by scripts in this document. The script will require the namespace name as command-line parameter.
 
-> Enter namespace name without sufix.
+> The AsyncDR setup script will create Object-Store credentials and Portworx API service (If required). These resources are supposed to be created one time and will be re-used for other namespaces. If you also want to delete those pass 2nd paramter as '--all'
+
+> Enter namespace name without the sufix.
+
+Clean resources specific to the namespace only.
 
 	./cleanup.sh <Namespace name>
+
+Clean all resources created by the scripts.
+
+	./cleanup.sh <Namespace name> --all
+
+> The script will only remove the resources created by the AsyncDR setup script and update.sh scripts. If you have perfomed some manual tasks during the prepration process, this script will not undo those steps. For example if you have enabled the authentication, the cleanup script will not disable that.
