@@ -7,3 +7,4 @@ autopilot/debug.log
 asyncDR/debug.log
 asyncDR/output/*
 asyncDR/templates/aws-credentials
+asyncDR/config-vars

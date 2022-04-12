@@ -3,6 +3,8 @@ kind: ApplicationClone
 metadata:
   name: <PX_APPLICATION_CLONE_NAME>
   namespace: <PX_APPLICATION_CLONE_NAMESPACE>
+  labels:
+    px-created-by: px-gitops-process
 spec:
   sourceNamespace: <PX_SOURCE_NAMESPACE>
   destinationNamespace: <PX_DESTINATION_NAMESPACE>

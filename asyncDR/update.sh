@@ -92,21 +92,21 @@ printf "Launched repository update (cloning) process. Please wait until it compl
   PX_DST_CLUSTER_UUID="$(kubectl ${PX_KUBECONF_DST} get storageclusters.core.libopenstorage.org --all-namespaces -o jsonpath='{.items[*].status.clusterUid}' 2>> "${PX_LOG_FILE}")"
   printf "Successful\n" >> "${PX_LOG_FILE}" 
   PX_CRDs_PREFIX=${PX_DST_CLUSTER_UUID}-${PX_SRC_NAMESPACE}
-  PX_DIR_FOR_MANIFEST_FILES="./output/${PX_CRDs_PREFIX}";
-  mkdir -p ${PX_DIR_FOR_MANIFEST_FILES}
+  PX_DIR_FOR_GENERATED_FILES="./output/${PX_CRDs_PREFIX}";
+  mkdir -p ${PX_DIR_FOR_GENERATED_FILES}
   fun_progress
 
-  printf "Generating application clone manifest.\n" >> "${PX_LOG_FILE}"
+  printf "Generating application clone manifest: " >> "${PX_LOG_FILE}"
   PX_APPLICATION_CLONE_NAME="${PX_SRC_NAMESPACE}-to-${PX_DST_NAMESPACE}-clone"
   PX_APPLICATION_CLONE_NAMESPACE="${PX_AsyncDR_CRDs_NAMESPACE}"
-  PX_APPLICATION_CLONE_MANIFEST_FILE="${PX_DIR_FOR_MANIFEST_FILES}/${PX_APPLICATION_CLONE_NAME}.yml";
+  PX_APPLICATION_CLONE_MANIFEST_FILE="${PX_DIR_FOR_GENERATED_FILES}/${PX_APPLICATION_CLONE_NAME}.yml";
 
   cat ./templates/app-clone.yml | \
       sed "s,<PX_APPLICATION_CLONE_NAME>,${PX_APPLICATION_CLONE_NAME},g" | \
       sed "s,<PX_APPLICATION_CLONE_NAMESPACE>,${PX_APPLICATION_CLONE_NAMESPACE},g" | \
       sed "s,<PX_SOURCE_NAMESPACE>,${PX_SRC_NAMESPACE},g" | \
       sed "s,<PX_DESTINATION_NAMESPACE>,${PX_DST_NAMESPACE},g" > "${PX_APPLICATION_CLONE_MANIFEST_FILE}"
-  printf "Generated application clone manifest: ${PX_APPLICATION_CLONE_MANIFEST_FILE}\n" >> "${PX_LOG_FILE}"
+  printf "Manifest saved in '${PX_APPLICATION_CLONE_MANIFEST_FILE}' file.\n" >> "${PX_LOG_FILE}"
   fun_progress
 
 ##Deleting Application clone CRD if already existing.
@@ -172,7 +172,7 @@ printf "Launched repository update (cloning) process. Please wait until it compl
     fun_progress
   done;
   if (( vChecksDone > vTotalChecks )); then
-    printf "\nUnable to create the application clone. Try to debug the issue.\nRefer the manifest files saved in: ${PX_DIR_FOR_MANIFEST_FILES}\n\n" | tee -a "${PX_LOG_FILE}"
+    printf "\nUnable to create the application clone. Try to debug the issue.\nRefer the manifest files saved in: ${PX_DIR_FOR_GENERATED_FILES}\n\n" | tee -a "${PX_LOG_FILE}"
     exit 1;
   fi
 ##Starting the cloned application.
@@ -222,12 +222,13 @@ printf "Launched repository update (cloning) process. Please wait until it compl
   kubectl ${PX_KUBECONF_DST} delete -f ${PX_APPLICATION_CLONE_MANIFEST_FILE} >> "${PX_LOG_FILE}" 2>&1
   fun_progress
   printf "\n";
-  printf "Successfully completed. Repository is ready to use in ${PX_DST_NAMESPACE} namespace.\n\n" | tee -a "${PX_LOG_FILE}"
+  printf "Successfully completed. Repository is ready to use in ${PX_DST_NAMESPACE} namespace.\n" | tee -a "${PX_LOG_FILE}"
+  printf "\n";
 
 ##Show central repo URL 
   printf "Preparing central git repo URL.\n" >> "${PX_LOG_FILE}"
   printf "Getting service IP: " >> "${PX_LOG_FILE}"
-  PX_SVC_IP="$(kubectl "${PX_KUBECONF_SRC}" get service git-server-service -n ${PX_SRC_NAMESPACE} -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2> /dev/null || true)"
+  PX_SVC_IP="$(kubectl ${PX_KUBECONF_SRC} get service git-server-service -n ${PX_SRC_NAMESPACE} -o jsonpath='{.status.loadBalancer.ingress[0].*}' 2> /dev/null || true)"
 
   if [[ "${PX_SVC_IP}" != "" ]]; then
     printf "Service IP: ${PX_SVC_IP}\n" >> "${PX_LOG_FILE}"
@@ -245,7 +246,7 @@ printf "Launched repository update (cloning) process. Please wait until it compl
 ##Show remote repo URL 
   printf "Preparing remote git repo URL.\n" >> "${PX_LOG_FILE}"
   printf "Getting service IP: " >> "${PX_LOG_FILE}"
-  PX_SVC_IP="$(kubectl "${PX_KUBECONF_DST}" get service git-server-service -n ${PX_DST_NAMESPACE} -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2> /dev/null || true)"
+  PX_SVC_IP="$(kubectl "${PX_KUBECONF_DST}" get service git-server-service -n ${PX_DST_NAMESPACE} -o jsonpath='{.status.loadBalancer.ingress[0].*}' 2> /dev/null || true)"
 
   if [[ "${PX_SVC_IP}" != "" ]]; then
     printf "Service IP: ${PX_SVC_IP}\n" >> "${PX_LOG_FILE}"

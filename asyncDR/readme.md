@@ -44,15 +44,40 @@
 		kubectl get sc --kubeconfig=<Enter Path Of your Source Clusters Kubeconfig File>
 
 		kubectl get sc --kubeconfig=<Enter Path Of your Destination Clusters Kubeconfig File>
+8. **jq:** You will also need jq utility installed.
 
-## Steps:
+## Prepare:
 
-Clone the current repository and switch to the correct folder:
+### Clone the current repository and switch to the correct folder:
 	
 	git clone https://github.com/PureStorage-OpenConnect/px-gitops.git
 	cd px-gitops/asyncDR
 
-Now follow these steps:
+### Only required if the destination cluster is running on EKS, GKE or AKS:
+
+**Setup account credentials**
+
+If your destination cluster is running on EKS, GKE or AKS you will need to provde to provide account credentials to Stork on source side. Stork will use these credentials to get the k8s cluster access token.
+
+Please follow the respective link:
+
+* [AWS-EKS](./presetup-aws.md)
+* [Google-GKE](./presetup-gke.md)
+* [Azure-AKS](./presetup-aks.md)
+
+**Enable Authorization**
+
+The source cluster will be reachaing the Portworx api of the destination cluster through the internet, So it is recommended to enable the Authorization on the destination.
+
+	kubectl --kubeconfig=${KUBE_CONF_DESTINATON} -n portworx patch storageclusters.core.libopenstorage.org px-cluster -p '{"spec":{"security":{"enabled":true}}}' --type=merge
+
+It will restart all the portworx and stork pods. Keep monitoring the pods until all the pods come up:
+
+	kubectl --kubeconfig=${KUBE_CONF_DESTINATON} -n portworx get pods
+
+> Look at the **AGE** column to figure out if the pods has been restarted or not.
+
+## Setup AsyncDR:
 
 ### 1. Update the 'config-vars' file:
 You will need to specify few values with correct information into the **config-vars** file.
@@ -151,7 +176,7 @@ The changes in the central location are being synced to the standby namespace at
 
 	./update.sh <NameSpace name>
 ---
-### Cleanup
+## Cleanup
 
 You can use the following script to delete all the resources created by scripts in this document. The script will require the namespace name as command-line parameter.
 
