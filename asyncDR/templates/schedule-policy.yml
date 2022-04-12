@@ -3,6 +3,8 @@ kind: NamespacedSchedulePolicy
 metadata:
   name: <PX_SCHEDULE_POLICY_NAME>
   namespace: <PX_SCHEDULE_POLICY_NAMESPACE> 
+  labels:
+    px-created-by: px-gitops-process
 policy:
   daily:
     time: "<PX_SCHEDULE_POLICY_DAILY_TIME>"

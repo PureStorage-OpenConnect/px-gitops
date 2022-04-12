@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: portworx
+    px-created-by: px-gitops-process
+  name: <PX_API_LB_SVC_NAME>
+  namespace: <PX_SVC_NAMESPACE>
+spec:
+  ports:
+  - name: px-api
+    port: 9001
+    protocol: TCP
+    targetPort: 9001
+  - name: px-sdk
+    port: 9020
+    protocol: TCP
+    targetPort: 9020
+  - name: px-rest-gateway
+    port: 9021
+    protocol: TCP
+    targetPort: 9021
+  selector:
+    name: portworx
+  sessionAffinity: None
+  type: LoadBalancer

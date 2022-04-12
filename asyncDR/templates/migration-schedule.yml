@@ -3,6 +3,8 @@ kind: MigrationSchedule
 metadata:
   name: <PX_MIGRATION_SCHEDULE_NAME>
   namespace: <PX_MIGRATION_SCHEDULE_NAMESPACE>
+  labels:
+    px-created-by: px-gitops-process
 spec:
   template:
     spec:
