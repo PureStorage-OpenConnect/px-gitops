@@ -5,3 +5,4 @@ cd XX-repo-XX
 git push --mirror /home/git/repos/$ls
 cd ..
 rm -rf XX-repo-XX
+chown -R git:git /home/*
