@@ -146,27 +146,34 @@ To verify the remote replica run the following command:
 
 * Now clone the remote repo.
 
-	> Note: The previous AsyncDR setup script will provide the repo URL on completion. Find git user password [here](https://github.com/PureStorage-OpenConnect/px-gitops/tree/main/gitscm-server#credentails).
+	> Note: The previous AsyncDR setup script will provide the two repo URL(central and remote) on completion. Find git user password [here](https://github.com/PureStorage-OpenConnect/px-gitops/tree/main/gitscm-server#credentails).
+	
+	> Now clone the both repo's and make sure you clone both in different directory, Because both repo's will have same name and we cannot clone to same directory.
 
-		git clone < Remote repository URL >
+		git clone < repository URL >
 
-* Now from your terminal move to the cloned directory using following:
+* Now from your terminal move to the remote repo cloned directory using following:
 
-		cd < cloned directory name >
+		cd < remote cloned directory name >
 	
 * Now add central repository here, so you can push the changes to the centeral repo.
 
 		git remote add central < Central repository URL >
 
-	> Note: The romote replica is readonly, so you can only clone but can not push back to that.
+	> Note: The remote replica is read-only, so you can only clone but can not push back to that.
 
 * Make some changes and push to the central repo: 
 
-		echo "Some new code!" > file
+		echo "Some new code" > file
 		git add file 
 		git commit -m "Adding new file."
 		git push central
 	
+* Now to check new changes pushed to central repository or not, first **move** to the central cloned directory from terminal and then do **git pull** using following.
+
+		cd < central cloned directory name >
+		git pull origin 
+		
 ### 4. Update the remote replica:
 
 The changes in the central location are being synced to the standby namespace at remote site as per the schedule policy. Since we can not directly use that namespace, we will need to update the secondary namespace whenever we need to get up-to-date data using git clone or git pull:
@@ -174,10 +181,14 @@ The changes in the central location are being synced to the standby namespace at
 > * This step is not requred 1st time because it is automated in the previous script, but needs to be run whenever you want the latest data ready in the remote repository to get a pull or clone.
 > * Enter namespace name without sufix.
 
+Note: Before running below command make sure your working directory is px-gitops/asyncDR
+
 	./update.sh <NameSpace name>
 ---
 ## Cleanup
 
 You can use the following script to delete all the resources created by scripts in this document. The script will require the namespace name as command-line parameter.
+
+> Enter namespace name without sufix.
 
 	./cleanup.sh <Namespace name>

@@ -1,7 +1,8 @@
-#Application Git Repo details
-
-gitRepoNamespace="XX-gitRepoNamespace-XX"
-gitRepoName="XX-gitRepoName-XX"
-ClusterKubeConfigFilePath="XX-ClusterKubeConfigFilePath-XX"
-gitRepoUrl="XX-gitRepoUrl-XX"
-directoryPath="XX-directoryPath-XX"
+  PX_Application_MainBranch_Namespace="XX-MainBranch_Namespace-XX"
+  PX_Application_MainBranch_KUBECONF_PATH="XX-MainBranch_KUBECONF_PATH-XX"
+  PX_Application_DevBranch_Namespace="XX-DevBranch_Namespace-XX"
+  PX_Application_DevBranch_KUBECONF_PATH="XX-DevBranch_KUBECONF_PATH-XX"
+  Wordpress_Docker_Image_Main_Branch="bikashrc25/wordpress-main"
+  Wordpress_Docker_Image_Dev_Branch="bikashrc25/wordpress-dev"
+  Java_Docker_Image_Main_Branch="sn1-r620-a04-03.puretec.purestorage.com/springboot/springboot-master" 
+  Java_Docker_Image_Dev_Branch="sn1-r620-a04-03.puretec.purestorage.com/springboot/springboot-dev"  

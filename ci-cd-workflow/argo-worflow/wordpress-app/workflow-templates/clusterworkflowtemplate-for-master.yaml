@@ -18,16 +18,16 @@ spec:
   - name: wordpress-code
   - name: kubeconfig
     secret:
-      secretName: kubernetes-kube-config  
+      secretName: wordpress-master-branch-cluster-kube-config
   - name: wordpress-repo-sshkey
     secret:
       secretName: wordpress-repo-sshkey    
   - name: snapshot
     secret:
-      secretName: wordpress-snapshot-script
+      secretName: wordpress-snapshot-script-main-branch
   - name: restorescript
     secret:
-      secretName: wordpress-restore-snapshot-script           
+      secretName: wordpress-restore-snapshot-script-main-branch          
   templates:
   - name: ci-pipeline-to-automate-build-and-namespace-backup
     dag:
@@ -50,7 +50,7 @@ spec:
       command: [/kaniko/executor]
       args:
         - "--context=dir:///application-dockerfile"
-        - "--destination=sn1-r620-a04-03.puretec.purestorage.com/puretec-wordpress/wordpress:{{workflow.name}}"
+        - "--destination=XX-Wordpress_Docker_Image-XX:{{workflow.name}}"
       volumeMounts:
       - name: jfrog-config
         mountPath: /kaniko/.docker/
@@ -66,7 +66,7 @@ spec:
         cp /wordpress-repo-sshkey/id_rsa /root/.ssh
         chmod -R 600 /root/.ssh
         ls -lrth /root/.ssh
-        git clone ssh://git@10.21.236.62/home/git/repos/wordpress-main --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
+        git clone ssh://git@XX-EXTERNALIP-XX/home/git/repos/XX-RepoName-XX --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
         ls -larth /dockerfile
         rm -rf /dockerfile/.git
         cp -r /dockerfile/. /application-dockerfile
@@ -119,7 +119,7 @@ spec:
         cp /wordpress-repo-sshkey/id_rsa /root/.ssh
         chmod -R 600 /root/.ssh
         ls -lrth /root/.ssh
-        git clone  ssh://git@10.21.236.62/home/git/repos/wordpress-main --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
+        git clone  ssh://git@XX-EXTERNALIP-XX/home/git/repos/XX-RepoName-XX --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
         ls -larth /application-code
         rm -rf /application-code/.git
         cp -r /application-code/.  /wordpress-code

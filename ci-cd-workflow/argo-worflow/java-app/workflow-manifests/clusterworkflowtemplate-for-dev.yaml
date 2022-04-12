@@ -16,7 +16,7 @@ spec:
   - name: application-dockefile
   - name: kubeconfig
     secret:
-      secretName: java-dev-branch-cluster-kube-config 
+      secretName: master-branch-cluster-kube-config  
   - name: repo-sshkey
     secret:
       secretName: java-repo-sshkey   
@@ -48,7 +48,7 @@ spec:
       command: [/kaniko/executor]
       args:
         - "--context=dir:///application-dockerfile"
-        - "--destination=XX-java_Docker_Image-XX:{{workflow.name}}"
+        - "--destination=sn1-r620-a04-03.puretec.purestorage.com/springboot/springboot-dev:{{workflow.name}}"
       volumeMounts:
       - name: jfrog-config
         mountPath: /kaniko/.docker/
@@ -65,7 +65,7 @@ spec:
         cp /repo-sshkey/id_rsa /root/.ssh
         chmod -R 600 /root/.ssh
         ls -lrth /root/.ssh
-        git clone --branch XX-PX_Application_DevBranch-XX ssh://git@XX-EXTERNALIP-XX/home/git/repos/XX-RepoName-XX --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
+        git clone --branch  dev-01 ssh://git@10.21.152.148/home/git/repos/springboot-repo --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /dockerfile
         ls -larth /dockerfile
         rm -rf /dockerfile/.git
         cp -r /dockerfile/. /application-dockerfile
@@ -84,6 +84,7 @@ spec:
       - |
         set -e 
         set -o pipefail
+        pwd
         cd /application-build-code/code
         curl -fL https://getcli.jfrog.io | sh
         ./jfrog config add artifactory-server --artifactory-url=https://sn1-r620-a04-03.puretec.purestorage.com/artifactory --user=admin --password=Purestorage123 --interactive=false
@@ -109,7 +110,7 @@ spec:
         cp /repo-sshkey/id_rsa /root/.ssh
         chmod -R 600 /root/.ssh
         ls -lrth /root/.ssh
-        git clone --branch XX-PX_Application_DevBranch-XX ssh://git@XX-EXTERNALIP-XX/home/git/repos/XX-RepoName-XX --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
+        git clone --branch  dev-01 ssh://git@10.21.152.148/home/git/repos/springboot-repo --config core.sshCommand="ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa" /application-code
         ls -larth /application-code
         rm -rf /application-code/.git
         cp -r /application-code/.  /application-build-code
