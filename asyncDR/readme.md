@@ -52,7 +52,6 @@ This document will help you to setup AsyncDR and replicate a git repository (nam
 
 	* [AWS-EKS](./presetup-aws.md)
 	* [Google-GKE](./presetup-gke.md)
-	* [Azure-AKS](./presetup-aks.md)
 
 * ### Enable Authorization
 
