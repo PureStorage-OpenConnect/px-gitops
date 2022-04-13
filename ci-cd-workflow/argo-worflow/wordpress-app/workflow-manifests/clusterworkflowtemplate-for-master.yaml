@@ -95,9 +95,9 @@ spec:
         curl -fsSL https://deb.nodesource.com/setup_12.x | bash
         apt-get install -y nodejs  
         npm i puppeteer      
-        su - wordpress -c "git clone https://github.com/WordPress/wordpress-develop.git && cd wordpress-develop && rm package.json && rm -rf tests/phpunit/tests/* && mv src src-bak && mkdir src && cp -r src-bak/js src && ls -lrth  tests/phpunit/tests/"
+        su - wordpress -c "git clone https://github.com/WordPress/wordpress-develop.git && cd wordpress-develop && sed -ie 's/\phpunit\b/& --filter=test_update_user/' package.json && cat package.json  && rm -rf tests/phpunit/tests/* && mv src src-bak && mkdir src && cp -r src-bak/js src && ls -lrth  tests/phpunit/tests/"
         ls -lrth /home/wordpress
-        su - wordpress -c "cp -r code/* wordpress-develop/src && ls -lrth wordpress-develop/src && cp package.json wordpress-develop/ && cp -r test-cases/* wordpress-develop/tests/phpunit/tests/"
+        su - wordpress -c "cp -r code/* wordpress-develop/src && ls -lrth wordpress-develop/src && cp -r test-cases/* wordpress-develop/tests/phpunit/tests/"
         su - wordpress -c "cd wordpress-develop && npm install && npm run build:dev && npm run env:start && 
         echo '             ' && docker ps && sleep 10 &&  npm run env:install && sleep 10 && npm run test:php"        
       securityContext:
