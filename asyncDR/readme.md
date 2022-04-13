@@ -144,24 +144,24 @@ Here is the sample how all the variables look arter setting up all the values:
 
 		kubectl get all -n <EnterNameSpaceName> --kubeconfig=${KUBE_CONF_DESTINATON}
 
-* Now clone the remote repo.
+* Clone the remote repo.
 
-	> Find git user password [here](https://github.com/PureStorage-OpenConnect/px-gitops/tree/main/gitscm-server#credentails).
-	
-	Now open a separate terminal window and clone both the repo's in different directories:
-	
+	> * Find git user password [here](https://github.com/PureStorage-OpenConnect/px-gitops/tree/main/gitscm-server#credentails).
+	> * Following commands will clone both repo's in different directories:
+		
 		git clone ${GIT_REPO_URL_CENTRAL} ~/central
 		git clone ${GIT_REPO_URL_REMOTE} ~/remote
 
-* Now from your terminal move to the remote repo cloned directory using following:
+* Now preserve your current diretory and then switch to the remote repo cloned directory using following commands:
 
+		ASYNC_DIR="$(pwd)"
 		cd ~/remote
 	
 * Now add central repository here, so you can push the changes to the centeral repo.
 
 		git remote add central ${GIT_REPO_URL_CENTRAL}
 
-	> Note: The remote replica is read-only, so you can only clone but can not push back to that.
+	> The remote replica is read-only, so you can clone but can not push back to that.
 
 * Make some changes and push to the central repo:
 
@@ -170,7 +170,7 @@ Here is the sample how all the variables look arter setting up all the values:
 		git commit -m "Adding new file."
 		git push central
 	
-* Now to check if new changes pushed to central repository or not, first **move** to the central cloned directory from terminal and then do **git pull** using following.
+* Now to check if new changes pushed to central repository or not, first move to the central cloned directory and then do **git pull** as follows.
 
 		cd ~/central
 		git pull origin
@@ -180,11 +180,17 @@ Here is the sample how all the variables look arter setting up all the values:
 The changes in the central location are being synced to the standby namespace at remote site as per the schedule policy. Since we can not directly use that namespace, we will need to update the secondary namespace whenever we need to get up-to-date data using git clone or git pull:
 
 > * This step is not requred 1st time because it is automated in the previous script, but needs to be run whenever you want the latest data ready in the remote repository to get a pull or clone.
+
+1st change your current directory back to the asyncDR as follows:
+
+	cd "${ASYNC_DIR}"
+
+Now run the update.sh script to update the secondary namespace:
+
 > * Enter namespace name without sufix.
 
-Now switch back to the terminal window where you ran the AsyncDR setup script.
-
 	./update.sh <NameSpace name>
+
 ---
 ## Cleanup
 
@@ -203,3 +209,8 @@ Clean all resources created by the scripts.
 	./cleanup.sh <Namespace name> --all
 
 > The script will only remove the resources created by the AsyncDR setup script and update.sh scripts. If you have perfomed some manual tasks during the prepration process, this script will not undo those steps. For example if you have enabled the authentication, the cleanup script will not disable that.
+
+---
+## Troubleshoot
+
+All the scripts prvided here perform tasks in the background and shows minimum required information on the screen to keep the display clean. If for some reason you want to check what is going on, you can look at the logs in **debug.log** file by running `tail -f debug.log` in a separate terminal window. 
