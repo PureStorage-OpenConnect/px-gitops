@@ -3,7 +3,7 @@
 
 This document will help you to setup AsyncDR and replicate a git repository (namespace) to a remote cluster. In this setup you will need two Portworx clusters accessible using kubectl. One will be your source cluster and another will be destination (remote cluster). Once the repository is replicated to the destination cluster, a clone of the replica namespace will be created as a new namespace.
 
->Note: We are creating the clone because we can not directly use the remote replica. It remains in the standby state. Portworx needs all the PVCs free on destination site because it will be syncing data as per the schedule policy. So as a workarround we create a secondary namespace using the PX-Clone to make the repository accessible.
+>Note: We are creating the clone because we can not directly use the remote replica. It remains in the standby state. Portworx needs all the PVCs free on destination site because it will be syncing data as per the schedule policy. So as a workaround we create a secondary namespace using the PX-Clone to make the repository accessible.
 
 ## Prerequisites:
 
@@ -39,7 +39,7 @@ This document will help you to setup AsyncDR and replicate a git repository (nam
 		export KUBE_CONF_SOURCE=<Path to the Source cluster kubeconfig file>
 		export KUBE_CONF_DESTINATON=<Path to the Destination cluster kubeconfig file>
 	
-	Verify if both veriables set up correctly by reaching out to the clusters:
+	Verify if both variables are set up correctly by reaching out to the clusters:
 
 		kubectl --kubeconfig=${KUBE_CONF_SOURCE} get nodes 
 		kubectl --kubeconfig=${KUBE_CONF_DESTINATON} get nodes
@@ -56,7 +56,7 @@ This document will help you to setup AsyncDR and replicate a git repository (nam
 
 * ### Enable Authorization
 
-	The source cluster will be reachaing the Portworx api of the destination cluster through the internet, So it is recommended to enable the authorization on the destination in production environments. You may skip this if setup is only for the demo purposes.
+	The source cluster will be reachaing the Portworx api of the destination cluster through the internet, So it is recommended to enable the authorization on the destination in production environments. You may skip this if setup is only for demo purposes.
 	
 	You can use following commands if you want to enable:
 
@@ -88,7 +88,7 @@ Here is the information about the variables you will need to set in the file:
 
 **PX_SCHEDULE_POLICY_INTERVAL_MINUTES** Set interval time for schedule policy in minutes. Set it to 60 or more. For demo purposes you can set it to 10. 
 	
-**PX_SCHEDULE_POLICY_DAILY_TIME** Set time to schedule daly execution.
+**PX_SCHEDULE_POLICY_DAILY_TIME** Set time to schedule daily execution.
 
 **PX_DST_NAMESPACE_SUFFIX** Set suffix for the namespace on remote cluster. The "source namespace name+suffix" will be used as the name of namesapce on remote cluster.
 
@@ -149,7 +149,7 @@ Here is the sample how all the variables look arter setting up all the values:
 
 	> Find git user password [here](https://github.com/PureStorage-OpenConnect/px-gitops/tree/main/gitscm-server#credentails).
 	
-	Now open a separate terminal window and clone the both repo's in different directories:
+	Now open a separate terminal window and clone both the repo's in different directories:
 	
 		git clone ${GIT_REPO_URL_CENTRAL} ~/central
 		git clone ${GIT_REPO_URL_REMOTE} ~/remote
@@ -171,7 +171,7 @@ Here is the sample how all the variables look arter setting up all the values:
 		git commit -m "Adding new file."
 		git push central
 	
-* Now to check new changes pushed to central repository or not, first **move** to the central cloned directory from terminal and then do **git pull** using following.
+* Now to check if new changes pushed to central repository or not, first **move** to the central cloned directory from terminal and then do **git pull** using following.
 
 		cd ~/central
 		git pull origin
