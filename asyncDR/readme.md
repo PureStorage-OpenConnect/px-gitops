@@ -46,7 +46,7 @@ This document will help you to setup AsyncDR and replicate a git repository (nam
 	
 * ### Setup cloud account credentials (Only required if the destination cluster is running on EKS, GKE or AKS)
 
-	If your destination cluster is running on EKS, GKE or AKS you will need to pass your cloud provider account credentials to the Stork on source cluster. Stork will use these credentials to get the k8s cluster access token.
+	If your destination cluster is running on EKS or GKE you will need to pass your cloud provider account credentials to the Stork on source cluster. Stork will use these credentials to get the k8s cluster access token.
 
 	Please follow the respective link for your cloud provider:
 
