@@ -92,7 +92,7 @@ spec:
         useradd wordpress -s /bin/bash
         chown -R wordpress:wordpress /home/wordpress/*
         usermod -a -G docker wordpress
-        curl -fsSL https://deb.nodesource.com/setup_12.x | bash
+        curl -fsSL https://deb.nodesource.com/setup_16.x | bash
         apt-get install -y nodejs        
         su - wordpress -c "git clone https://github.com/WordPress/wordpress-develop.git && cd wordpress-develop && sed -ie 's/\phpunit\b/& --filter=test_update_user/' package.json && cat package.json  && rm -rf tests/phpunit/tests/* && mv src src-bak && mkdir src && cp -r src-bak/js src && ls -lrth  tests/phpunit/tests/"
         ls -lrth /home/wordpress
