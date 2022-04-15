@@ -10,13 +10,13 @@ Find Portworx storage cluster name and Portworx installation namespace on the so
 
 This will show you cluster information, please note down the namespace and name of the cluster.
 
-### Create a json key of your Google Cloud service account:
+### Create a json file with the key  of your Google Cloud service account:
 
 You can create this using the following command:
 
-> If you already have a servic account key, you can skip this command and use your existing key in next steps.
+> If you already have a service account key, you can skip this command and use your existing key in next steps.
 
-  gcloud iam service-accounts keys create gcs-key.json --iam-account <your_iam_account>
+	gcloud iam service-accounts keys create gcs-key.json --iam-account <your_iam_account>
 
 > Guide from Google Cloud to [generate a service-account key](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
 
@@ -24,6 +24,8 @@ You can create this using the following command:
 ### Create a Secret from the service-account key.
 	
 > Update the portworx namespace in '-n portworx' parameter if it is different.
+>
+> Update the '--from-file=./gcs-key.json' parameter with your json file if it is at different location.
 
 	kubectl --kubeconfig=${KUBE_CONF_SOURCE} -n portworx create secret generic --from-file=./gcs-key.json gke-creds
 
