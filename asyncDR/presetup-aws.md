@@ -1,8 +1,8 @@
 # Provide your AWS credentials to the source cluster
 
-Commands in this doucment will pass your AWS credentials to Stork. Stork will need these details to authenticate to the destination k8s cluster.
+Commands in this doucment will pass AWS credentials of your destination cluster to Stork running at the source cluster. Stork will need these details to authenticate to the destination k8s cluster.
 
-Find Portworx storage cluster name and Portworx installation namespace you will need them in next commands:
+Find Portworx storage cluster name and Portworx installation namespace on the source. You will need them in next commands:
 
 > Make sure you have the **KUBE_CONF_SOURCE** variable set as mentioned in the main [readme](./readme.md#set-kube_conf-variables) file.
 
