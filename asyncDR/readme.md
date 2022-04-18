@@ -1,16 +1,16 @@
 
 # Remote Site Collaboration using AsyncDR Replication
 
-This document will help you to setup AsyncDR and replicate a git repository (namespace) to a remote cluster. In this setup you will need two Portworx clusters accessible using kubectl. One will be your source cluster and another will be destination (remote cluster). Once the repository is replicated to the destination cluster, a clone of the replica namespace will be created as a new namespace.
+This document will help you to set up AsyncDR and replicate a git repository (namespace) to a remote cluster. In this setup, you will need two Portworx clusters accessible using kubectl. One will be your source cluster and another will be the destination (remote cluster). Once the repository is replicated to the destination cluster, a clone of the replica namespace will be created as a new namespace.
 
->Note: We are creating the clone because we can not directly use the remote replica. It remains in the standby state. Portworx needs all the PVCs free on destination site because it will be syncing data as per the schedule policy. So as a workaround we create a secondary namespace using the PX-Clone to make the repository accessible.
+>Note: We are creating the clone because we can not directly use the remote replica. It remains in the standby state. Portworx needs all the PVCs free on the destination site because it will be syncing data as per the schedule policy. So as a workaround we create a secondary namespace using the PX-Clone to make the repository accessible.
 
 ## Prerequisites:
 
-* **Softwares or Uitilities required**: [**kubectl**](../install-utilities.md#kubectl-v1234-or-later), [**storkctl**](../install-utilities.md#storkctl)
+* **Softwares or Utilities required**: [**kubectl**](../install-utilities.md#kubectl-v1234-or-later), [**storkctl**](../install-utilities.md#storkctl)
 * **KubeConfig files** You must have kube config files for both clusters.
-* **Portworx (version 2.1 or later):** Both portworx clusters must have AsyncDR license enabled and configured with Stork v2.2+.
-* **Secret Store :** Configured secret store on both clusters. This will be used to store the credentials. Use following command to verify:
+* **Portworx (version 2.1 or later):** Both portworx clusters must have the AsyncDR license enabled and configured with Stork v2.2+.
+* **Secret Store :** Configured secret store on both clusters. This will be used to store the credentials. Use the following command to verify:
 
 		kubectl get storageclusters --all-namespaces -o jsonpath='{.items[*].spec.secretsProvider}{"\n"}' --kubeconfig=<Enter Path Of your Source Clusters Kubeconfig File>
 
@@ -34,7 +34,7 @@ This document will help you to setup AsyncDR and replicate a git repository (nam
 
 	Set two separate variables with kube-config files, one for the source cluster and one for the destination. We will use these variables to perform checks and for getting information from the clusters.
 	
-	>Run these commands in same terminal window. This will ensure both cluster are reachable and you can run the scripts from this window. 
+	>Run these commands in the same terminal window. This will ensure both clusters are reachable and you can run the scripts from this window. 
 
 		export KUBE_CONF_SOURCE=<Path to the Source cluster kubeconfig file>
 		export KUBE_CONF_DESTINATON=<Path to the Destination cluster kubeconfig file>
@@ -46,7 +46,7 @@ This document will help you to setup AsyncDR and replicate a git repository (nam
 	
 * ### Setup cloud account credentials (Only required if the destination cluster is running on EKS, GKE or AKS)
 
-	If your destination cluster is running on EKS or GKE you will need to pass your cloud provider account credentials to the Stork on source cluster. Stork will use these credentials to get the k8s cluster access token.
+	If your destination cluster is running on EKS or GKE you will need to pass your cloud provider account credentials to the Stork on the source cluster. Stork will use these credentials to get the k8s cluster access token.
 
 	Please follow the respective link for your cloud provider:
 
@@ -55,7 +55,7 @@ This document will help you to setup AsyncDR and replicate a git repository (nam
 
 * ### Enable Authorization
 
-	The source cluster will be reachaing the Portworx api of the destination cluster through the internet, So it is recommended to enable the authorization on the destination in production environments. You may skip this if setup is only for demo purposes.
+	The source cluster will be reaching the Portworx API of the destination cluster through the internet, So it is recommended to enable the authorization on the destination in production environments. You may skip this if the setup is only for demo purposes.
 	
 	You can use following commands if you want to enable:
 
@@ -65,7 +65,7 @@ This document will help you to setup AsyncDR and replicate a git repository (nam
 
 		kubectl --kubeconfig=${KUBE_CONF_DESTINATON} -n portworx get pods
 
-	> Look at the **AGE** column to figure out if the pods has been restarted or not.
+	> Look at the **AGE** column to figure out if the pods have been restarted or not.
 
 ## Setup AsyncDR:
 
@@ -75,7 +75,7 @@ Create a configuration file from the template:
 
 	cp templates/config-vars ./config-vars
 
-You will need to specify few values with correct information into the **config-vars** file.
+You will need to specify a few values with correct information into the **config-vars** file.
 
 	vi config-vars
 
@@ -85,13 +85,13 @@ Here is the information about the variables you will need to set in the file:
 
 **PX_KUBECONF_FILE_DESTINATION_CLUSTER** Set path to the kube-config file for destination cluster.
 
-**PX_SCHEDULE_POLICY_INTERVAL_MINUTES** Set interval time for schedule policy in minutes. Set it to 60 or more. For demo purposes you can set it to 10. 
+**PX_SCHEDULE_POLICY_INTERVAL_MINUTES** Set interval time for schedule policy in minutes. Set it to 60 or more. For demo purposes, you can set it to 10. 
 	
 **PX_SCHEDULE_POLICY_DAILY_TIME** Set time to schedule daily execution.
 
-**PX_DST_NAMESPACE_SUFFIX** Set suffix for the namespace on remote cluster. The "source namespace name+suffix" will be used as the name of namesapce on remote cluster.
+**PX_DST_NAMESPACE_SUFFIX** Set suffix for the namespace on the remote cluster. The "source namespace name+suffix" will be used as the name of the namespace on the remote cluster.
 
-Here are some variables for S3 Bucket access, this bucket will be used as Object Store by portworx. It is not necessary to use only the AWS bucket, any s3 compatible bucket will work. For example you can use "PureStorage FlashBlade s3 Bucket".
+Here are some variables for S3 Bucket access, this bucket will be used as Object Store by portworx. It is not necessary to use only the AWS bucket, any s3 compatible bucket will work. For example, you can use "PureStorage FlashBlade s3 Bucket".
 
 **PX_S3_ACCESS_KEY_ID** Set with your access key for the Bucket. 
 
@@ -101,7 +101,7 @@ Here are some variables for S3 Bucket access, this bucket will be used as Object
 
 **PX_S3_DISABLE_SSL** Set it to "true" if the s3 endpoint does not support SSL, else set with "false".
 
-**PX_AWS_REGION** Set with your s3 bucket region. It is ignored if the bucket is not an AWS bucket. Do not delete the variable if using non aws bucket, leave it with the default value.
+**PX_AWS_REGION** Set with your s3 bucket region. It is ignored if the bucket is not an AWS bucket. Do not delete the variable if using a non-AWS bucket, leave it with the default value.
 
 Here is the sample how all the variables look arter setting up all the values:
 
@@ -126,12 +126,12 @@ Here is the sample how all the variables look arter setting up all the values:
  	
 		./start-async-repl.sh <NameSpace you want to replicate>
 
-* The script will return two git URLs: Central and Remote. Set two variables with the URLs to avoid specifing the URLs with each command.
+* The script will return two git URLs: Central and Remote. Set two variables with the URLs to avoid specifying the URLs with each command.
 
 		GIT_REPO_URL_CENTRAL="Enter central repository URL"
 		GIT_REPO_URL_REMOTE="Enter remote repository URL"
 
-* Now check on the the destination cluster, you will see two namespaces there: One with the same name as the source and another with a suffix "-remote". 
+* Now check on the destination cluster, you will see two namespaces there: One with the same name as the source and another with a suffix "-remote". 
 
 		kubectl get ns --kubeconfig=${KUBE_CONF_DESTINATON}
 
@@ -140,7 +140,7 @@ Here is the sample how all the variables look arter setting up all the values:
 ### 3. Verify and use the remote replica:
 	
 * To verify the remote replica run the following command:
-	> Note: In following command specify the namespace name with the suffix. 
+	> Note: In the following command specify the namespace name with the suffix. 
 
 		kubectl get all -n <EnterNameSpaceName> --kubeconfig=${KUBE_CONF_DESTINATON}
 
@@ -157,7 +157,7 @@ Here is the sample how all the variables look arter setting up all the values:
 		ASYNC_DIR="$(pwd)"
 		cd ~/remote
 	
-* Now add central repository here, so you can push the changes to the centeral repo.
+* Now add the central repository here, so you can push the changes to the central repo.
 
 		git remote add central ${GIT_REPO_URL_CENTRAL}
 
@@ -170,16 +170,16 @@ Here is the sample how all the variables look arter setting up all the values:
 		git commit -m "Adding new file."
 		git push central
 	
-* Now to check if new changes pushed to central repository or not, first move to the central cloned directory and then do **git pull** as follows.
+* Now to check if new changes are pushed to the central repository or not, first move to the central cloned directory and then do **git pull** as follows.
 
 		cd ~/central
 		git pull origin
 		
 ### 4. Update the remote replica:
 
-The changes in the central location are being synced to the standby namespace at remote site as per the schedule policy. Since we can not directly use that namespace, we will need to update the secondary namespace whenever we need to get up-to-date data using git clone or git pull:
+The changes in the central location are being synced to the standby namespace at the remote site as per the schedule policy. Since we can not directly use that namespace, we will need to update the secondary namespace whenever we need to get up-to-date data using git clone or git pull:
 
-> * This step is not requred 1st time because it is automated in the previous script, but needs to be run whenever you want the latest data ready in the remote repository to get a pull or clone.
+> * This step is not required 1st time because it is automated in the previous script, but needs to be run whenever you want the latest data ready in the remote repository to get a pull or clone.
 
 1st change your current directory back to the asyncDR as follows:
 
@@ -187,18 +187,18 @@ The changes in the central location are being synced to the standby namespace at
 
 Now run the update.sh script to update the secondary namespace:
 
-> * Enter namespace name without sufix.
+> * Enter namespace name without suffix.
 
 	./update.sh <NameSpace name>
 
 ---
 ## Cleanup
 
-You can use the following script to delete all the resources created by scripts in this document. The script will require the namespace name as command-line parameter.
+You can use the following script to delete all the resources created by scripts in this document. The script will require the namespace name as a command-line parameter.
 
-> The AsyncDR setup script will create Object-Store credentials and Portworx API service (If required). These resources are supposed to be created one time and will be re-used for other namespaces. If you also want to delete those pass 2nd paramter as '--all'
+> The AsyncDR setup script will create Object-Store credentials and Portworx API service (If required). These resources are supposed to be created one time and will be re-used for other namespaces. If you also want to delete those, pass a 2nd parameter as '--all'
 
-> Enter namespace name without the sufix.
+> Enter namespace name without the suffix.
 
 Clean resources specific to the namespace only.
 
@@ -208,9 +208,9 @@ Clean all resources created by the scripts.
 
 	./cleanup.sh <Namespace name> --all
 
-> The script will only remove the resources created by the AsyncDR setup script and update.sh scripts. If you have perfomed some manual tasks during the prepration process, this script will not undo those steps. For example if you have enabled the authentication, the cleanup script will not disable that.
+> The script will only remove the resources created by the AsyncDR setup script and update.sh scripts. If you have performed some manual tasks during the preparation process, this script will not undo those steps. For example, if you have enabled the authentication, the cleanup script will not disable that.
 
 ---
 ## Troubleshoot
 
-All the scripts prvided here perform tasks in the background and shows minimum required information on the screen to keep the display clean. If for some reason you want to check what is going on, you can look at the logs in **debug.log** file by running `tail -f debug.log` in a separate terminal window. 
+All the scripts provided here perform tasks in the background and shows minimum required information on the screen to keep the display clean. If for some reason you want to check what is going on, you can look at the logs in **debug.log** file by running `tail -f debug.log` in a separate terminal window. 
