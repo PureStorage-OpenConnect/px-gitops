@@ -146,7 +146,7 @@ kubectl delete secret/argocd-image-updater-secret  -n argocd
 kubectl delete deployment.apps/argocd-image-updater  -n argocd
 kubectl delete ns argocd &&
 echo "                            "
-echo "3) Deleting applications deployed using argoc"
+echo "3) Deleting applications deployed using argocd"
 echo "                             "
 kubectl delete ns --selector=controller=ci-cd && 
 
