@@ -1,5 +1,9 @@
 gitscm-server/gitserver-sshkey/**
 gitscm-server/kustomize
+gitscm-server/base/git-server.yaml
+gitscm-server/overlays/development/add-repo.yaml
+gitscm-server/overlays/development/add-volume-and-volumemount.yaml
+gitscm-server/scripts/mirror-git-repo.sh
 create-branch-using-backup-and-restore/generated-manifests/**
 create-branch**/generated-manifests/**
 autopilot/manifest-files
