@@ -78,7 +78,7 @@ spec:
         mountPath: /wordpress-repo-sshkey
   - name: wordpress-unit-test
     container:
-      image: ubuntu         # Docker already provides an image for running a Docker daemon
+      image: ubuntu:focal         # Docker already provides an image for running a Docker daemon
       command: ["/bin/sh", "-c"]
       args: 
       - |
