@@ -235,9 +235,11 @@ In our use case, we are using webhook as Event-Source that will send the events 
 
 With combination of both Argo-events and Argo-worflows we have a fully operational CI/CD pipeline type of solution
 
----
 **Run below script to deploy Argo-events**
 
 ```
 ./deploy-event-source.sh
 ```
+---
+
+**Note: To deploy another application repeat the steps from Step No. 2**
