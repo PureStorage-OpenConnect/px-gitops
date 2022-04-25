@@ -12,7 +12,6 @@ PS3=" Select the application you want to deploy: "
 select gitoption in java-app wordpress-app; do
   case $gitoption in 
   java-app)
-  echo "java"
   sed -ie "s,XX-appName-XX,springboot-app,g" ../argocd/manifests/application-deployment.yaml
   source ${vCONFIGFILE}
   sed -ie "s,XX-imagename-XX,$Java_Docker_Image_Main_Branch,g" ../argocd/manifests/application-deployment.yaml 
