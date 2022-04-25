@@ -7,6 +7,7 @@ gitscm-server/scripts/mirror-git-repo.sh
 create-branch/git-branch-scripts/create-git-branch.sh
 create-branch-using-backup-and-restore/generated-manifests/**
 create-branch**/generated-manifests/**
+ci-cd-workflow/scripts/setup-vars/setup-vars
 autopilot/manifest-files
 autopilot/debug.log
 asyncDR/debug.log
