@@ -8,6 +8,13 @@ create-branch/git-branch-scripts/create-git-branch.sh
 create-branch-using-backup-and-restore/generated-manifests/**
 create-branch**/generated-manifests/**
 ci-cd-workflow/scripts/setup-vars/setup-vars
+ci-cd-workflow/argocd/manifests/application-deployment.yaml
+ci-cd-workflow/argocd/manifests/application-repo-secret.yaml
+ci-cd-workflow/argo-worflow/java-app/px-snaphost-restore-script/**
+ci-cd-workflow/argo-worflow/java-app/workflow-manifests/**
+ci-cd-workflow/argo-events/git-Hook/dev-branch/post-receive
+ci-cd-workflow/argo-events/git-Hook/master-branch/post-receive
+ci-cd-workflow/argo-events/manifests/**
 autopilot/manifest-files
 autopilot/debug.log
 asyncDR/debug.log
