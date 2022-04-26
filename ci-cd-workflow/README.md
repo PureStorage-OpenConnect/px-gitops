@@ -66,6 +66,8 @@ Before running the script you should have the below details of application Git r
 3) Namespace of dev branch repository
 4) Kubeconfig path of dev branch repository
 
+We need above details to get information like ( Pod name, service IP, git repository name, branch name and etc), so that we can use these details in further scripts without asking details from user again and again.
+
 ```
 ./add-details.sh
 ```
@@ -74,10 +76,6 @@ Before running the script you should have the below details of application Git r
 **Step: 3**
 
 **Deploy the application using Argocd**
-
-Before running the script you should have the below details:-
-
-1) Application docker image name without image tag
 
 ```
 ./applicationDeployment.sh
@@ -207,6 +205,7 @@ First change directory to **argo-workflow**, now you can see two application dir
 
 **Summary**
 
+**Source:** https://argoproj.github.io/argo-events/
 
 **Argo Events**  is an event-driven workflow automation framework for Kubernetes which helps you trigger K8s objects, Argo Workflows, Serverless workloads, etc. on events from a variety of sources like webhooks, S3, schedules, messaging queues, gcp pubsub, sns, sqs, etc.
 
