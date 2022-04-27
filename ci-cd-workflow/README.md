@@ -278,9 +278,7 @@ Follow below steps to make changes in application code from git repository.
    * **Add bad code in wordpress test case to fail the pipeline**
 
              cd Dev repo directory and then cd into test-cases
-     
              vi user.php
-     
              Go to line number 94 and add 123 after **a test user**
         
    * **Push changes to dev repository**
@@ -297,9 +295,7 @@ Follow below steps to make changes in application code from git repository.
    * **Change greetting message**
 
              cd code 
-      
              vi src/main/java/com/purestorage/demo/GreetingController.java and replace **Hello, World** with any string.
-      
              vi src/test/java/com/purestorage/demo/DemoApplicationTests.java and replace **Hello, World** with same string as you have mentioned above.
       
       **Note:** Make sure the **string** should be same in both file 
