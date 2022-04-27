@@ -283,7 +283,7 @@ Follow below steps to make changes in application code from git repository.
         
    * **Push changes to dev repository**
 
-       => Follow above steps
+             Follow above steps
        
        
 **1. Java**       
