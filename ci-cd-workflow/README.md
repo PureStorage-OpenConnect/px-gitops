@@ -16,7 +16,7 @@
 Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`. Then in your terminal move to the ci-cd-workflow folder `cd px-gitops/ci-cd-workflow/scripts`.
 
 
-**Step 1:** (Install Prerequisites)
+## Step 1: (Install Prerequisites)
 
 **Install Argocd, Argo-workflows and Argo-events**
 ```
@@ -24,7 +24,7 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
 ```
 * Run the following command to check the status of argocd
 
-   > kubectl get all -n argocd
+      kubectl get all -n argocd
 
 *  Log in to Argo CD
 
@@ -34,12 +34,12 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
    
    **Password**: Run the following command to retrieve password
    
-   > kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo 
+      kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo 
    
   
 * Run the following command to check the status of argo and the public URL for the Argo server UI.
 
-   > kubectl get all -n argo
+      kubectl get all -n argo
 
 * The public URL will be returned by this command in the EXTERNAL-IP column.
 
@@ -47,7 +47,7 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
 
 * Run the following command to check the status of argo-events
 
-   > kubectl get all -n argo-events
+      kubectl get all -n argo-events
 
 **Install Argo CLI**
 ```
@@ -55,7 +55,7 @@ https://github.com/argoproj/argo-workflows/releases
 ```
 ---
 
-**Step: 2**
+## Step: 2
 
 Add details of application code and manifest
 
@@ -73,7 +73,7 @@ We need above details to get information like ( Pod name, service IP, git reposi
 ```
 ---
 
-**Step: 3**
+## Step: 3
 
 **Deploy the application using Argocd**
 
@@ -90,7 +90,8 @@ We need above details to get information like ( Pod name, service IP, git reposi
 ArgoCD Image Updater needs access to your infrastructure repository if you are using a private repository to have to set up access for Argocd.
 
 Repository manifest template location: 
-> argocd/manifests-template/application-repo-secret-tmp.yaml 
+   
+      argocd/manifests-template/application-repo-secret-tmp.yaml 
 
 
 * **Deploy Image Repository Credentials.**
@@ -98,7 +99,8 @@ Repository manifest template location:
 As our Kubernetes pods use container images stored in a private registry, the ArgoCD image updater needs read access to it in order to be able to list the different tags of the image.
 
 Image Repository Credentials Manifest location: 
-> argocd/manifest/jfrog-credentials.yaml 
+
+      argocd/manifest/jfrog-credentials.yaml 
 
 
 *  **Add registry configuration in default Configmap of ArgoCD Image Updater.**
@@ -106,7 +108,8 @@ Image Repository Credentials Manifest location:
 In the default Configmap of image updater, you need to add the registry configuration.
 
 Registry Configuration manifest: 
-> argocd/manifest/jfrog-registry-configmap.yaml 
+
+      argocd/manifest/jfrog-registry-configmap.yaml 
 
 
 *  **Setup ArgoCD application manifest with credentials**
@@ -127,11 +130,12 @@ The second annotation tells the image updater which image in which registry it s
 The <**secret-namespaces**> and <**your-secret-name**> here are the references to the secret that was created by the script in the **Deploy Git Credentials** part earlier.
 
 ArgoCD application manifest: 
-> argocd/manifests-template/application-deployment-template.yaml 
+
+      argocd/manifests-template/application-deployment-template.yaml 
 
 ---
 
-**Step: 4**
+## Step: 4
 
 **Deploy Workflow Template**
 
@@ -155,12 +159,13 @@ Here we have created two workflow templates for dev and master branch for spring
 
 **Argo-workflow path**
 
-Dev-Branch: 
-> ./argo-worflow/java-app/workflow-templates/clusterworkflowtemplate-for-dev.yaml 
+Dev-Branch:
+
+      ./argo-worflow/java-app/workflow-templates/clusterworkflowtemplate-for-dev.yaml 
 
 Master-Branch: 
 
-> ./argo-worflow/java-app/workflow-templates/clusterworkflowtemplate-for-master.yaml 
+      ./argo-worflow/java-app/workflow-templates/clusterworkflowtemplate-for-master.yaml 
 
 We have defined a `ci-pipeline-to-automate-build-and-namespace-backup` template which is the entrypoint. This template contains multiple steps, which in turn are all other templates.
 
@@ -199,7 +204,7 @@ First change directory to **argo-workflow**, now you can see two application dir
 ```
 ---
 
-**Step: 5**
+## Step: 5
 
 **Deploy Event-Source**
 
@@ -240,5 +245,15 @@ With combination of both Argo-events and Argo-worflows we have a fully operation
 ./deploy-event-source.sh
 ```
 ---
+## So far we have deployed
 
-**Note: To deploy another application repeat the steps from Step No. 2**
+* ArgoCD
+* Argo-Workflow
+* Argo-Events
+* Application (Java or Wordpress) using Argocd
+* Workflow Templates
+* Webhook's for application to trigger the worfklow templates or pipelines
+
+## Note: 
+
+* To deploy another application repeat the steps from Step No. 2 and make you have deployed the git-server for that application
