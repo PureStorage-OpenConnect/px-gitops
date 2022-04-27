@@ -44,7 +44,7 @@ This document will help you to set up AsyncDR and replicate a git repository (na
 		kubectl --kubeconfig=${KUBE_CONF_SOURCE} get nodes 
 		kubectl --kubeconfig=${KUBE_CONF_DESTINATON} get nodes
 	
-* ### Setup cloud account credentials (Only required if the destination cluster is running on EKS, GKE or AKS)
+* ### Setup cloud account credentials (Only required if the destination cluster is running on EKS or GKE)
 
 	If your destination cluster is running on EKS or GKE you will need to pass your cloud provider account credentials to the Stork on the source cluster. Stork will use these credentials to get the k8s cluster access token.
 
