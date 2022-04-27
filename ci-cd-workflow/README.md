@@ -254,6 +254,25 @@ With combination of both Argo-events and Argo-worflows we have a fully operation
 * Workflow Templates
 * Webhook's for application to trigger the worfklow templates or pipelines
 
+## Steps:
+
+Follow below steps to make changes in application code from git repository.
+
+**1. Wordpress**
+
+   * **Clone the dev branch repository**
+   
+     Here are steps: https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/create-branch/readme.md
+     
+   * **Change Wordpress front logo**
+
+
+   * **Push changes to dev repository**
+   
+            git add <File name or File Path>
+            git commit -m <"File Path">
+            git push origin <Branch Name>
+
 ## Note: 
 
 * To deploy another application repeat the steps from Step No. 2 and make you have deployed the git-server for that application
