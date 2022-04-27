@@ -273,6 +273,23 @@ Follow below steps to make changes in application code from git repository.
             git commit -m <"File Path">
             git push origin <Branch Name>
 
+   * gdfgdfgdf
+
+   * **Add bad code in wordpress test case to fail the pipeline**
+
+        => cd Dev repo directory and then cd into test-cases
+     
+        => vi user.php
+     
+        => Go to line number 94 and add 123 after **a test user**
+        
+   * **Push changes to dev repository**
+
+       => Follow above steps
+       
+       
+    
+    
 ## Note: 
 
 * To deploy another application repeat the steps from Step No. 2 and make you have deployed the git-server for that application
