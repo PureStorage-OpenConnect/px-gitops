@@ -288,6 +288,21 @@ Follow below steps to make changes in application code from git repository.
        => Follow above steps
        
        
+**1. Java**       
+
+   * **Clone the dev branch repository**
+   
+     Here are steps: https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/create-branch/readme.md
+     
+   * **Change greetting message**
+
+      => cd code 
+      
+      => vi src/main/java/com/purestorage/demo/GreetingController.java and replace **Hello, World** with any string.
+      
+      => vi src/test/java/com/purestorage/demo/DemoApplicationTests.java and replace **Hello, World** with same string as you have mentioned above.
+      
+      **Note:** Make sure the **string** should be same in both file 
     
     
 ## Note: 
