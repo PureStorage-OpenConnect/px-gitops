@@ -10,6 +10,7 @@ This document will help you to set up AsyncDR and replicate a git repository (na
 * **Softwares or Utilities required**: [**kubectl**](../install-utilities.md#kubectl-v1234-or-later), [**storkctl**](../install-utilities.md#storkctl)
 * **KubeConfig files** You must have kube config files for both clusters.
 * **Portworx (version 2.1 or later):** Both portworx clusters must have the AsyncDR license enabled and configured with Stork v2.2+.
+* **A Git Repository Namespace on the Source:** You will need a Git Repository namespace on the source cluster, which you will migrate from the source cluster to the destination using AsyncDR.
 * **Secret Store :** Configured secret store on both clusters. This will be used to store the credentials. Use the following command to verify:
 
 		kubectl get storageclusters --all-namespaces -o jsonpath='{.items[*].spec.secretsProvider}{"\n"}' --kubeconfig=<Enter Path Of your Source Clusters Kubeconfig File>
