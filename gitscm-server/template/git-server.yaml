@@ -44,7 +44,7 @@ spec:
       schedulerName: stork
       containers:
       - name: git-server-for-XX-label-XX
-        image: bikashrc25/git-server:latest
+        image: 109500/git-ops2022:latest
         ports:
         - containerPort: 22
         lifecycle:
