@@ -34,7 +34,7 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
    
    **Password**: Run the following command to retrieve password
    
-      kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo 
+            kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo 
    
   
 * Run the following command to check the status of argo and the public URL for the Argo server UI.
@@ -266,6 +266,8 @@ Follow below steps to make changes in application code from git repository.
      
    * **Change Wordpress front logo**
 
+            cp purestorage-logo/puretec.png. code/wp-content/themes/twentytwentytwo/assets/images
+            cp purestorage-logo/hidden-bird.php purestorage-logo/header-small-dark.php  code/wp-content/themes/twentytwentytwo/inc/patterns
 
    * **Push changes to dev repository**
    
@@ -273,18 +275,28 @@ Follow below steps to make changes in application code from git repository.
             git commit -m <"File Path">
             git push origin <Branch Name>
 
-   * gdfgdfgdf
-
    * **Add bad code in wordpress test case to fail the pipeline**
 
-             cd Dev repo directory and then cd into test-cases
+             cd (dev-repo-directory) and then cd into test-cases
              vi user.php
-             Go to line number 94 and add 123 after **a test user**
+             Go to line number 94 and add 123 after string (a test user)
         
    * **Push changes to dev repository**
 
              Follow above steps
-       
+             
+            
+   * **Push changes to main repository**    
+   
+            cd (dev-repo-directory)
+            git push main (dev branch):master  
+            
+     **If failed to push to main repository**
+     
+            git pull main master
+            git rebase main/master
+            git push main (dev branch):master
+            
        
 **1. Java**       
 
@@ -292,13 +304,28 @@ Follow below steps to make changes in application code from git repository.
    
      Here are steps: https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/create-branch/readme.md
      
-   * **Change greetting message**
+   * **Change greeting message**
 
              cd code 
-             vi src/main/java/com/purestorage/demo/GreetingController.java and replace **Hello, World** with any string.
-             vi src/test/java/com/purestorage/demo/DemoApplicationTests.java and replace **Hello, World** with same string as you have mentioned above.
+             vi src/main/java/com/purestorage/demo/GreetingController.java and replace (Hello, World) with any string.
+             vi src/test/java/com/purestorage/demo/DemoApplicationTests.java and replace (Hello, World) with same string as you have mentioned above.
       
       **Note:** Make sure the **string** should be same in both file 
+      
+   * **Push changes to dev repository**
+
+             Follow above steps   
+             
+   * **Push changes to main repository**    
+   
+            cd (dev-repo-directory)
+            git push main (dev branch):master  
+            
+     **If failed to push to main  repository**
+     
+            git pull main master
+            git rebase main/master
+            git push main (dev branch):master          
     
     
 ## Note: 
