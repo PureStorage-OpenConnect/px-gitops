@@ -318,7 +318,7 @@ Follow below steps to make changes in application code from git repository.
              vi src/main/java/com/purestorage/demo/GreetingController.java and replace (Hello, World) with any string.
              vi src/test/java/com/purestorage/demo/DemoApplicationTests.java and replace (Hello, World) with same string as you have mentioned above.
       
-      **Note:** Make sure the **string** should be same in both file 
+      **Note:** The **string** should be the same in both files
       
    * **Push changes to dev repository**
 
