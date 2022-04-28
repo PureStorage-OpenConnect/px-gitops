@@ -268,7 +268,7 @@ Follow below steps to make changes in application code from git repository.
      
    * **Change Wordpress front logo**
 
-            cp purestorage-logo/puretec.png. code/wp-content/themes/twentytwentytwo/assets/images
+            cp purestorage-logo/puretec.png code/wp-content/themes/twentytwentytwo/assets/images
             cp purestorage-logo/hidden-bird.php purestorage-logo/header-small-dark.php  code/wp-content/themes/twentytwentytwo/inc/patterns
 
    * **Push changes to dev repository**
