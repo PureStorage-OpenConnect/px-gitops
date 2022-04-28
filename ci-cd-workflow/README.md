@@ -264,6 +264,8 @@ Follow below steps to make changes in application code from git repository.
    
      Here are steps: https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/create-branch/readme.md#commands
      
+     Git credentials: https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/create-branch/readme.md#credentails
+     
    * **Change Wordpress front logo**
 
             cp purestorage-logo/puretec.png. code/wp-content/themes/twentytwentytwo/assets/images
@@ -303,6 +305,8 @@ Follow below steps to make changes in application code from git repository.
    * **Clone the dev branch repository**
    
      Here are steps: https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/create-branch/readme.md#commands
+     
+     Git credentials: https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/create-branch/readme.md#credentails
      
    * **Change greeting message**
 
