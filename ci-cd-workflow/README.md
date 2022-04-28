@@ -285,7 +285,9 @@ Follow below steps to make changes in application code from git repository.
         
    * **Push changes to dev repository**
 
-             Follow above steps
+            git add <File name or File Path>
+            git commit -m <"File Path">
+            git push origin <Branch Name>
              
             
    * **Push changes to main repository**    
@@ -320,7 +322,9 @@ Follow below steps to make changes in application code from git repository.
       
    * **Push changes to dev repository**
 
-             Follow above steps   
+            git add <File name or File Path>
+            git commit -m <"File Path">
+            git push origin <Branch Name> 
              
    * **Push changes to main repository**    
    
