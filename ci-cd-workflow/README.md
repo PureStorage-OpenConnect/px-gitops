@@ -291,6 +291,8 @@ Follow below steps to make changes in application code from git repository.
    * **Push changes to main repository**    
    
             cd (dev-repo-directory)
+            ## Add main repository
+            git remote add main ssh://git@EXTERNAL-IP/home/git/repos/REPO_NAME
             git push main (dev branch):master  
             
      **If failed to push to main repository**
@@ -323,6 +325,8 @@ Follow below steps to make changes in application code from git repository.
    * **Push changes to main repository**    
    
             cd (dev-repo-directory)
+            ## Add main repository
+            git remote add main ssh://git@EXTERNAL-IP/home/git/repos/REPO_NAME            
             git push main (dev branch):master  
             
      **If failed to push to main  repository**
