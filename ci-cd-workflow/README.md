@@ -342,4 +342,4 @@ Follow below steps to make changes in application code from git repository.
     
 ## Note: 
 
-* To deploy another application repeat the steps from Step No. 2 and make you have deployed the git-server for that application
+* To deploy another application repeat the steps from Step No. 2 and make sure you have deployed the git-server for that application
