@@ -1,7 +1,7 @@
 PS3=" Select the option for cleaning up the resources: "
 select Cleanupoption in Clean-all-application Clean-applications-other-than-argo Clean-only-argo-applications ; do
   case $Cleanupoption in
-  Clean-All-The-Resouces)
+  Clean-all-application)
   echo "                                 "
   echo "1) Deleting Argo-events resources"
   echo "                            "
@@ -168,12 +168,12 @@ select Cleanupoption in Clean-all-application Clean-applications-other-than-argo
   echo "                             "
   kubectl delete EventSource --all -n argo-events
   kubectl delete Sensor --all -n argo-events
-  echo "3) Deleting applications deployed using argocd"
+  echo "1) Deleting applications deployed using argocd"
   echo "                             "
   kubectl delete ns --selector=controller=ci-cd && 
 
   echo "                            "
-  echo "3) Deleting git repository"
+  echo "2) Deleting git repository"
   echo "                             "
   kubectl delete ns --selector=type=git-server &&
 
