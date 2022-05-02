@@ -1,3 +1,4 @@
+apt update
 apt install curl -y &&
 mkdir -p /home/git/.ssh
 cp /root/.ssh/* /home/git/.ssh
