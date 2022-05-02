@@ -4,9 +4,9 @@ Commands in this doucment will pass Google Cloud credentials of your destination
 
 Find Portworx storage cluster name and Portworx installation namespace on the source. You will need them in next commands:
 
-> Make sure you have the **KUBE_CONF_SOURCE** variable set as mentioned in the main [readme](./readme.md#set-kube_conf-variables) file.
+> Make sure you have the **KUBECONFIG_SOURCE** variable set as mentioned in the main [readme](./readme.md#set-kube_conf-variables) file.
 
-	kubectl --kubeconfig=${KUBE_CONF_SOURCE} get storagecluster --all-namespaces
+	kubectl --kubeconfig=${KUBECONFIG_SOURCE} get storagecluster --all-namespaces
 
 This will show you cluster information, please note down the namespace and name of the cluster.
 
@@ -27,7 +27,7 @@ You can create this using the following command:
 >
 > Update the '--from-file=./gcs-key.json' parameter with your json file if it is at different location.
 
-	kubectl --kubeconfig=${KUBE_CONF_SOURCE} -n portworx create secret generic --from-file=./gcs-key.json gke-creds
+	kubectl --kubeconfig=${KUBECONFIG_SOURCE} -n portworx create secret generic --from-file=./gcs-key.json gke-creds
 
 It will show you:
 
@@ -37,7 +37,7 @@ It will show you:
 
 > Update the 'px-cluster' and '-n portworx' parameteres if required.
 
-	kubectl --kubeconfig=${KUBE_CONF_SOURCE} edit storagecluster px-cluster -n portworx
+	kubectl --kubeconfig=${KUBECONFIG_SOURCE} edit storagecluster px-cluster -n portworx
 
 This will open the storagecluster spec in the editor, you need to add following at **spec.stork**:
 
@@ -78,13 +78,13 @@ Save the changes and wait for all the Stork pods to be in running state after ap
 
 > Update the portworx namespace in '-n portworx' parameter if it is different. 
 
-	kubectl --kubeconfig=${KUBE_CONF_SOURCE} get pods -n portworx -l name=stork
+	kubectl --kubeconfig=${KUBECONFIG_SOURCE} get pods -n portworx -l name=stork
 
 When all the pods are up use following command to verify if stork is able to communicate with the destination cluster or not.
 
 > * Update the portworx namespace in '-n portworx' parameter if it is different. 
 > * Make sure to replace [stork-pod-name] with any of the stork pods returned by previous command.
 
-	kubectl --kubeconfig=${KUBE_CONF_SOURCE} -n portworx exec -ti [stork-pod-name] -- /google-cloud-sdk/bin/gcloud projects list
+	kubectl --kubeconfig=${KUBECONFIG_SOURCE} -n portworx exec -ti [stork-pod-name] -- /google-cloud-sdk/bin/gcloud projects list
 
 This command will show the project name, which means the credentials are working fine.

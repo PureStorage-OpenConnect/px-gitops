@@ -31,19 +31,19 @@ This document will help you to set up AsyncDR and replicate a git repository (na
 		git clone https://github.com/PureStorage-OpenConnect/px-gitops.git
 		cd px-gitops/asyncDR
 
-* ### Set KUBE_CONF variables
+* ### Set KUBECONFIG variables
 
 	Set two separate variables with kube-config files, one for the source cluster and one for the destination. We will use these variables to perform checks and for getting information from the clusters.
 	
 	>Run these commands in the same terminal window. This will ensure both clusters are reachable and you can run the scripts from this window. 
 
-		export KUBE_CONF_SOURCE=<Path to the Source cluster kubeconfig file>
-		export KUBE_CONF_DESTINATON=<Path to the Destination cluster kubeconfig file>
+		export KUBECONFIG_SOURCE=<Path to the Source cluster kubeconfig file>
+		export KUBECONFIG_DESTINATON=<Path to the Destination cluster kubeconfig file>
 	
 	Verify if both variables are set up correctly by reaching out to the clusters:
 
-		kubectl --kubeconfig=${KUBE_CONF_SOURCE} get nodes 
-		kubectl --kubeconfig=${KUBE_CONF_DESTINATON} get nodes
+		kubectl --kubeconfig=${KUBECONFIG_SOURCE} get nodes 
+		kubectl --kubeconfig=${KUBECONFIG_DESTINATON} get nodes
 	
 * ### Setup cloud account credentials (Only required if the destination cluster is running on EKS or GKE)
 
@@ -60,11 +60,11 @@ This document will help you to set up AsyncDR and replicate a git repository (na
 	
 	You can use following commands if you want to enable:
 
-		kubectl --kubeconfig=${KUBE_CONF_DESTINATON} -n portworx patch storageclusters.core.libopenstorage.org px-cluster -p '{"spec":{"security":{"enabled":true}}}' --type=merge
+		kubectl --kubeconfig=${KUBECONFIG_DESTINATON} -n portworx patch storageclusters.core.libopenstorage.org px-cluster -p '{"spec":{"security":{"enabled":true}}}' --type=merge
 
 	It will restart all the portworx and stork pods. Keep monitoring the pods until all the pods come up:
 
-		kubectl --kubeconfig=${KUBE_CONF_DESTINATON} -n portworx get pods
+		kubectl --kubeconfig=${KUBECONFIG_DESTINATON} -n portworx get pods
 
 	> Look at the **AGE** column to figure out if the pods have been restarted or not.
 
@@ -121,7 +121,7 @@ Here is the sample how all the variables look arter setting up all the values:
 	
 * List the available namespaces on the source and identify the one you want to replicate.
 	
-		kubectl get ns --kubeconfig=${KUBE_CONF_SOURCE}
+		kubectl get ns --kubeconfig=${KUBECONFIG_SOURCE}
 	
 * Now run the AsyncDR setup script specifying the desired namespace:
  	
@@ -134,7 +134,7 @@ Here is the sample how all the variables look arter setting up all the values:
 
 * Now check on the destination cluster, you will see two namespaces there: One with the same name as the source and another with a suffix "-remote". 
 
-		kubectl get ns --kubeconfig=${KUBE_CONF_DESTINATON}
+		kubectl get ns --kubeconfig=${KUBECONFIG_DESTINATON}
 
 	> Note: The suffix **'remote'** is the same you set with the **PX_DST_NAMESPACE_SUFFIX** variable in the variables configuration file.
 
@@ -143,7 +143,7 @@ Here is the sample how all the variables look arter setting up all the values:
 * To verify the remote replica run the following command:
 	> Note: In the following command specify the namespace name with the suffix. 
 
-		kubectl get all -n <EnterNameSpaceName> --kubeconfig=${KUBE_CONF_DESTINATON}
+		kubectl get all -n <EnterNameSpaceName> --kubeconfig=${KUBECONFIG_DESTINATON}
 
 * Clone the remote repo.
 
