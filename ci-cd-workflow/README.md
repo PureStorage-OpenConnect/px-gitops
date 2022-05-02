@@ -266,10 +266,31 @@ Follow below steps to make changes in application code from git repository.
      
      Git credentials: https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/create-branch/readme.md#credentails
      
+     
+   * **If you receive (REMOTE HOST IDENTIFICATION HAS CHANGED) warning**
+
+     Follow the steps from here: https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/gitscm-server/README.md#if-you-receive-below-warning-while-ssh-into-git-server-or-cloning-the-git-repository-run-the-following-command
+     
+   * **Move to the dev branch repository folder**
+
+            cd (dev-repo-directory)
+     
    * **Change Wordpress front logo**
 
             cp purestorage-logo/puretec.png code/wp-content/themes/twentytwentytwo/assets/images
             cp purestorage-logo/hidden-bird.php purestorage-logo/header-small-dark.php  code/wp-content/themes/twentytwentytwo/inc/patterns
+            
+   * **Change pod replicas**
+
+            cd  manifest/overlays/development
+            vi replica-count.yaml
+            change "replicas: _ " with desired replica count 
+            
+   * **Change pod resource limit **            
+            
+            cd  manifest/overlays/development
+            vi resource-limit.yaml
+            change "memory: _" and "cpu: _" with desired resource limits.            
 
    * **Push changes to dev repository**
    
@@ -312,6 +333,11 @@ Follow below steps to make changes in application code from git repository.
      
      Git credentials: https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/create-branch/readme.md#credentails
      
+     
+   * **Move to the dev branch repository folder**
+
+            cd (dev-repo-directory)     
+     
    * **Change greeting message**
 
              cd code 
@@ -319,6 +345,18 @@ Follow below steps to make changes in application code from git repository.
              vi src/test/java/com/purestorage/demo/DemoApplicationTests.java and replace (Hello, World) with same string as you have mentioned above.
       
       **Note:** The **string** should be the same in both files
+
+   * **Change pod replicas**
+
+            cd  manifest/overlays/development
+            vi replica-count.yaml
+            change "replicas: _ " with desired replica count 
+            
+   * **Change pod resource limit **            
+            
+            cd  manifest/overlays/development
+            vi resource-limit.yaml
+            change "memory: _" and "cpu: _" with desired resource limits
       
    * **Push changes to dev repository**
 
@@ -337,8 +375,32 @@ Follow below steps to make changes in application code from git repository.
      
             git pull main master
             git rebase main/master
-            git push main (dev branch):master          
+            git push main (dev branch):master    
+            
+            
+## Commands:
+
+Kubectl commands to check the status of Kubernetes objects or resources
+
+1) Check VolumeSnapshot
+
+        kubectl get "VolumeSnapshot" -n "Namespace"
     
+2) Check VolumeSnapshotRestore
+
+        kubectl get "VolumeSnapshotRestore" -n "Namespace"
+        
+3) Check Namespaces
+
+        Kubectl get ns
+        
+4) Check services for all namespaces
+
+        kubectl get svc --all-namespaces
+        
+5) Check pods of particular namespace
+
+        kubectl get pods -n "Namespace"
     
 ## Note: 
 
