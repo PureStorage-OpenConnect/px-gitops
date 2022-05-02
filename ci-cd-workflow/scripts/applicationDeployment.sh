@@ -35,7 +35,7 @@ argocdServiceIP="$(kubectl get svc argocd-server -n argocd | awk 'FNR==2{print $
 #read ipDomain
 echo "                                         "
 echo "Enter application destination information, in which you want to deploy"
-echo "namespace-name"
+echo "* Namespace-name"
 read namespace
 echo "                                         "
 
