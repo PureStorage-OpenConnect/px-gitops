@@ -110,7 +110,7 @@ select gitoption in Git-server-for-Dockerfiles Git-server-for-application; do
     echo "                 "
     else
     echo "                 "
-    echo "No storage class was found. Created new storage class for git server."   
+    echo "No storage class was found. Creating new storage class for git server."   
     kubectl apply -f px-gitrepo-sc.yaml
     fi
 
