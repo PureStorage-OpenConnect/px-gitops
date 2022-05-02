@@ -50,12 +50,12 @@ spec:
         lifecycle:
           postStart:
             exec:
-               command: ['/bin/sh', '-c', 'bash /root/deploy.sh']    
+               command: ['/bin/sh', '-c', 'bash /script/deploy.sh >> /opt/output.log']    
         volumeMounts:
         - name: ssh-key
           mountPath: /root/.ssh 
         - name: deployment
-          mountPath: /root                        
+          mountPath: /script                        
       volumes:
       - name: ssh-key
         secret:
