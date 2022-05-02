@@ -47,13 +47,12 @@ To mirror the repository into the new repository, you can use any one from below
 
      kubectl exec --stdin --tty <pod-name> -n <namespace-name> -- /bin/bash
 
----
-if you receive below warning while ssh into git server or cloning the git repository. Run the following command 
 
-    ssh-keygen -R <external-IP>
-
+## If you receive below warning while ssh into git server or cloning the git repository. Run the following command 
 
 ![](./add-host-key.png?raw=true "Title")
+
+    ssh-keygen -R <external-IP>
 
 ## Repository Path (inside the pod)
 
