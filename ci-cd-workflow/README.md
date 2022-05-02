@@ -333,7 +333,7 @@ Follow below steps to make changes in application code from git repository.
      
      Git credentials: https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/create-branch/readme.md#credentails
      
-    * **If you receive (REMOTE HOST IDENTIFICATION HAS CHANGED) warning**
+   * **If you receive (REMOTE HOST IDENTIFICATION HAS CHANGED) warning**
 
      Follow the steps from here: https://github.com/PureStorage-OpenConnect/px-gitops/blob/main/gitscm-server/README.md#if-you-receive-below-warning-while-ssh-into-git-server-or-cloning-the-git-repository-run-the-following-command    
      
