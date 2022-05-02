@@ -312,8 +312,9 @@ echo -e "\nChecking pod status.....";
       if [[ "${vRetVal}" = "Running" ]]; then
          Vpodname="$(kubectl get pod -n $PX_DESTINATION_NAMESPACE ${PX_KUBECONF_DESTINATION} | awk 'FNR==2{print $1}')"
          echo $Vpodname;
-         kubectl ${PX_KUBECONF_DESTINATION} cp ./git-branch-scripts/create-git-branch.sh $PX_DESTINATION_NAMESPACE/$Vpodname:/opt
-         kubectl ${PX_KUBECONF_DESTINATION} exec --stdin --tty $Vpodname -n $PX_DESTINATION_NAMESPACE -- /bin/bash -c "/opt/create-git-branch.sh $branch"
+         kubectl ${PX_KUBECONF_DESTINATION} cp ./git-branch-scripts/create-git-branch.sh $PX_DESTINATION_NAMESPACE/$Vpodname:/home/git
+         kubectl ${PX_KUBECONF_DESTINATION} exec --stdin --tty $Vpodname -n $PX_DESTINATION_NAMESPACE -- /bin/bash -c "chown git:git /home/git/create-git-branch.sh"
+         kubectl ${PX_KUBECONF_DESTINATION} exec --stdin --tty $Vpodname -n $PX_DESTINATION_NAMESPACE -- su - git -c "./create-git-branch.sh $branch"
          break;
       fi   
       vChecksDone=$(( vChecksDone + 1 ));
