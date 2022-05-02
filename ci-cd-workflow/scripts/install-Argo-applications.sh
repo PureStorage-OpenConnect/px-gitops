@@ -24,6 +24,6 @@ if (kubectl get sc | grep px-file-sc  && kubectl get sc | grep px-db-sc ) 2>&1 >
     echo "                 "
     else
     echo "                 "
-    echo "No storage class was found. Created new storage class for application."
+    echo "No storage class was found. Creating new storage class for application."
     kubectl apply -f ../storage-class-manifests/storage-classes.yml
 fi
