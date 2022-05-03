@@ -75,7 +75,7 @@ Root user details
 ---
 ## Optional Command
 
-Note: You should have the latest version of git on your local system.
+**Note:** You should have the latest version of git on your server
 
 **To clone the repository, run this command**
 
