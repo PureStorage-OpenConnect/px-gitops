@@ -1,6 +1,12 @@
+# Gitscm-Server
+
 This repo helps in creating the git server using shell script.
 
-The script will perform following actions:
+# Prerequisite:
+
+1) Latest kubectl version
+
+**The script will perform following actions:**
 
 1) Deploy git-server (You can deploy multiple repos in single git server)
 2) Mirror the entire existing git repo to the new one.
@@ -8,6 +14,7 @@ The script will perform following actions:
 **To start the deployment for the first time**
 
 Clone the current repository using  `git clone https://github.com/PureStorage-OpenConnect/px-gitops.git`. Then in your terminal move to the git-scm folder `cd px-gitops/gitscm-server`.
+
 
 
 **Now run the following script to deploy git-server**
