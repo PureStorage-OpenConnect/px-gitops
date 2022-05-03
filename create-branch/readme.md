@@ -7,7 +7,7 @@ This can be used to create branch of running git-repository on local or remote c
   2. A git-server namespace containing a repository.
   3. Utilities: kubectl, git
   4. An s3 compatible bucket with credentials in hand.
-  5. You should have the latest version of git on your local system.
+  5. You should have the latest version of git on your server.
 
 **To start the deployment for the first time**
 
