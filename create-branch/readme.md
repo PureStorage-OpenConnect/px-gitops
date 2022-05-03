@@ -7,6 +7,7 @@ This can be used to create branch of running git-repository on local or remote c
   2. A git-server namespace containing a repository.
   3. Utilities: kubectl, git
   4. An s3 compatible bucket with credentials in hand.
+  5. You should have the latest version of git on your local system.
 
 **To start the deployment for the first time**
 
@@ -93,8 +94,6 @@ After configuring all the variables run the script as follows to begin the proce
 **Note:** The pod name is the name of pod displayed on output when running the "kubectl get all -n namespace-name" command above. For reference please check below screenshot.
 
 ![](./pod-details.png?raw=true "Title")
-
-**Note**: You should have the latest version of git on your local system.
 
 **To clone the repository, run this command**
 
