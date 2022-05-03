@@ -168,6 +168,7 @@ select Cleanupoption in Clean-all-application Clean-applications-other-than-argo
   echo "                             "
   kubectl delete EventSource --all -n argo-events
   kubectl delete Sensor --all -n argo-events
+  kubectl delete application --all -n argocd
   echo "1) Deleting applications deployed using argocd"
   echo "                             "
   kubectl delete ns --selector=controller=ci-cd && 
