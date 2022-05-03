@@ -28,7 +28,7 @@ select gitoption in Git-server-for-Dockerfiles Git-server-for-application; do
     kubectl label namespaces $namespace app=git-server-for-$namespace include-in-backup=yes type=git-server
     echo "                                                           "
 
-    echo "Creating kubernetes secret for dokcer hub config"
+    echo "Creating kubernetes secret for docker hub config"
     kubectl create secret generic regcred -n $namespace \
         --from-file=.dockerconfigjson=config.json \
         --type=kubernetes.io/dockerconfigjson
@@ -122,7 +122,7 @@ select gitoption in Git-server-for-Dockerfiles Git-server-for-application; do
     kubectl label namespaces $namespace app=git-server-for-$namespace include-in-backup=yes type=git-server
     echo "                                                           "
 
-    echo "Creating kubernetes secret for jfrog artifactory config"
+    echo "Creating kubernetes secret for docker hub config"
     kubectl create secret generic regcred -n $namespace \
         --from-file=.dockerconfigjson=config.json \
         --type=kubernetes.io/dockerconfigjson
