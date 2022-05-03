@@ -67,7 +67,7 @@ rm -rf config
 source ${vCONFIGFILE}
 DevRepoPodName="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH get all -n $PX_Application_DevBranch_Namespace | awk 'FNR == 2 {print$1}' | cut -d"/" -f2)"
 REPONAME="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH describe pods $DevRepoPodName -n $PX_Application_DevBranch_Namespace | grep -A1 'Mounts:' | awk 'FNR == 2 {print}' | cut -d"/" -f5 | awk '{print $1}')"
-DevBranchName="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH exec $DevRepoPodName -n $PX_Application_DevBranch_Namespace -- /bin/bash -c "cd /home/git/repos/$REPONAME && git branch | awk 'FNR == 1 {print$1}' | cut -d '*' -f2")"
+DevBranchName="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH exec $DevRepoPodName -n $PX_Application_DevBranch_Namespace -- su - git -c "cd repos/$REPONAME && git branch | awk 'FNR == 1 {print$1}' | cut -d '*' -f2")"
 DevEXTERNALIP="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH get all -n $PX_Application_DevBranch_Namespace | grep  -A1 "EXTERNAL-IP" | awk 'FNR == 2 {print$4}')"
 
 echo > ../argo-worflow/wordpress-app/px-snaphost-restore-script/px-restore-snapshot.yaml
