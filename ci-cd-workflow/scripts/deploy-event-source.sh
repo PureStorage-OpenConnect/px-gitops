@@ -15,7 +15,7 @@ select opt in java  wordpress ; do
     source ${vCONFIGFILE}
     DevRepoPodName="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH get all -n $PX_Application_DevBranch_Namespace | awk 'FNR == 2 {print$1}' | cut -d"/" -f2)"
     REPONAME="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH describe pods $DevRepoPodName -n $PX_Application_DevBranch_Namespace | grep -A1 'Mounts:' | awk 'FNR == 2 {print}' | cut -d"/" -f5 | awk '{print $1}')"
-    DevBranchName="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH exec $DevRepoPodName -n $PX_Application_DevBranch_Namespace -- /bin/bash -c "cd /home/git/repos/$REPONAME && git branch | awk 'FNR == 1 {print$1}' | cut -d '*' -f2")"
+    DevBranchName="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH exec $DevRepoPodName -n $PX_Application_DevBranch_Namespace -- su - git -c "cd repos/$REPONAME && git branch | awk 'FNR == 1 {print$1}' | cut -d '*' -f2")"
     GetBranchWithoutSpace="$(echo "$DevBranchName" | sed 's/ //g')"
     cp ../argo-events/manifest-template/eventsource-template.yaml      ../argo-events/manifests/eventSource.yaml
     cp ../argo-events/git-Hook/post-receive-template-dev-branch ../argo-events/git-Hook/dev-branch/post-receive
@@ -50,7 +50,7 @@ select opt in java  wordpress ; do
 #    read devBranch
     DevRepoPodName="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH get all -n $PX_Application_DevBranch_Namespace | awk 'FNR == 2 {print$1}' | cut -d"/" -f2)"
     REPONAME="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH describe pods $DevRepoPodName -n $PX_Application_DevBranch_Namespace | grep -A1 'Mounts:' | awk 'FNR == 2 {print}' | cut -d"/" -f5 | awk '{print $1}')"
-    DevBranchName="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH exec $DevRepoPodName -n $PX_Application_DevBranch_Namespace -- /bin/bash -c "cd /home/git/repos/$REPONAME && git branch | awk 'FNR == 1 {print$1}' | cut -d '*' -f2")"
+    DevBranchName="$(kubectl --kubeconfig=$PX_Application_DevBranch_KUBECONF_PATH exec $DevRepoPodName -n $PX_Application_DevBranch_Namespace -- su - git -c "cd repos/$REPONAME && git branch | awk 'FNR == 1 {print$1}' | cut -d '*' -f2")"
     GetBranchWithoutSpace="$(echo "$DevBranchName" | sed 's/ //g')"
     cp ../argo-events/manifest-template/eventsource-template.yaml      ../argo-events/manifests/eventSource.yaml
     cp ../argo-events/git-Hook/post-receive-template-dev-branch ../argo-events/git-Hook/dev-branch/post-receive
