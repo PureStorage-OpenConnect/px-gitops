@@ -388,11 +388,11 @@ Kubectl commands to check the status of Kubernetes objects or resources
 
 1) Check VolumeSnapshot
 
-        kubectl get "VolumeSnapshot" -n "Namespace"
+        kubectl get VolumeSnapshot -n "Namespace"
     
 2) Check VolumeSnapshotRestore
 
-        kubectl get "VolumeSnapshotRestore" -n "Namespace"
+        kubectl get VolumeSnapshotRestore -n "Namespace"
         
 3) Check Namespaces
 
