@@ -286,7 +286,7 @@ Follow below steps to make changes in application code from git repository.
             vi replica-count.yaml
             change "replicas: _ " with desired replica count 
             
-   * **Change pod resource limit **            
+   * **Change pod resource limit**            
             
             cd  manifest/overlays/development
             vi resource-limit.yaml
