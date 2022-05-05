@@ -101,18 +101,18 @@ After configuring all the variables run the script as follows to begin the proce
 
 **NOTE:** The external-IP is the ip displayed on output when running the "kubectl get all -n namespace-name" command above.
 
-**To start shell session inside the container using ssh command**
+
+**To check git branch**
+
+    git branch -a
+
+**To open the terminal session using ssh command**
 
 
     ssh git@<external-IP>
 
-**To start shell session inside the container using kubectl exec command**
 
-
-    kubectl exec --stdin --tty <pod-name> -n <namespace-name> -- /bin/bash
-
-
-## Repository Path (inside the pod)
+## Repository Path
 
 ```
 /home/git/repos/<repository>
