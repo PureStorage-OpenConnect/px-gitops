@@ -100,17 +100,17 @@ sed -ie "s,XX-RepoName-XX,$REPONAME,g" ../argo-worflow/java-app/workflow-manifes
 sleep 4
 echo "Creating kubernetes px snapshot script secret for dev branch  "
 kubectl create secret generic java-snapshot-script-dev-branch --from-file=../argo-worflow/java-app/px-snaphost-script/px-snapshot.yaml  --from-file=../argo-worflow/java-app/px-snaphost-script/create-snapshot.sh -n argo
-kubectl label secret java-snapshot-script-dev-branch -n argo
+kubectl label secret java-snapshot-script-dev-branch app=argo-wokflow-secret -n argo
 sleep 2
 echo "                                                    "
 echo "                                                    "
 echo "Creating kubernetes px restore snapshot script secret for dev branch "
 kubectl create secret generic java-restore-snapshot-script-dev-branch  --from-file=../argo-worflow/java-app/px-snaphost-script/px-restore-snapshot.yaml  --from-file=../argo-worflow/java-app/px-snaphost-script/restore-snapshot.sh -n argo
-kubectl label secret java-restore-snapshot-script-dev-branch -n argo
+kubectl label secret java-restore-snapshot-script-dev-branch app=argo-wokflow-secret  -n argo
 sleep 2
 echo "                                           "
 kubectl create secret generic java-dev-branch-cluster-kube-config --from-file=config -n argo
-kubectl label secret java-dev-branch-cluster-kube-config -n argo
+kubectl label secret java-dev-branch-cluster-kube-config app=argo-wokflow-secret -n argo
 
     countYaml=`ls -1 ../argo-worflow/java-app/px-snaphost-script/*.yamle 2>/dev/null | wc -l`
     countScripts=`ls -1 ../argo-worflow/java-app/px-snaphost-script/*.she 2>/dev/null | wc -l`
