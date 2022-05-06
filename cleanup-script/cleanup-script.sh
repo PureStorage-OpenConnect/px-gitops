@@ -28,11 +28,12 @@ select Cleanupoption in Clean-all-application Clean-applications-other-than-argo
 
   kubectl delete clusterrolebinding.rbac.authorization.k8s.io/argo-events-binding -n argo-events
 
-  kubectl delete deployment.apps/eventbus-controller -n argo-events
+# kubectl delete deployment.apps/eventbus-controller -n argo-events
 
-  kubectl delete deployment.apps/eventsource-controller  -n argo-events
+# kubectl delete deployment.apps/eventsource-controller  -n argo-events
 
-  kubectl delete deployment.apps/sensor-controller  -n argo-events
+# kubectl delete deployment.apps/sensor-controller  -n argo-events
+  kubectl delete deployment.apps/controller-manager  -n argo-events
 
   kubectl delete ns argo-events &&
   echo "                            "
@@ -182,6 +183,10 @@ select Cleanupoption in Clean-all-application Clean-applications-other-than-argo
   echo "3) Deleting Storage class"
   echo "                             "
   kubectl delete sc px-db-sc px-file-sc px-gitrepo-sc
+  
+  echo "4) Deleting application secret  from argo namespace"
+  echo "                             "
+  kubectl delete secret --selector=app=argo-wokflow-secret -n argo
   break
   ;;
   
@@ -215,11 +220,12 @@ select Cleanupoption in Clean-all-application Clean-applications-other-than-argo
 
   kubectl delete clusterrolebinding.rbac.authorization.k8s.io/argo-events-binding -n argo-events
 
-  kubectl delete deployment.apps/eventbus-controller -n argo-events
+# kubectl delete deployment.apps/eventbus-controller -n argo-events
 
-  kubectl delete deployment.apps/eventsource-controller  -n argo-events
+# kubectl delete deployment.apps/eventsource-controller  -n argo-events
 
-  kubectl delete deployment.apps/sensor-controller  -n argo-events
+# kubectl delete deployment.apps/sensor-controller  -n argo-events
+  kubectl delete deployment.apps/controller-manager  -n argo-events
 
   kubectl delete ns argo-events &&
   echo "                            "
