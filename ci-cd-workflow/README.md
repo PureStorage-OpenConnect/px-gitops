@@ -293,24 +293,13 @@ Follow below steps to make changes in application code from git repository.
             change "memory: _" and "cpu: _" with desired resource limits.            
 
    * **Push changes to dev repository**
-   
-            git add <File name or File Path>
-            git commit -m <"File Path">
-            git push origin <Branch Name>
-
-   * **Add bad code in wordpress test case to fail the pipeline**
-
-             cd (dev-repo-directory) and then cd into test-cases
-             vi user.php
-             Go to line number 94 and add 123 after string (a test user)
-        
-   * **Push changes to dev repository**
-
-            git add <File name or File Path>
-            git commit -m <"File Path">
-            git push origin <Branch Name>
-             
             
+            git status
+            ## git status lets you see which changes have been staged, which haven't, and which files aren't being tracked by Git       
+            git add <Add file name or file Path that shown in "Changes not staged for commit" and "Untracked files" by "git status" command>
+            git commit -m <"Enter short discription message of the changes being committed">
+            git push origin <Branch Name>
+
    * **Push changes to main repository**    
    
             cd (dev-repo-directory)
@@ -323,6 +312,24 @@ Follow below steps to make changes in application code from git repository.
             git pull main master
             git rebase main/master
             git push main (dev branch):master
+
+
+
+   * **Add bad code in wordpress test case to fail the pipeline**
+
+             cd (dev-repo-directory) and then cd into test-cases
+             vi user.php
+             Go to line number 94 and add 123 after string (a test user)
+        
+   * **Push changes to dev repository**
+
+            git status
+            ## git status lets you see which changes have been staged, which haven't, and which files aren't being tracked by Git       
+            git add <Add file name or file Path that shown in "Changes not staged for commit" and "Untracked files" by "git status" command>
+            git commit -m <"Enter short discription message of the changes being committed">
+            git push origin <Branch Name>
+             
+           
             
        
 **1. Java**       
@@ -356,17 +363,19 @@ Follow below steps to make changes in application code from git repository.
             vi replica-count.yaml
             change "replicas: _ " with desired replica count 
             
-   * **Change pod resource limit **            
+   * **Change pod resource limit**            
             
             cd  manifest/overlays/development
             vi resource-limit.yaml
             change "memory: _" and "cpu: _" with desired resource limits
       
    * **Push changes to dev repository**
-
-            git add <File name or File Path>
-            git commit -m <Add any message here>
-            git push origin <Branch Name> 
+            
+            git status
+            ## git status lets you see which changes have been staged, which haven't, and which files aren't being tracked by Git       
+            git add <Add file name or file Path that shown in "Changes not staged for commit" and "Untracked files" by "git status" command>
+            git commit -m <"Enter short discription message of the changes being committed">
+            git push origin <Branch Name>
              
    * **Push changes to main repository**    
    
@@ -381,28 +390,41 @@ Follow below steps to make changes in application code from git repository.
             git rebase main/master
             git push main (dev branch):master    
             
+   * **Add bad code in Java code to fail the pipeline**   
+
+             cd code 
+             vi src/main/java/com/purestorage/demo/GreetingController.java and replace (Hello, World) with any string.
+             
+   * **Push changes to dev repository**
+            
+            git status
+            ## git status lets you see which changes have been staged, which haven't, and which files aren't being tracked by Git       
+            git add <Enter file name or file Path that shown in "Changes not staged for commit" and "Untracked files" by "git status" command>
+            git commit -m <"Enter short discription message of the changes being committed">
+            git push origin <Branch Name>             
+        
             
 ## Commands:
 
 Kubectl commands to check the status of Kubernetes objects or resources
 
-1) Check VolumeSnapshot
+**1) Check VolumeSnapshot**
 
         kubectl get VolumeSnapshot -n "Namespace"
     
-2) Check VolumeSnapshotRestore
+**2) Check VolumeSnapshotRestore**
 
         kubectl get VolumeSnapshotRestore -n "Namespace"
         
-3) Check Namespaces
+**3) Check Namespaces**
 
         Kubectl get ns
         
-4) Check services for all namespaces
+**4) Check services for all namespaces**
 
         kubectl get svc --all-namespaces
         
-5) Check pods of particular namespace
+**5) Check pods of particular namespace**
 
         kubectl get pods -n "Namespace"
     
