@@ -167,24 +167,28 @@ select Cleanupoption in Clean-all-application Clean-applications-other-than-argo
 
   Clean-applications-other-than-argo)
   echo "                             "
+  echo 1) Deleting argo EventSource and Sensor 
+  echo "                             "
   kubectl delete EventSource --all -n argo-events
   kubectl delete Sensor --all -n argo-events
-  kubectl delete application --all -n argocd
-  echo "1) Deleting applications deployed using argocd"
+  
   echo "                             "
+  echo "2) Deleting applications deployed using argocd"
+  echo "                             "
+  kubectl delete application --all -n argocd
   kubectl delete ns --selector=controller=ci-cd && 
 
   echo "                            "
-  echo "2) Deleting git repository"
+  echo "3) Deleting git repository"
   echo "                             "
   kubectl delete ns --selector=type=git-server &&
 
   echo "                            "
-  echo "3) Deleting Storage class"
+  echo "4) Deleting Storage class"
   echo "                             "
   kubectl delete sc px-db-sc px-file-sc px-gitrepo-sc
   
-  echo "4) Deleting application secret  from argo namespace"
+  echo "5) Deleting application secret  from argo namespace"
   echo "                             "
   kubectl delete secret --selector=app=argo-wokflow-secret -n argo
   break
