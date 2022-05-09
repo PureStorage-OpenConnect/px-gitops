@@ -167,7 +167,7 @@ select Cleanupoption in Clean-all-application Clean-applications-other-than-argo
 
   Clean-applications-other-than-argo)
   echo "                             "
-  echo 1) Deleting argo EventSource and Sensor 
+  echo "1) Deleting argo EventSource and Sensor"
   echo "                             "
   kubectl delete EventSource --all -n argo-events
   kubectl delete Sensor --all -n argo-events
