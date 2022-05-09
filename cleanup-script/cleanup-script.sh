@@ -149,17 +149,17 @@ select Cleanupoption in Clean-all-application Clean-applications-other-than-argo
   kubectl delete deployment.apps/argocd-image-updater  -n argocd
   kubectl delete ns argocd &&
   echo "                            "
-  echo "3) Deleting applications deployed using argocd"
+  echo "4) Deleting applications deployed using argocd"
   echo "                             "
   kubectl delete ns --selector=controller=ci-cd && 
 
   echo "                            "
-  echo "3) Deleting git repository"
+  echo "5) Deleting git repository"
   echo "                             "
   kubectl delete ns --selector=type=git-server &&
 
   echo "                            "
-  echo "3) Deleting Storage class"
+  echo "6) Deleting Storage class"
   echo "                             "
   kubectl delete sc px-db-sc px-file-sc px-gitrepo-sc
   break
