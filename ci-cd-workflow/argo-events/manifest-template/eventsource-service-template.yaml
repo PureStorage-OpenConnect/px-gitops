@@ -2,7 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: XX-serviceName-XX-webhook-service
-  namespace: argo-events  
+  namespace: argo-events
+  labels:
+    controller: ci-cd
 spec:
   ports:
   - name: master
