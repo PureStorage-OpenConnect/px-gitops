@@ -22,6 +22,9 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
 ```
 ./install-Argo-applications.sh
 ```
+The above prerequisites have been installed using this script.
+
+
 * Run the following command to check the status of argocd
 
       kubectl get all -n argocd
@@ -48,6 +51,43 @@ Clone the current repository using  `git clone https://github.com/PureStorage-Op
 * Run the following command to check the status of argo-events
 
       kubectl get all -n argo-events
+      
+**Change Argo-CD admin account password**
+
+**1) Install Argo-cd CLI**
+
+Run the following command
+      
+* Mac OS : wget https://github.com/argoproj/argo-cd/releases/download/v2.3.3/argocd-darwin-amd64 
+* Linux OS: wget https://github.com/argoproj/argo-cd/releases/download/v2.3.3/argocd-linux-amd64 
+
+You can download other binaries or source code from below link
+      
+      https://github.com/argoproj/argo-cd/releases
+      
+**2) Change/update password**
+
+Run the following command
+
+* Mac OS :
+
+      ./argocd-darwin-amd64 login "Argo-CD external IP"
+      
+       ## type "y" to proceed insecurily.
+       
+      ./argocd-darwin-amd64 account update-password
+
+* Linux OS :
+
+      ./argocd-linux-amd64 login "Argo-CD external IP"
+      
+      ## type "y" to proceed insecurily.
+      
+      ./argocd-linux-amd64 account update-password
+      
+      
+      
+
 
 **Install Argo CLI**
 ```
