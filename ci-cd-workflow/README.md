@@ -125,7 +125,7 @@ This script  ask to enter new **namespace** name for application deployment.
 
 **For example**
 
-
+![](./application.png?raw=true "Title")
 
 ---
 
