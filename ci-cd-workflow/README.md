@@ -121,6 +121,12 @@ We need above details to get information like ( Pod name, service IP, git reposi
 ./applicationDeployment.sh
 ```
 
+This script  ask to enter new **namespace** name for application deployment.
+
+**For example**
+
+
+
 ---
 
 **The script will perform the following actions**
