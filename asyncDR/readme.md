@@ -169,13 +169,13 @@ Here is the sample how all the variables look arter setting up all the values:
 		echo "Some new code" > file
 		git add file
 		git commit -m "Adding new file."
-		git push central master
+		git push central (dev branch name)
 
  * **If failed to push to main  repository**
 
-		git pull central master
-		git rebase central/master
-		git push central master
+		git pull central (dev branch name)
+		git rebase central/(dev branch name)
+		git push central (dev branch name)
 		
 	
 * Now to check if new changes are pushed to the central repository or not, first move to the central cloned directory and then do **git pull** as follows.
