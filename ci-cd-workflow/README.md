@@ -44,7 +44,7 @@ The above prerequisites have been installed using this script.
 
       kubectl get all -n argo
 
-* The public URL will be returned by this command in the EXTERNAL-IP column.
+* The public URL will be returned by the above command in the EXTERNAL-IP column.
 
 * Now open a browser and navigate to: https://{YOUR_EXTERNAL_IP}:2746
 
@@ -106,7 +106,7 @@ Before running the script you should have the below details of application Git r
 3) Namespace of dev branch repository
 4) Kubeconfig path of dev branch repository
 
-We need above details to get information like ( Pod name, service IP, git repository name, branch name and etc), so that we can use these details in further scripts without asking details from user again and again.
+We need above details to get information like ( Pod name, service IP, git repository name, branch name), so that we can use these details in further scripts without asking details from user again and again.
 
 ```
 ./add-details.sh
@@ -229,21 +229,21 @@ Here we are using four templates
 
 ---
 
-As we are using application i.e. java and wordpress. We have to run separate scripts to deploy wordflow template for both.
+As we are using application i.e. java and wordpress. We have to run separate scripts to deploy workflow template for both.
 
 **To submit the workflow template for the first time**
 
-First change directory to **argo-workflow**, now you can see two application directories i.e. `java-app` and `wordpress-app`. Now change directory in any of two applicaton-directory for which you want to submit wordlflow template.
+First change directory to **argo-workflow**, now you can see two application directories i.e. `java-app` and `wordpress-app`. Now change directory in any of two applicaton-directory for which you want to submit workflow template.
 
 **Note:** Before running the below script, make you should have the workflow template ready according to your application requirement.
 
-**Run below script to deploy wordkflow template for java application**
+**Run below script to deploy workflow template for java application**
 
 ```
 ./submit-java-workflow-template.sh
 ```
 
-**Run below script to deploy wordkflow template for wordpress application**
+**Run below script to deploy workflow template for wordpress application**
 
 ```
 ./submit-wordpress-workflow-template.sh
