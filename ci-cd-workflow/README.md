@@ -326,6 +326,12 @@ Follow below steps to make changes in application code from git repository.
             cp purestorage-logo/puretec.png code/wp-content/themes/twentytwentytwo/assets/images
             cp purestorage-logo/hidden-bird.php purestorage-logo/header-small-dark.php  code/wp-content/themes/twentytwentytwo/inc/patterns
             
+   * **Revert wordpress front logo back to flying bird**
+
+            sed -ie "s,puretec.png,flight-path-on-transparent-d.png,g" code/wp-content/themes/twentytwentytwo/inc/patterns/hidden-bird.php
+            sed -ie "s,puretec.png,flight-path-on-transparent-d.png,g" code/wp-content/themes/twentytwentytwo/inc/patterns/header-small-dark.php
+            
+            
    * **Change pod replicas**
 
             cd  manifest/overlays/development
