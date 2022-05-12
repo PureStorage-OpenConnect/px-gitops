@@ -38,12 +38,12 @@ This document will help you to set up AsyncDR and replicate a git repository (na
 	>Run these commands in the same terminal window. This will ensure both clusters are reachable and you can run the scripts from this window. 
 
 		export KUBECONFIG_SOURCE=<Path to the Source cluster kubeconfig file>
-		export KUBECONFIG_DESTINATON=<Path to the Destination cluster kubeconfig file>
+		export KUBECONFIG_DESTINATION=<Path to the Destination cluster kubeconfig file>
 	
 	Verify if both variables are set up correctly by reaching out to the clusters:
 
 		kubectl --kubeconfig=${KUBECONFIG_SOURCE} get nodes 
-		kubectl --kubeconfig=${KUBECONFIG_DESTINATON} get nodes
+		kubectl --kubeconfig=${KUBECONFIG_DESTINATION} get nodes
 	
 * ### Setup cloud account credentials (Only required if the destination cluster is running on EKS or GKE)
 
@@ -60,11 +60,11 @@ This document will help you to set up AsyncDR and replicate a git repository (na
 	
 	You can use following commands if you want to enable:
 
-		kubectl --kubeconfig=${KUBECONFIG_DESTINATON} -n portworx patch storageclusters.core.libopenstorage.org px-cluster -p '{"spec":{"security":{"enabled":true}}}' --type=merge
+		kubectl --kubeconfig=${KUBECONFIG_DESTINATION} -n portworx patch storageclusters.core.libopenstorage.org px-cluster -p '{"spec":{"security":{"enabled":true}}}' --type=merge
 
 	It will restart all the portworx and stork pods. Keep monitoring the pods until all the pods come up:
 
-		kubectl --kubeconfig=${KUBECONFIG_DESTINATON} -n portworx get pods
+		kubectl --kubeconfig=${KUBECONFIG_DESTINATION} -n portworx get pods
 
 	> Look at the **AGE** column to figure out if the pods have been restarted or not.
 
@@ -100,7 +100,7 @@ Here are some variables for S3 Bucket access, this bucket will be used as Object
 
 **PX_S3_ENDPOINT** Set with the S3 bucket end-point. Use "s3.amazonaws.com" for AWS.
 
-**PX_S3_DISABLE_SSL** Set it to "true" if the s3 endpoint does not support SSL, else set with "false".
+**PX_S3_DISABLE_SSL** If the S3 endpoit is starting with http instead of https, then you will need to set it to true. Basically Set it to "true" if the s3 endpoint does not support SSL, else set with "false". 
 
 **PX_AWS_REGION** Set with your s3 bucket region. It is ignored if the bucket is not an AWS bucket. Do not delete the variable if using a non-AWS bucket, leave it with the default value.
 
@@ -134,7 +134,7 @@ Here is the sample how all the variables look arter setting up all the values:
 
 * Now check on the destination cluster, you will see two namespaces there: One with the same name as the source and another with a suffix "-remote". 
 
-		kubectl get ns --kubeconfig=${KUBECONFIG_DESTINATON}
+		kubectl get ns --kubeconfig=${KUBECONFIG_DESTINATION}
 
 	> Note: The suffix **'remote'** is the same you set with the **PX_DST_NAMESPACE_SUFFIX** variable in the variables configuration file.
 
@@ -143,7 +143,7 @@ Here is the sample how all the variables look arter setting up all the values:
 * To verify the remote replica run the following command:
 	> Note: In the following command specify the namespace name with the suffix. 
 
-		kubectl get all -n <EnterNameSpaceName> --kubeconfig=${KUBECONFIG_DESTINATON}
+		kubectl get all -n <EnterNameSpaceName> --kubeconfig=${KUBECONFIG_DESTINATION}
 
 * Clone the remote repo.
 
