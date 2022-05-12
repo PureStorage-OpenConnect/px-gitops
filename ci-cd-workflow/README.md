@@ -121,7 +121,7 @@ We need above details to get information like ( Pod name, service IP, git reposi
 ./applicationDeployment.sh
 ```
 
-This script  ask to enter new **namespace** name for application deployment.
+This script ask's to enter new **namespace** name for application deployment.
 
 **For example**
 
@@ -189,7 +189,7 @@ ArgoCD application manifest:
 
 **Argo**
 
-Argo specifically developed for kubernetes and integates with through CRD's(Custom Resource Definition's). Its defines the new CRD which is the **'Workflow'**. 
+Argo specifically developed for kubernetes and integrates with/through CRD's(Custom Resource Definition's). Its defines the new CRD which is the **'Workflow'**. 
 
 In workflow you define what needs to happen by laying out steps in a yaml format. Each steps runs in its own **Docker container** on kubernetes cluster. 
 
@@ -233,7 +233,7 @@ As we are using application i.e. java and wordpress. We have to run separate scr
 
 **To submit the workflow template for the first time**
 
-First change directory to **argo-workflow**, now you can see two application directorries i.e. `java-app` and `wordpress-app`. Now change directory in any of two applicaton-directory for which you want to submit wordlflow template.
+First change directory to **argo-workflow**, now you can see two application directories i.e. `java-app` and `wordpress-app`. Now change directory in any of two applicaton-directory for which you want to submit wordlflow template.
 
 **Note:** Before running the below script, make you should have the workflow template ready according to your application requirement.
 
