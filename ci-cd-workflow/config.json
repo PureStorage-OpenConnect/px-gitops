@@ -1,0 +1,7 @@
+{
+	"auths": {
+		"arayname.acme.com": {
+			"auth": "<API token>"
+		}
+	}
+}
